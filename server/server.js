@@ -2,7 +2,11 @@ const express = require("express");
 const app = express();
 const cors = require('cors');
 const mongoose = require("mongoose");
+const dotenv = require("dotenv")
 
+const authRouter = require("./routes/auth/auth-route")
+
+dotenv.config();
 
 mongoose.connect("mongodb://localhost:27017/quickfix").then(()=>{
   console.log("Connected to MongoDB")
@@ -28,12 +32,11 @@ app.use(cors(
 ))
 
 
-
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 
+app.use("/auth",authRouter)
 
 
 app.use((err,req,res,next)=>{
