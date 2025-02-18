@@ -2,26 +2,46 @@ import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useToast } from "@/hooks/use-toast";
+
 
 function Login() {
    const [formData, setFormData] = useState({ name: "", email: "", password: "", company: "" });
-
+  const {toast} = useToast()
+  const navigate = useNavigate()
 
    const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
     
-    const endpoint = userType === "user" ? "/api/register/user" : "/api/register/provider";
+    let sendData = {...formData}
+
+    const endpoint = "http://localhost:3000/auth/login";
     const response = await fetch(endpoint, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData),
+      body: JSON.stringify(sendData),
     });
+
     const data = await response.json();
+
+    if(data.success == true){
+        navigate("/user")
+        toast({
+          title : "Login Successfully",
+          variant : "success"
+        })
+    }
+    else if(data.success == false){
+      toast({
+        title : data.message,
+        variant : "destructive"
+      })
+    }
     console.log(data);
   };
 
@@ -37,7 +57,7 @@ function Login() {
             <div className="w-full  lg:w-1/2 p-6 flex flex-col items-center justify-center">
               
                   <CardHeader className="w-full   text-foreground text-foreground-muted">
-                    <CardTitle className='tracking-tight text-center font-bold text-foreground  text-2xl'>User Registration</CardTitle>
+                    <CardTitle className='tracking-tight text-center font-bold text-foreground  text-2xl'>User Login</CardTitle>
                     <p className="text-center">Don't Have Account?<Link to='/auth/register' className="font-medium ml-2 text-primary hover:underline cursor-pointer">Sign Up</Link></p>
                   </CardHeader>
                   <CardContent className="w-[80%]">
@@ -45,7 +65,7 @@ function Login() {
                       <Input name="name" placeholder="Full Name" onChange={handleChange} required />
                       <Input type="email" name="email" placeholder="Email" onChange={handleChange} required />
                       <Input type="password" name="password" placeholder="Password" onChange={handleChange} required />
-                      <Button type="submit" className="w-full bg-blue-100 hover:bg-blue-500 border-blue-800 border-[1px] text-black">Register</Button>
+                      <Button type="submit" className="w-full bg-blue-100 hover:bg-blue-500 border-blue-800 border-[1px] text-black">Login</Button>
                     </form>
                   </CardContent>                
                

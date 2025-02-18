@@ -3,26 +3,49 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useToast } from "@/hooks/use-toast";
+
+
 
 const Register = () => {
   const [userType, setUserType] = useState("user");
   const [formData, setFormData] = useState({ name: "", email: "", password: "", company: "" });
+  const navigate = useNavigate()
+  const {toast} = useToast()
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const endpoint = userType === "user" ? "/api/register/user" : "/api/register/provider";
+    let sendData = {...formData,role : userType}
+
+    const endpoint = "http://localhost:3000/auth/register";
     const response = await fetch(endpoint, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData),
+      body: JSON.stringify(sendData),
     });
+
     const data = await response.json();
+
+    if(data.success == true){
+        navigate("/auth/login")
+        toast({
+          title : "Register Successfully",
+          variant : "success"
+        })
+    }
+    else if(data.success == false){
+      toast({
+        title : data.message,
+        variant : "destructive"
+      })
+    }
     console.log(data);
   };
 
