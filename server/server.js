@@ -3,6 +3,7 @@ const app = express();
 const cors = require('cors');
 const mongoose = require("mongoose");
 const dotenv = require("dotenv")
+const cookieParser = require("cookie-parser")
 
 const authRouter = require("./routes/auth/auth-route")
 
@@ -31,7 +32,7 @@ app.use(cors(
     }
 ))
 
-
+app.use(cookieParser())
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

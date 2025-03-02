@@ -59,6 +59,7 @@ const loginUser = async (req,res,next)=>{
 
         let exitedUser = await userModel.findOne({email});
 
+        console.log(exitedUser)
         if(!exitedUser){
             return next(customeError(401,"Invalid credentials"))
         }
@@ -68,8 +69,7 @@ const loginUser = async (req,res,next)=>{
         if(!isMatch){
             return next(customeError(401,"Invalid credentials"))
         }
-
-        console.log(process.env.JWT_SECRET)
+        
         let token = jwt.sign({id:exitedUser._id , email:exitedUser.email , role:exitedUser.role , name:exitedUser.name},process.env.JWT_SECRET,{expiresIn: '1h'});
 
         res.cookie("token",token,{httpsOnly:true,secure:false}).status(200).json({success:true,
@@ -99,19 +99,20 @@ const logoutUser = async (req,res,next)=>{
 }
 
 const authMiddleWare = (req,res,next)=>{
+   
+    const token = req?.cookies?.token
+   
+    if(!token){
+        return next(customeError(401,"Unauthorised user!"))
+    }
     try{
-        const token = req.cookies.token
-        console.log(token)
-        if(!token){
-            return next(customeError(401,"Unauthorised user!"))
-        }
         
-        let decodedData = jwt.verify(token,process.env.JWT_SECRET)
+        const decodedData = jwt.verify(token,process.env.JWT_SECRET)
 
         req.user = decodedData;
-        next()
+        next();
     }catch(err){
-        next(err)
+        return next(err)
     }
 }
 

@@ -1,27 +1,10 @@
-import { createAsyncThunk, createSlice, isRejectedWithValue } from "@reduxjs/toolkit";
-import axios from "axios";
+import { configureStore } from "@reduxjs/toolkit";
+import authReducer from "./auth-slice"
 
-const initialState = {
-    isLoading : true,
-    isAuthenticate : false,
-    user : null
-}
-
-const registerUser = createAsyncThunk("/auth/register",
-    async ({formData,isRejectedWithValue})=>{
-        try{
-        //   const res = await axios.post("")
-        }
-        catch(error){
-
-        }
-    }
-)
-
-
-const authSlice = createSlice({
-    name : auth,
-    initialState : initialState,
-    reducers : {},
-
+const store = configureStore({
+   reducer : {
+    auth : authReducer
+   }
 })
+
+export default store

@@ -6,17 +6,14 @@ const {registerUser,loginUser,logoutUser,authMiddleWare}  = require("../../contr
 router.post("/register",registerUser)
 router.post("/login",loginUser)
 router.get("/logout",logoutUser)
-router.get("/check-auth",authMiddleWare,(req,res,next)=>{
-    try{
-        let user = req.user
-        res.status(200).json({
+router.get("/check-auth",authMiddleWare,(req,res)=>{
+        let user = req.user 
+            res.status(200).json({
             message:"Authentiacted User",
             success : "true",
             user
         })
-    }catch(err){
-        next(err)
-    }
+    
 })
 
 
