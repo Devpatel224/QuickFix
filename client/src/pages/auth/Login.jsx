@@ -4,12 +4,15 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Link, useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
+import { useDispatch } from "react-redux";
+import { loginUser } from "@/store/auth-slice";
 
 
 function Login() {
-   const [formData, setFormData] = useState({ name: "", email: "", password: "", company: "" });
+   const [formData, setFormData] = useState({ email: "", password: "", company: "" });
   const {toast} = useToast()
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
    const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -20,29 +23,26 @@ function Login() {
     
     let sendData = {...formData}
 
-    const endpoint = "http://localhost:3000/auth/login";
-    const response = await fetch(endpoint, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(sendData),
-    });
+    // const endpoint = "http://localhost:3000/auth/login";
+    // const response = await fetch(endpoint, {
+    //   method: "POST",
+    //   headers: { "Content-Type": "application/json" },
+    //   body: JSON.stringify(sendData),
+    // });
 
-    const data = await response.json();
-
-    if(data.success == true){
-        navigate("/user")
+    dispatch(loginUser(sendData)).then((data)=>{
+      if(data?.payload?.success){
         toast({
-          title : "Login Successfully",
-          variant : "success"
+          title:data?.payload?.message
         })
-    }
-    else if(data.success == false){
-      toast({
-        title : data.message,
-        variant : "destructive"
-      })
-    }
-    console.log(data);
+      }else{
+        toast({
+          title:data?.payload ,
+          variant:'destructive',
+        })
+      }
+      console.log(data)
+    })   
   };
 
   return (
@@ -62,7 +62,6 @@ function Login() {
                   </CardHeader>
                   <CardContent className="w-[80%]">
                     <form onSubmit={handleSubmit} className="space-y-4">
-                      <Input name="name" placeholder="Full Name" onChange={handleChange} required />
                       <Input type="email" name="email" placeholder="Email" onChange={handleChange} required />
                       <Input type="password" name="password" placeholder="Password" onChange={handleChange} required />
                       <Button type="submit" className="w-full bg-blue-100 hover:bg-blue-500 border-blue-800 border-[1px] text-black">Login</Button>

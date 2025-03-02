@@ -5,6 +5,9 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Link, useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
+import { useDispatch } from "react-redux";
+import {registerUser} from "../../store/auth-slice/index"
+
 
 
 
@@ -13,6 +16,7 @@ const Register = () => {
   const [formData, setFormData] = useState({ name: "", email: "", password: "", company: "" });
   const navigate = useNavigate()
   const {toast} = useToast()
+  const dispatch = useDispatch()
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -24,29 +28,21 @@ const Register = () => {
 
     let sendData = {...formData,role : userType}
 
-    const endpoint = "http://localhost:3000/auth/register";
-    const response = await fetch(endpoint, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(sendData),
-    });
-
-    const data = await response.json();
-
-    if(data.success == true){
-        navigate("/auth/login")
-        toast({
-          title : "Register Successfully",
-          variant : "success"
-        })
-    }
-    else if(data.success == false){
+    
+    dispatch(registerUser(sendData)).then((data)=>{
+    if(data?.payload?.success){
       toast({
-        title : data.message,
-        variant : "destructive"
+        title:data?.payload?.message
+      })
+      navigate('/auth/login')
+    }else{
+      toast({
+        title:data?.payload,
+        variant:'destructive',
       })
     }
-    console.log(data);
+    console.log(data)
+  })
   };
 
   return (
