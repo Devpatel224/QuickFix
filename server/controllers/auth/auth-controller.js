@@ -91,7 +91,7 @@ const logoutUser = async (req,res,next)=>{
     try{
         res.clearCookie("token").json({
             message:"Logout Successfully",
-            successs:"true"
+            success:"true"
         }) 
     }catch(err){
         next(err)
