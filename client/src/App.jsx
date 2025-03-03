@@ -12,6 +12,7 @@ import CheckAuth from "./components/common/CheckAuth";
 import AdminLayout from "./components/admin-view/AdminLayout";
 import { useDispatch, useSelector } from "react-redux";
 import { checkAuth } from "./store/auth-slice";
+import Home from "./pages/user-view/Home"
 
 function App(){
   let { user, isAuthenticated, isLoading } = useSelector((state) => state.auth);
@@ -44,7 +45,7 @@ function App(){
             path="/admin"
             element={
               <CheckAuth user={user} isAuthenticated={isAuthenticated}>
-                <AdminLayout />{" "}
+                <AdminLayout />
               </CheckAuth>
             }
           >
@@ -55,10 +56,12 @@ function App(){
             path="/user"
             element={
               <CheckAuth user={user} isAuthenticated={isAuthenticated}>
-                <UserLayout />{" "}
+                <UserLayout />
               </CheckAuth>
             }
-          ></Route>
+          >
+            <Route path="" element={<Home/>}></Route>
+          </Route>
 
           <Route
             path="/service-provider"

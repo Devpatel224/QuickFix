@@ -43,11 +43,11 @@ function UserHeader() {
 
   return (
     <div>
-      <nav className="bg-blue-500 p-4 text-white shadow-md">
+      <nav className="bg-blue-50 p-4 text-blue-500 shadow-md">
         <div className="container mx-auto flex justify-between items-center">
-          <h1 className="text-2xl font-bold">QuickFix</h1>
+          <h1 className="text-2xl font-bold text-blue-500">QuickFix</h1>
           <ul className="flex space-x-6">
-            <li className="hover:underline cursor-pointer">Home</li>
+            <li className="hover:underline cursor-pointer ">Home</li>
             <li className="hover:underline cursor-pointer">Services</li>
             <li className="hover:underline cursor-pointer">About</li>
             <li className="hover:underline cursor-pointer">Contact</li>
@@ -56,7 +56,7 @@ function UserHeader() {
             <DropdownMenu onOpenChange={setIsOpen}>
               <DropdownMenuTrigger asChild>
                 <button>
-                  <Avatar className="bg-gray-800 cursor-pointer flex items-center justify-center w-10 h-10 rounded-full">
+                  <Avatar className="bg-blue-500 cursor-pointer flex items-center justify-center w-10 h-10 rounded-full">
                     <div className="text-white font-bold">
                       {user.name[0].toUpperCase()}
                     </div>
@@ -66,7 +66,7 @@ function UserHeader() {
 
               <AnimatePresence>
                 {isOpen && (
-                  <DropdownMenuContent side="right" forceMount>
+                  <DropdownMenuContent side="right" forceMount className="z-10">
                     <motion.div
                       initial={{ opacity: 0, y: -10 }}
                       animate={{ opacity: 1, y: 0 }}
