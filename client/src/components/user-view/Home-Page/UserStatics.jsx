@@ -4,14 +4,14 @@ import { Card, CardContent } from "@/components/ui/card";
 import { FaUsers, FaCheck, FaAward, FaUsersCog } from "react-icons/fa";
 
 const stats = [
-  { id: 1, icon: <FaUsers className="text-white text-3xl" />, value: 0, label: "Happy Customers" },
-  { id: 2, icon: <FaCheck className="text-white text-3xl" />, value: 0, label: "Projects Done" },
-  { id: 3, icon: <FaAward className="text-white text-3xl" />, value: 0, label: "Awards Won" },
-  { id: 4, icon: <FaUsersCog className="text-white text-3xl" />, value: 0, label: "Expert Workers" },
+  { id: 1, icon: <FaUsers className="text-white text-3xl" />, value: 0, label: "Satisfied Clients" },
+  { id: 2, icon: <FaCheck className="text-white text-3xl" />, value: 0, label: "Completed Projects" },
+  { id: 3, icon: <FaAward className="text-white text-3xl" />, value: 0, label: "Industry Recognitions" },
+  { id: 4, icon: <FaUsersCog className="text-white text-3xl" />, value: 0, label: "Skilled Professionals" },
 ];
 
 const UserStatics = () => {
-
+  
   return (
     <div className="container mx-auto py-12 px-4">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -33,7 +33,7 @@ const UserStatics = () => {
               </div>
               <h1 className="text-4xl font-bold">{stat.value}</h1>
               <h5 className="text-lg font-semibold mt-2">{stat.label}</h5>
-              <p className="text-gray-600 text-center mt-2">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit.</p>
+              <p className="text-gray-600 text-center mt-2">QuickFix is committed to delivering excellence through our dedicated team and top-quality service standards.</p>
             </Card>
           </motion.div>
         )})}

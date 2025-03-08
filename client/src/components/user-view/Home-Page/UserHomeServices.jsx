@@ -57,7 +57,7 @@ const UserHomeServices = () => {
                 <CardContent className="p-4">
                   <h4 className="text-xl font-semibold mb-2">{service.title}</h4>
                   <p className="text-gray-600 mb-4">
-                    Stet stet justo dolor sed duo. Ut clita sea sit ipsum diam lorem diam.
+                    QuickFix offers top-quality {service.title.toLowerCase()} with skilled professionals ensuring reliability and excellence.
                   </p>
                   <Button variant="link" className="text-blue-600 hover:underline">
                     Read More →

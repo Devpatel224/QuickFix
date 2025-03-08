@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { motion, AnimatePresence } from "framer-motion";
 import { logoutUser } from "@/store/auth-slice";
 import { useToast } from "@/hooks/use-toast";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 
 function UserHeader() {
@@ -47,10 +47,10 @@ function UserHeader() {
         <div className="container mx-auto flex justify-between items-center">
           <h1 className="text-2xl font-bold text-blue-500">QuickFix</h1>
           <ul className="flex space-x-6">
-            <li className="hover:underline cursor-pointer ">Home</li>
-            <li className="hover:underline cursor-pointer">Services</li>
-            <li className="hover:underline cursor-pointer">About</li>
-            <li className="hover:underline cursor-pointer">Contact</li>
+            <Link className="hover:underline cursor-pointer" to='/user'>Home</Link>
+            <Link className="hover:underline cursor-pointer">Services</Link>
+            <Link className="hover:underline cursor-pointer"  to='/user/about'>About</Link>
+            <Link className="hover:underline cursor-pointer" to='/user/contact'>Contact</Link>
           </ul>
           <div>
             <DropdownMenu onOpenChange={setIsOpen}>

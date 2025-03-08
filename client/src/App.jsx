@@ -13,6 +13,8 @@ import AdminLayout from "./components/admin-view/AdminLayout";
 import { useDispatch, useSelector } from "react-redux";
 import { checkAuth } from "./store/auth-slice";
 import Home from "./pages/user-view/Home"
+import ContactUs from "./pages/user-view/ContactUs";
+import About from "@/pages/user-view/About"
 
 function App(){
   let { user, isAuthenticated, isLoading } = useSelector((state) => state.auth);
@@ -61,6 +63,8 @@ function App(){
             }
           >
             <Route path="" element={<Home/>}></Route>
+            <Route path="/user/contact" element={<ContactUs/>}></Route>
+            <Route path="/user/about" element={<About/>}></Route>
           </Route>
 
           <Route

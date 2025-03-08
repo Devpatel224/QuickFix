@@ -6,7 +6,7 @@ import { FaMapMarkerAlt, FaPhoneAlt, FaEnvelope, FaTwitter, FaFacebookF, FaYoutu
 export default function Footer() {
   return (
     <motion.footer 
-      className="bg-gray-900 text-gray-400 mt-10 pt-10"
+      className="bg-gray-900 text-gray-400  pt-10"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}

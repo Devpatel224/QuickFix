@@ -34,20 +34,19 @@ const UserHomeAbout = () => {
           className="w-full md:w-1/2 p-6 md:p-12"
         >
           <h6 className="text-blue-600 text-lg font-semibold">About Us</h6>
-          <h1 className="text-3xl font-bold mb-4">25+ Years Experience In Service Industry</h1>
+          <h1 className="text-3xl font-bold mb-4">Years of Expertise in Service Solutions</h1>
           <p className="text-gray-600 mb-4">
-            Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et eos. Clita erat ipsum et
-            lorem et sit, sed stet lorem sit clita duo justo erat amet.
+            QuickFix is dedicated to delivering top-tier solutions for residential, commercial, and industrial service needs.  certified professionals ensures seamless and efficient service, addressing every challenge with precision and expertise.
           </p>
           <ul className="space-y-2 text-gray-700">
             <li className="flex items-center">
-              <CheckCircle className="text-blue-600 mr-2" /> Diam dolor diam ipsum
+              <CheckCircle className="text-blue-600 mr-2" /> Certified and skilled professionals
             </li>
             <li className="flex items-center">
-              <CheckCircle className="text-blue-600 mr-2" /> Aliqu diam amet diam et eos
+              <CheckCircle className="text-blue-600 mr-2" /> Reliable and efficient service execution
             </li>
             <li className="flex items-center">
-              <CheckCircle className="text-blue-600 mr-2" /> Tempor erat elitr rebum at clita
+              <CheckCircle className="text-blue-600 mr-2" /> Customer-centric approach with guaranteed satisfaction
             </li>
           </ul>
           <Button className="mt-6 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-md shadow-md">
