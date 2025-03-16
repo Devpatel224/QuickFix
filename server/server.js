@@ -19,7 +19,7 @@ mongoose.connect(process.env.MONGODB_URL).then(()=>{
 
 const allowedOrigins = [
   "http://localhost:5173", 
-  "https://quick-fix-pearl.vercel.app/",
+  "https://quick-fix-pearl.vercel.app",
 ];
 
 app.use(cors(
@@ -32,7 +32,7 @@ app.use(cors(
           }
         },
         credentials:true,
-        methods: ['GET, POST, PUT, DELETE'],
+        methods: ['GET ', 'POST', 'PUT', 'DELETE'],
         allowedHeaders: [
             'Content-Type',
             'Authorization',
@@ -40,6 +40,7 @@ app.use(cors(
             "Expires",
               "Pragma"
         ],
+        optionsSuccessStatus: 200,
     }
 ))
 
