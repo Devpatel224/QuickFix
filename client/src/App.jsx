@@ -15,6 +15,7 @@ import { checkAuth } from "./store/auth-slice";
 import Home from "./pages/user-view/Home"
 import ContactUs from "./pages/user-view/ContactUs";
 import About from "@/pages/user-view/About"
+import AddService from "./pages/provider-view/AddService";
 
 function App(){
   let { user, isAuthenticated, isLoading } = useSelector((state) => state.auth);
@@ -71,10 +72,13 @@ function App(){
             path="/service-provider"
             element={
               <CheckAuth user={user} isAuthenticated={isAuthenticated}>
-                <ProviderLayout />{" "}
+                <ProviderLayout />
               </CheckAuth>
             }
-          ></Route>
+          >
+            {/* <Route path="dashboard" element={<Dashboard />} /> */}
+            <Route path="add-service" element={<AddService/>} />
+          </Route>
         </Routes>
       </Router>
     </div>
