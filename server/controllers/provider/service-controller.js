@@ -11,6 +11,7 @@ const createService = async(req,res,next)=>{
 
         let {servicename,description,visitprice,address,category,id,adharnumber} = req.body;
 
+       
         if(!servicename || !description || !visitprice || !category || !address || !id || !adharnumber){
             return next(customeError(400,"Please provide all required fields"))
         }

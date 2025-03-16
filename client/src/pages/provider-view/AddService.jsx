@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createService } from "@/store/provider-slice";
 import { motion } from "framer-motion";
@@ -10,6 +10,7 @@ const AddService = () => {
   const { isLoading } = useSelector((state) => state.service);
   const {user} = useSelector((state) => state.auth);
   const {toast} = useToast();
+  const imageRef = useRef(null);
 
   const [formData, setFormData] = useState({
     servicename: "",
@@ -67,6 +68,9 @@ const AddService = () => {
         adharnumber: "",
         image: null,
     });
+    if(imageRef.current){
+      imageRef.current.value = null;
+    }
     });
 
   };
@@ -154,6 +158,7 @@ const AddService = () => {
             <input
               type="file"
               name="image"
+              ref={imageRef}
               onChange={handleChange}
               className="w-full p-2 border rounded"
               required

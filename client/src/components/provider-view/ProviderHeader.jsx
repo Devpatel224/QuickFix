@@ -13,14 +13,39 @@ import { useDispatch, useSelector } from "react-redux";
 import { motion, AnimatePresence } from "framer-motion";
 import { logoutUser } from "@/store/auth-slice";
 import { useToast } from "@/hooks/use-toast";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { Button } from '../ui/button';
 import { AlignJustify } from 'lucide-react';
+
+
 
 function ProviderHeader({ setIsOpenSidebar }) {
     const [isOpen, setIsOpen] = useState(false);
     const { user } = useSelector((state) => state.auth);
+    const dispatch = useDispatch();
+    const {toast} = useToast();
+    const navigate = useNavigate();
+
     
+    const handleLogOut = ()=>{       
+        dispatch(logoutUser()).then((data)=>{
+            if(data.payload.success){
+                toast({
+                    variant : "success",
+                    title: "Logged Out",
+                    description: "You have been successfully logged out",
+                })
+                navigate('/auth/login');
+            }else{
+                toast({
+                    variant : "destructive",
+                    title: "Error",
+                    description: "An error occured while logging out",
+                })
+            }
+        })
+    }
+
     return (
         <motion.div
             initial={{ opacity: 0, y: -10 }}
@@ -78,8 +103,8 @@ function ProviderHeader({ setIsOpenSidebar }) {
                                             Logged in as {user?.name}
                                         </DropdownMenuLabel>
                                         <DropdownMenuSeparator />
-                                        <DropdownMenuItem className="flex items-center mb-1 cursor-pointer hover:bg-gray-100 p-2 rounded-md">
-                                            Account
+                                        <DropdownMenuItem asChild className="flex items-center mb-1 cursor-pointer hover:bg-gray-100 p-2 rounded-md">
+                                           <NavLink to={`/service-provider/account/${user.id}`}> Account</NavLink>
                                         </DropdownMenuItem>
                                         <DropdownMenuSeparator />
                                         <DropdownMenuItem

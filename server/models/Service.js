@@ -2,12 +2,12 @@ const mongoose = require("mongoose");
 
 const serviceSchema = new mongoose.Schema(
   {
-    serviceName: { type: String, required: true },
+    servicename: { type: String, required: true },
     description: { type: String, required: true },
-    visitPrice: { type: Number, required: true },
+    visitprice: { type: Number, required: true },
     category: { type: String, required: true },
     address: { type: String, required: true },
-    aadharNumber: { type: String, required: true, unique: true },
+    adharnumber: { type: String, required: true },
     image: { type: String }, 
     provider: { type: mongoose.Schema.Types.ObjectId, ref:"User"},
   },

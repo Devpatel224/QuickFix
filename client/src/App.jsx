@@ -16,17 +16,17 @@ import Home from "./pages/user-view/Home"
 import ContactUs from "./pages/user-view/ContactUs";
 import About from "@/pages/user-view/About"
 import AddService from "./pages/provider-view/AddService";
+import Account from "./pages/provider-view/Account";
 
 function App(){
   let { user, isAuthenticated, isLoading } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log("Checking Auth");
     dispatch(checkAuth());
   }, [dispatch]);
 
-  console.log(user,isLoading,isAuthenticated)
+ 
   if(isLoading) return <div>Loading....</div>;
 
   return (
@@ -80,6 +80,7 @@ function App(){
           >
             {/* <Route path="dashboard" element={<Dashboard />} /> */}
             <Route path="add-service" element={<AddService/>} />
+            <Route path="/service-provider/account/:id" element={<Account/>} />
           </Route>
         </Routes>
       </Router>
