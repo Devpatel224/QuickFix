@@ -10,7 +10,7 @@ const serviceRouter = require("./routes/provider/service-route")
 
 dotenv.config();
 
-mongoose.connect("mongodb://localhost:27017/quickfix").then(()=>{
+mongoose.connect(process.env.MONGODB_URL).then(()=>{
   console.log("Connected to MongoDB")
 })
 .catch((err)=>{
