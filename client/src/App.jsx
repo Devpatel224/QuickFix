@@ -22,9 +22,11 @@ function App(){
   const dispatch = useDispatch();
 
   useEffect(() => {
+    console.log("Checking Auth");
     dispatch(checkAuth());
   }, [dispatch]);
 
+  console.log(user,isLoading,isAuthenticated)
   if(isLoading) return <div>Loading....</div>;
 
   return (
