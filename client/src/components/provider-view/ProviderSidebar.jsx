@@ -55,7 +55,7 @@ const MenuItemsShow = () => {
 const ProviderSidebar = ({isOpenSidebar,setIsOpenSidebar}) => {
   return (
     <Fragment>     
-      <Sheet open={isOpenSidebar} onOpenChange={setIsOpenSidebar}>
+      <Sheet open={isOpenSidebar} onOpenChange={setIsOpenSidebar} className='min-h-screen'>
         <SheetContent side="left" className="bg-blue-100 w-64 h-full text-blue-500 ">
           <SheetHeader>
             <SheetTitle className="text-2xl font-bold text-blue-500">Provider Panel</SheetTitle>
@@ -69,9 +69,9 @@ const ProviderSidebar = ({isOpenSidebar,setIsOpenSidebar}) => {
         initial="hidden"
         animate="visible"
         variants={sidebarVariants}
-        className="hidden w-64 flex-col border-r bg-blue-100 p-6 text-blue-500 lg:flex"
+        className="hidden w-64 flex-col border-r min-h-screen bg-blue-100 p-6 text-blue-500 lg:flex"
       >
-        <div className="flex items-center gap-2 cursor-pointer text-blue-500 hover:text-blue-700">
+        <div className="flex items-center gap-2 cursor-pointer  text-blue-500 hover:text-blue-700">
           <h1 className="text-xl font-extrabold mb-2">Provider Panel</h1>
         </div>
         <MenuItemsShow />

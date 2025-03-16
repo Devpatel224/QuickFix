@@ -79,5 +79,34 @@ const getServices = async(req,res,next)=>{
     }
 }
 
+const deleteService = async(req,res,next)=>{
+    try{
+        
+        const serviceId = req.params.id;
 
-module.exports ={createService,getServices}
+        let service = await serviceModel.findByIdAndDelete(serviceId).populate({
+            path : "provider",
+            select : "_id services"
+        });
+        
+        if(!service){
+            return next(customeError(400,'Service not found'))
+        }
+
+
+        service.provider.services = service.provider.services.filter((id) => id.toString()!== serviceId.toString())
+        await service.provider.save();
+        
+
+        res.status(200).json({
+            success:true,
+            data:{}
+        })
+        
+    }catch(e){
+        next(e);
+    }
+}
+
+
+module.exports ={createService,getServices , deleteService}

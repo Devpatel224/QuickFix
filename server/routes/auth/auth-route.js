@@ -7,7 +7,6 @@ router.post("/register",registerUser)
 router.post("/login",loginUser)
 router.get("/logout",logoutUser)
 router.get("/check-auth",authMiddleWare,(req,res)=>{
-    console.log("It's wokring")
         let user = req.user 
             res.status(200).json({
             message:"Authentiacted User",

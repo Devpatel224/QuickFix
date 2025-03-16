@@ -101,7 +101,7 @@ const logoutUser = async (req,res,next)=>{
 const authMiddleWare = (req,res,next)=>{
    
     const token = req?.cookies?.token
-    console.log("it's in auth middleware");
+    
     
     if(!token){
         return next(customeError(401,"Unauthorised user!"))
