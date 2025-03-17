@@ -30,11 +30,14 @@ const Register = () => {
 
     
     dispatch(registerUser(sendData)).then((data)=>{
+      console.log(data);      
     if(data?.payload?.success){
+      console.log("It's going to here")
+      navigate('/auth/login');
       toast({
-        title:data?.payload?.message
+        variant :'success',
+        title: "Register Successfull",
       })
-      navigate('/auth/login')
     }else{
       toast({
         title:data?.payload,
@@ -48,12 +51,12 @@ const Register = () => {
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 ">
       <Card className="w-full  h-screen flex flex-col lg:flex-row bg-white shadow-xl rounded-lg overflow-hidden">
-        {/* Left Side - Description */}
+        
         <div className="w-full lg:w-1/2 bg-blue-400 text-white flex flex-col justify-center p-6">
           <h1 className="text-3xl font-bold">QuickFix</h1>
           <p className="mt-4 text-lg">Join QuickFix today! Whether you're a service provider or a user, we have the best platform to connect you with reliable services.</p>
         </div>
-        {/* Right Side - Form */}
+        
         <div className="w-full  lg:w-1/2 p-6 flex items-center justify-center">
           <Tabs defaultValue="user" className="w-[80%]" onValueChange={setUserType}>
             <TabsList className="flex mx-auto mb-4 w-[35%]">
@@ -63,7 +66,7 @@ const Register = () => {
             <TabsContent value="user">
               <CardHeader>
                 <CardTitle className="text-2xl font-bold tracking-tight text-foreground">User Registration</CardTitle>
-                <p className="">Already Have Account?<Link to='/auth/login' className="font-medium ml-2 text-primary hover:underline cursor-pointer">Sign Up</Link></p>
+                <p className="">Already Have Account?<Link to='/auth/login' className="font-medium ml-2 text-primary hover:underline cursor-pointer">Sign In</Link></p>
               </CardHeader>
               <CardContent>
                 <form onSubmit={handleSubmit} className="space-y-4">

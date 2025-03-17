@@ -38,7 +38,7 @@ const MenuItemsShow = () => {
       {providersidebarMenuItems.map((menuItem) => (
         <motion.div
           onClick={() => navigate(menuItem.path)}
-
+            
           key={menuItem.id}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}

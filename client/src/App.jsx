@@ -17,6 +17,7 @@ import ContactUs from "./pages/user-view/ContactUs";
 import About from "@/pages/user-view/About"
 import AddService from "./pages/provider-view/AddService";
 import Account from "./pages/provider-view/Account";
+import Services from "./pages/user-view/Services";
 
 function App(){
   let { user, isAuthenticated, isLoading } = useSelector((state) => state.auth);
@@ -68,6 +69,7 @@ function App(){
             <Route path="" element={<Home/>}></Route>
             <Route path="/user/contact" element={<ContactUs/>}></Route>
             <Route path="/user/about" element={<About/>}></Route>
+            <Route path="/user/services" element={<Services/>} />
           </Route>
 
           <Route

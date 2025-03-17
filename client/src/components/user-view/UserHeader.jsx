@@ -48,7 +48,7 @@ function UserHeader() {
           <h1 className="text-2xl font-bold text-blue-500">QuickFix</h1>
           <ul className="flex space-x-6">
             <Link className="hover:underline cursor-pointer" to='/user'>Home</Link>
-            <Link className="hover:underline cursor-pointer">Services</Link>
+            <Link className="hover:underline cursor-pointer" to='/user/services'>Services</Link>
             <Link className="hover:underline cursor-pointer"  to='/user/about'>About</Link>
             <Link className="hover:underline cursor-pointer" to='/user/contact'>Contact</Link>
           </ul>
