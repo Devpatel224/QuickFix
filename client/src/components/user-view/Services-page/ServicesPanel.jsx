@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { motion } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import demoImage from "@/assets/demo.jpg"
 import TileService from "./TileService";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllServices } from "@/store/user-slice";
 
 // const services = [
 //   {
@@ -43,8 +44,17 @@ import { useSelector } from "react-redux";
 
 
 function ServicesPanel() {
-    const {services} = useSelector((state)=>state.service)
-    console.log(services)
+    
+    const dispatch = useDispatch()
+    const {services} = useSelector((state)=>state.userView)
+    const {providerServices} = useSelector((state)=>state.service)
+
+    useEffect(()=>{
+        dispatch(getAllServices())
+    },[dispatch])  
+    
+
+
   return (
     <div className="w-full min-h-screen p-6">
     <div className="grid w-full lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-6">

@@ -7,6 +7,7 @@ const cookieParser = require("cookie-parser")
 
 const authRouter = require("./routes/auth/auth-route")
 const serviceRouter = require("./routes/provider/service-route")
+const userRouter = require("./routes/user/user-route")
 
 dotenv.config();
 
@@ -51,6 +52,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/auth",authRouter)
 app.use("/service-provider",serviceRouter)
+app.use("/user",userRouter)
 
 
 app.use((err,req,res,next)=>{

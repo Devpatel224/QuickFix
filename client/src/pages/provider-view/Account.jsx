@@ -11,34 +11,33 @@ import { useToast } from "@/hooks/use-toast";
 
 function Account() {
   const user = useSelector((state) => state.auth.user);
-  const services = useSelector((state) => state.service.services); 
+  const providerServices = useSelector((state) => state.service.providerServices); 
   const dispatch = useDispatch()
   const {toast} = useToast()
   
     
+  const handleDelete = (id)=>{
+   
+    dispatch(deleteService(id)).then((data)=>{
+        if(data.payload.success){
+           toast({
+               variant : "success",
+               title: "Deleted",
+               description: "Service has been successfully deleted",
+           })
+        }else{
+           toast({
+               variant : "destructive",
+               title: "Error",
+               description: "An error occured while deleting service",
+           })
+       }
+   })
+  }
+
    useEffect(()=>{
     dispatch(getServices(user.id))
-   },[dispatch,user.id,services])
-
-
-   const handleDelete = (id)=>{
-    
-     dispatch(deleteService(id)).then((data)=>{
-         if(data.payload.success){
-            toast({
-                variant : "success",
-                title: "Deleted",
-                description: "Service has been successfully deleted",
-            })
-         }else{
-            toast({
-                variant : "destructive",
-                title: "Error",
-                description: "An error occured while deleting service",
-            })
-        }
-    })
-   }
+   },[dispatch,user.id])
 
 
    
@@ -91,8 +90,8 @@ function Account() {
         </motion.div>
 
     
-       {services ?( <div className="mt-8 w-full grid grid-cols-1 md:grid-cols-2 gap-6">
-          {services.map((service) => (
+       {providerServices ?( <div className="mt-8 w-full grid grid-cols-1 md:grid-cols-2 gap-6">
+          {providerServices.map((service) => (
             <motion.div
               key={service.id}
               whileHover={{ scale: 1.05 }}

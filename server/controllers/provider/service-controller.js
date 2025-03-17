@@ -108,5 +108,19 @@ const deleteService = async(req,res,next)=>{
     }
 }
 
+const getAllServices = async (req,res,next)=>{
+    try{
+         
+        let services = await serviceModel.find()
 
-module.exports ={createService,getServices , deleteService}
+        return res.status(201).json({
+            success:true,
+            data:services
+        })
+    }catch(e){
+        next(e);
+    }
+}
+
+
+module.exports ={createService,getServices , deleteService , getAllServices}
