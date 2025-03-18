@@ -61,15 +61,15 @@ function App(){
           <Route
             path="/user"
             element={
-              <CheckAuth user={user} isAuthenticated={isAuthenticated}>
+              <CheckAuth isAuthenticated={isAuthenticated} user={user} isLoading={isLoading}>
                 <UserLayout />
               </CheckAuth>
             }
           >
             <Route path="" element={<Home/>}></Route>
-            <Route path="/user/contact" element={<ContactUs/>}></Route>
-            <Route path="/user/about" element={<About/>}></Route>
-            <Route path="/user/services" element={<Services/>} />
+            <Route path="contact" element={<ContactUs/>}></Route>
+            <Route path="about" element={<About/>}></Route>
+            <Route path="services" element={<Services/>} />
           </Route>
 
           <Route

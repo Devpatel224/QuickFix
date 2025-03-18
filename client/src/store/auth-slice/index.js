@@ -3,7 +3,7 @@ import axios from "axios";
 import API_URL from "../../../config";  
 
 const initialState = {
-  isLoading: false,
+  isLoading: true,
   isAuthenticated: false,
   user: null,
 };
@@ -98,10 +98,13 @@ const authSlice = createSlice({
         state.user = null;
         state.isAuthenticated = false;
       })
+      .addCase(loginUser.pending,(state)=>{
+        state.isLoading = true
+      })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.isLoading = false;
         state.user = action.payload.success ? action.payload.user : null;
-        state.isAuthenticated = action.payload.success;
+        state.isAuthenticated =  true;
       })
       .addCase(loginUser.rejected, (state) => {
         state.isLoading = false;
@@ -115,7 +118,7 @@ const authSlice = createSlice({
       .addCase(checkAuth.fulfilled, (state, action) => {
         state.isLoading = false;
         state.user = action.payload.success ? action.payload.user : null;
-        state.isAuthenticated = action.payload.success;
+        state.isAuthenticated = true ;
       })
       .addCase(checkAuth.rejected, (state) => {
         state.isLoading = false;
