@@ -12,11 +12,20 @@ import { getAllServices } from "@/store/user-slice";
 //   { name: "Painter" },
 // ];
 
-function ServiceSidebar({ isOpen, setIsOpen }) {
+function ServiceSidebar({ isOpen, setIsOpen ,  setSearchParams}) {
   const {services} = useSelector((state)=>state.userView)
   const dispatch = useDispatch()
-  console.log(services)
 
+  
+
+
+  const categories = [...new Set(services.map((service) => service.servicename))];
+  
+
+  const handleSelectCategory = (category)=>{
+    setSearchParams({category})
+  }
+  
   useEffect(()=>{
     dispatch(getAllServices())
   },[dispatch])
@@ -25,18 +34,19 @@ function ServiceSidebar({ isOpen, setIsOpen }) {
     <>       
       <aside className="hidden lg:flex w-60 bg-blue-200 min-h-screen shadow-lg p-4 flex-col gap-6">
         <h1 className="text-2xl font-extrabold font-mono text-center">Category</h1>
-        {/* <div className="flex flex-col gap-3">
-          {services.map((service, index) => (
+        <div className="flex flex-col gap-3">
+          {categories.map((category, index) => (
             <motion.h3
               key={index}
               className="px-4 py-2 rounded-md cursor-pointer text-lg font-semibold bg-blue-100 hover:bg-blue-300 transition-all"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
+              onClick={()=>handleSelectCategory(category)}
             >
-              {service.name}
+              {category}
             </motion.h3>
           ))}
-        </div> */}
+        </div>
       </aside>
 
       

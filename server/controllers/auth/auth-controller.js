@@ -106,6 +106,7 @@ const authMiddleWare = (req,res,next)=>{
     if(!token){
         return next(customeError(401,"Unauthorised user!"))
     }
+        
     try{
         
         const decodedData = jwt.verify(token,process.env.JWT_SECRET)
@@ -113,8 +114,12 @@ const authMiddleWare = (req,res,next)=>{
         req.user = decodedData;
         next();
     }catch(err){
-        return next(err)
-    }
+        if (err.name === "TokenExpiredError") {
+            return res.status(401).json({ message: "JWT expired, please log in again." });
+          }
+          return res.status(400).json({ message: "Invalid token." });
+        }
+    
 }
 
 module.exports = {registerUser,loginUser,logoutUser,authMiddleWare}

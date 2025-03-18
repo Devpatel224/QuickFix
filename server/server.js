@@ -20,6 +20,7 @@ mongoose.connect(process.env.MONGODB_URL).then(()=>{
 
 const allowedOrigins = [
   "http://localhost:5173", 
+  "http://localhost:5174", 
   "https://quick-fix-pearl.vercel.app",
 ];
 

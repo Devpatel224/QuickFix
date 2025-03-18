@@ -6,11 +6,10 @@ export const getAllServices = createAsyncThunk(
   "user/services",
   async (_, { rejectWithValue }) => {
     try {
-        console.log("I am heree Asynthunk")
       const response = await axios.get(`${API_URL}/user/services`, {
       });
       
-      console.log(response.data , "dlafskjldsjfaskl")
+     
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data || "Service creation failed");

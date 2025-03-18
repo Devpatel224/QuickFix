@@ -43,7 +43,7 @@ import { getAllServices } from "@/store/user-slice";
 
 
 
-function ServicesPanel() {
+function ServicesPanel({selectedCategory}) {
     
     const dispatch = useDispatch()
     const {services} = useSelector((state)=>state.userView)
@@ -52,13 +52,13 @@ function ServicesPanel() {
     useEffect(()=>{
         dispatch(getAllServices())
     },[dispatch])  
-    
 
+     const filteredServices = selectedCategory ? services.filter((service)=> service.servicename === selectedCategory) : services;
 
-  return (
+     return (
     <div className="w-full min-h-screen p-6">
     <div className="grid w-full lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-6">
-      {services.map((service, index) => (
+      {filteredServices.map((service, index) => (
         <TileService service={service} key={index} index={index}/>
       ))}
     </div>
