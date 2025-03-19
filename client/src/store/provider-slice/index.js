@@ -33,7 +33,7 @@ export const deleteService = createAsyncThunk(
     async ( id , { rejectWithValue }) => {
         try {
             console.log("Delete Service:", id);
-            const response = await axios.get(`${API_URL}/service-provider/delete-service/${id}`);
+            const response = await axios.delete(`${API_URL}/service-provider/delete-service/${id}`);
             return response.data;
         } catch (error) {
             return rejectWithValue(error.response?.data || "Fetching services failed");
@@ -41,11 +41,40 @@ export const deleteService = createAsyncThunk(
     }
 );
 
+export const getBookings = createAsyncThunk(
+    "/dashboard",
+    async ( _ , { rejectWithValue }) => {
+        try {
+            const response = await axios.get(`${API_URL}/service-provider/dashboard`,{
+                withCredentials : true
+            }); 
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.response?.data || "Fetching services failed");
+        }
+    }
+);
+
+export const statusChange = createAsyncThunk(
+    "dashboard/booking",
+    async ({bookingId,statusType , statusValue}, { rejectWithValue }) => {
+        try {
+            console.log(bookingId)
+            const response = await axios.post(`${API_URL}/service-provider/dashboard/booking/${bookingId}`, {[statusType]:statusValue,});
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.response?.data || "Service creation failed");
+        }
+    }
+);
+
+
 const serviceSlice = createSlice({
     name: "service",
     initialState: {
         isLoading: false,
         providerServices: [],
+        bookings:[]
     },
     reducers: {},
     extraReducers: (builder) => {
@@ -67,7 +96,6 @@ const serviceSlice = createSlice({
                 state.isLoading = false;
                 
                 state.providerServices = action.payload.data || [];
-                console.log(state.providerServices)
             })
             .addCase(getServices.rejected, (state) => {
                 state.isLoading = false;
@@ -80,6 +108,34 @@ const serviceSlice = createSlice({
                 state.isLoading = false;                
             })
             .addCase(deleteService.rejected, (state) => {
+                state.isLoading = false;
+            })
+
+            .addCase(getBookings.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(getBookings.fulfilled, (state, action) => {
+                state.isLoading = false;  
+                state.bookings =  action.payload.data;             
+            })
+            .addCase(getBookings.rejected, (state) => {
+                state.isLoading = false;
+            })
+
+            .addCase(statusChange.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(statusChange.fulfilled, (state, action) => {
+                state.isLoading = false;  
+                const updatedBooking = action.payload.data;
+                state.bookings = state.bookings.map((booking) =>
+                    booking._id === updatedBooking._id ? updatedBooking : booking
+                );
+                 
+                
+                console.log(state.bookings,updatedBooking , "chekoing")
+            })
+            .addCase(statusChange.rejected, (state) => {
                 state.isLoading = false;
             })
 

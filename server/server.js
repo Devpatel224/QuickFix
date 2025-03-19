@@ -6,7 +6,7 @@ const dotenv = require("dotenv")
 const cookieParser = require("cookie-parser")
 
 const authRouter = require("./routes/auth/auth-route")
-const serviceRouter = require("./routes/provider/service-route")
+const serviceRouter = require("./routes/provider/provider-route")
 const userRouter = require("./routes/user/user-route")
 
 dotenv.config();

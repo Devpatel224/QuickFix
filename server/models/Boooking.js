@@ -6,7 +6,16 @@ const bookingSchema = new mongoose.Schema(
     provider: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
     date: { type: Date, required: true },
-    status: { type: String, enum: ["pending", "confirmed", "cancelled"], default: "pending" },
+     requestStatus: { 
+        type: String, 
+        enum: ["pending", "accepted", "declined"], 
+        default: "pending" 
+      },
+      workStatus: { 
+        type: String, 
+        enum: ["pending", "in progress", "completed"], 
+        default: "pending" 
+      },
   },
   { timestamps: true }
 );

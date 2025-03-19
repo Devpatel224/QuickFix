@@ -10,22 +10,17 @@ const userRequestBooking = async (req,res,next)=>{
         let {serviceId} = req.params;
         let userId = req.user.id;
 
-        console.log(address,date,req.body , "chekcing for lf;asldkfa");
-
         if (!date) {
             return next(customeError(400, "Date is required for booking"));
-        }
-
-        console.log("It's coming here");    
-     
+        }       
         
         const service = await serviceModel.findById(serviceId).populate("provider");
-        console.log(service)
+   
         if(!service) return next(customeError(401,"Service is not Found"));
 
         const provider = service.provider;
         if (!provider) return next(customeError("Service provider not found", 404));
-
+      
         const user = await userModel.findById(userId);
         user.address = address;
         await user.save();
@@ -35,7 +30,8 @@ const userRequestBooking = async (req,res,next)=>{
             provider: provider,
             user: userId,
             date,
-            status: "pending"
+            requestStatus: "pending",
+            workStatus: "pending"
         });
 
 
@@ -47,4 +43,52 @@ const userRequestBooking = async (req,res,next)=>{
 }
 
 
-module.exports = {userRequestBooking}
+
+const getProviderDashboard = async(req,res,next)=>{
+    try {
+        let providerId = req.user.id;
+
+        const bookings = await bookingModel.find({provider:providerId})
+        .populate("user", "name email address")
+        .populate("service","servicename description").exec()
+
+        res.status(200).json({
+            success:true,
+            data:bookings
+        })
+
+    } catch (e) {
+        next(e)
+    }   
+}
+
+
+const statusChange = async(req,res,next)=>{
+    try{
+        console.log(req.params)
+        let{ id }= req.params;
+        let {requestStatus,workStatus} = req.body;
+
+        const updateFields = {};
+    if (requestStatus) updateFields.requestStatus = requestStatus;
+    if (workStatus) updateFields.workStatus = workStatus;
+
+    const booking = await bookingModel.findByIdAndUpdate(id,updateFields,{new:true})
+    .populate("user", "name email address")
+    .populate("service","servicename description").exec()
+
+    if(!booking) next(customeError(501,"Booking not Found"))
+
+    return res.status(200).json({
+        success:true,
+        data:booking
+    })
+
+    }catch(e){
+        return next(e)
+    }
+}
+
+
+
+module.exports = {userRequestBooking , getProviderDashboard , statusChange}
