@@ -77,6 +77,50 @@ module.exports = mongoose.model('Booking', BookingSchema);
     },
   ];
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+const mongoose = require("mongoose");
+
+const serviceSchema = new mongoose.Schema(
+  {
+    servicename: { type: String, required: true },
+    description: { type: String, required: true },
+    visitprice: { type: Number, required: true },
+    category: { type: String, required: true },
+    address: { type: String, required: true },
+    adharnumber: { type: String, required: true },
+    image: { type: String }, 
+    provider: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    availableDates: [{ type: Date }], // New field for availability
+  },
+  { timestamps: true }
+);
+
+module.exports = mongoose.model("Service", serviceSchema);
+
+
+
+
+
+
+const mongoose = require("mongoose");
+
+const bookingSchema = new mongoose.Schema(
+  {
+    service: { type: mongoose.Schema.Types.ObjectId, ref: "Service", required: true },
+    provider: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+    user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+    date: { type: Date, required: true },
+    status: { type: String, enum: ["pending", "confirmed", "cancelled"], default: "pending" },
+  },
+  { timestamps: true }
+);
+
+module.exports = mongoose.model("Booking", bookingSchema);
 
 
 
@@ -84,107 +128,117 @@ module.exports = mongoose.model('Booking', BookingSchema);
 
 
 
-import React from "react";
-import { motion } from "framer-motion";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Card, CardContent } from "@/components/ui/card";
-import { useSelector } from "react-redux";
-import demoimage from "@/assets/demo.jpg";
 
-function Account() {
-  const user = useSelector((state) => state.auth.user);
 
-  const services = [
-    {
-      id: 1,
-      title: "Plumbing Service",
-      description: "Pipe repairs, leak fixes, and installations.",
-      category: "Plumber",
-      price: 300,
-      icon: "🚰",
-    },
-    {
-      id: 2,
-      title: "Electrician Service",
-      description: "Wiring, lighting, and appliance repairs.",
-      category: "Electrician",
-      price: 500,
-      icon: "⚡",
-    },
-  ];
+const express = require("express");
+const Service = require("../models/Service");
+const Booking = require("../models/Booking");
+const router = express.Router();
 
-  return (
-    <motion.div
-      className="w-full h-full flex flex-col items-center p-6 bg-gradient-to-r from-blue-50 to-gray-100 min-h-screen"
-      initial={{ opacity: 0, y: -20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-    >
-      {/* User Profile Section */}
-      <div className="flex flex-col items-center bg-white p-6 rounded-2xl shadow-xl w-full max-w-lg">
-        <Avatar className="w-24 h-24 shadow-md">
-          <AvatarImage src={user.avatar} alt="User Avatar" />
-          <AvatarFallback className="font-bold text-3xl">
-            {user.name.charAt(0).toUpperCase()}
-          </AvatarFallback>
-        </Avatar>
-        <h2 className="text-xl font-semibold mt-4 text-gray-800">{user.name}</h2>
-        <p className="text-gray-500">{user.email}</p>
-      </div>
+// Get all services with provider details
+router.get("/services", async (req, res) => {
+  try {
+    const services = await Service.find().populate("provider", "name email phone");
+    res.json(services);
+  } catch (error) {
+    res.status(500).json({ error: "Server error" });
+  }
+});
 
-      {/* Services Section */}
-      <div className="flex flex-col items-center w-full mt-8">
-        <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, ease: "easeOut" }}
-        >
-          <h1 className="font-semibold text-3xl text-gray-800">Services</h1>
-        </motion.div>
+// Get details of a specific service provider
+router.get("/service/:id", async (req, res) => {
+  try {
+    const service = await Service.findById(req.params.id).populate("provider", "name email phone");
+    if (!service) return res.status(404).json({ error: "Service not found" });
 
-        {/* Cards Grid */}
-        <div className="mt-8 w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {services.map((service) => (
-            <motion.div
-              key={service.id}
-              whileHover={{ scale: 1.05 }}
-              transition={{ type: "spring", stiffness: 200 }}
-            >
-              <Card className="rounded-2xl shadow-lg bg-white overflow-hidden transform transition-all hover:shadow-2xl">
-                <CardContent className="flex flex-col p-4 gap-4">
-                  {/* Service Image */}
-                  <div className="w-full h-40">
-                    <img
-                      src={demoimage}
-                      alt="Service"
-                      className="w-full h-full object-cover rounded-xl shadow-md"
-                    />
-                  </div>
+    res.json(service);
+  } catch (error) {
+    res.status(500).json({ error: "Server error" });
+  }
+});
 
-                  {/* Service Details */}
-                  <div className="flex flex-col gap-2 text-gray-700">
-                    <h2 className="text-lg font-semibold flex items-center gap-2">
-                      <span className="text-2xl">{service.icon}</span> {service.title}
-                    </h2>
-                    <p className="text-sm text-gray-600 leading-relaxed">{service.description}</p>
-                    <p className="text-md">
-                      Category: <span className="font-medium">{service.category}</span>
-                    </p>
-                    <p className="text-md">
-                      Visit Price: <span className="font-medium text-blue-600">₹{service.price}</span>
-                    </p>
-                    <button className="mt-2 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-all">
-                      Book Now
-                    </button>
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </motion.div>
+// Book a service
+router.post("/book", async (req, res) => {
+  try {
+    const { serviceId, userId, date } = req.body;
+
+    // Check if date is available
+    const service = await Service.findById(serviceId);
+    if (!service || !service.availableDates.includes(new Date(date).toISOString())) {
+      return res.status(400).json({ error: "Date not available" });
+    }
+
+    const booking = new Booking({
+      service: serviceId,
+      provider: service.provider,
+      user: userId,
+      date,
+      status: "pending",
+    });
+
+    await booking.save();
+    res.json({ message: "Booking successful", booking });
+  } catch (error) {
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+module.exports = router;
+
+
+
+
+
+
+
+
+
+
+
+
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import axios from "axios";
+
+const ServiceProvider = () => {
+  const { id } = useParams();
+  const [service, setService] = useState(null);
+  const [selectedDate, setSelectedDate] = useState("");
+  const userId = "user-id"; // Replace with logged-in user ID
+
+  useEffect(() => {
+    axios.get(`/api/service/${id}`).then((res) => {
+      setService(res.data);
+    });
+  }, [id]);
+
+  const handleBooking = async () => {
+    try {
+      const res = await axios.post("/api/book", { serviceId: id, userId, date: selectedDate });
+      alert(res.data.message);
+    } catch (error) {
+      alert(error.response?.data?.error || "Booking failed");
+    }
+  };
+
+  return service ? (
+    <div>
+      <h1>{service.servicename}</h1>
+      <p>{service.description}</p>
+      <p>Price: ${service.visitprice}</p>
+      <p>Provider: {service.provider?.name}</p>
+      <label>Select a Date:</label>
+      <select onChange={(e) => setSelectedDate(e.target.value)}>
+        <option value="">Select</option>
+        {service.availableDates?.map((date) => (
+          <option key={date} value={date}>{new Date(date).toDateString()}</option>
+        ))}
+      </select>
+      <button onClick={handleBooking}>Book Now</button>
+    </div>
+  ) : (
+    <p>Loading...</p>
   );
-}
+};
 
-export default Account;
+export default ServiceProvider;

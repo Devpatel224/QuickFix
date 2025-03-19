@@ -103,7 +103,7 @@ const authMiddleWare = (req,res,next)=>{
    
     const token = req?.cookies?.token
     
-    console.log(token)
+
     if(!token){
         return next(customeError(401,"Unauthorised user!"))
     }

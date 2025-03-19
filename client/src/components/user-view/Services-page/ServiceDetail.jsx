@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { getSpecificService } from '@/store/user-slice'
+import { getSpecificService, sentBookRequest } from '@/store/user-slice'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useLoaderData, useLocation, useParams } from 'react-router-dom'
+import { useToast } from "@/hooks/use-toast";
 
 
 
@@ -23,6 +24,7 @@ export default function ServicePage({ service }) {
     const dispatch = useDispatch()
     let location = useLocation()
     let {serviceId} = useParams()
+    let {toast} = useToast()
  
 
     useEffect(()=>{
@@ -42,8 +44,28 @@ export default function ServicePage({ service }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Booking Request:", formData);
 
+    console.log("Booking Request:", formData);
+    console.log(serviceId)
+    dispatch(sentBookRequest({serviceId,formData})).then((data)=>{
+
+        if (data.payload?.success){
+            toast({
+              variant: "success",
+              title : "Service Request Sent",
+              description: "Your Service Request sent to provider.",
+            });
+          } else {
+            toast({
+              variant: "destructive",
+              title : "Failed to sent Service",
+              description: data.payload?.message || "Something went wrong.",
+            });
+          }
+
+          setFormData({address: "", date: ""})
+
+    })
   };
 
   if(isLoading || !specificService) {
