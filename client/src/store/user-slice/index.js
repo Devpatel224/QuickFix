@@ -47,13 +47,30 @@ export const sentBookRequest = createAsyncThunk(
   }
 );
 
+
+export const getAllRequests = createAsyncThunk(
+  "user/account",
+  async (id, { rejectWithValue }) => {
+    try {
+      console.log(id)
+      const response = await axios.post(`${API_URL}/user/account`,{id},{
+      });      
+     
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || "Service creation failed");
+    }
+  }
+);
+
 const serviceSlice = createSlice({
   name: "userView",
   initialState: {
     isLoading: false,
     services: [],
     specificService:[],
-    booking : []
+    booking : [],
+    requests : []
   },
   reducers: {},
   extraReducers: (builder) => {
@@ -79,6 +96,7 @@ const serviceSlice = createSlice({
         state.specificService = action.payload.data || [];
         console.log(state.specificService)
       })
+
       .addCase(getSpecificService.rejected, (state) => {
         state.isLoading = false;
       })
@@ -92,6 +110,20 @@ const serviceSlice = createSlice({
       .addCase(sentBookRequest.rejected, (state) => {
         state.isLoading = false;
       })
+
+      .addCase(getAllRequests.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getAllRequests.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.requests = action.payload.data || [];
+        console.log(state.requests,"from asynchthunk")
+      })
+      .addCase(getAllRequests.rejected, (state) => {
+        state.isLoading = false;
+      })
+
+      
   },
 });
 

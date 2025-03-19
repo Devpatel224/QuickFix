@@ -78,7 +78,7 @@ function UserHeader() {
                         Logged in as {user?.name}
                       </DropdownMenuLabel>
                       <DropdownMenuSeparator />
-                      <DropdownMenuItem className="flex items-center mb-1 cursor-pointer hover:bg-gray-100 p-2 rounded-md">
+                      <DropdownMenuItem onClick={()=>navigate("/user/account")} className="flex items-center mb-1 cursor-pointer hover:bg-gray-100 p-2 rounded-md">
                         Account
                       </DropdownMenuItem>
                       <DropdownMenuSeparator />

@@ -19,6 +19,8 @@ import AddService from "./pages/provider-view/AddService";
 import Account from "./pages/provider-view/Account";
 import Services from "./pages/user-view/Services";
 import ServiceDetail from "./components/user-view/Services-page/ServiceDetail";
+import ProviderDashboard from "./pages/provider-view/PorviderDashboard";
+import UserAccount from "./pages/user-view/UserAccount";
 
 function App(){
   let { user, isAuthenticated, isLoading } = useSelector((state) => state.auth);
@@ -72,6 +74,7 @@ function App(){
             <Route path="/user/about" element={<About/>}></Route>
             <Route path="/user/services" element={<Services/>} />
             <Route path="/user/serviceDetail/:serviceId" element={<ServiceDetail/>} />
+            <Route path="account" element={<UserAccount/>} />
           </Route>
 
           <Route
@@ -85,6 +88,7 @@ function App(){
             {/* <Route path="dashboard" element={<Dashboard />} /> */}
             <Route path="add-service" element={<AddService/>} />
             <Route path="/service-provider/account/:id" element={<Account/>} />
+            <Route path="dashboard" element={<ProviderDashboard/>}/>
           </Route>
         </Routes>
       </Router>
