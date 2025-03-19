@@ -60,6 +60,7 @@ const loginUser = async (req,res,next)=>{
         let exitedUser = await userModel.findOne({email});
 
         console.log(exitedUser)
+
         if(!exitedUser){
             return next(customeError(401,"Invalid credentials"))
         }
@@ -102,7 +103,7 @@ const authMiddleWare = (req,res,next)=>{
    
     const token = req?.cookies?.token
     
-    
+    console.log(token)
     if(!token){
         return next(customeError(401,"Unauthorised user!"))
     }

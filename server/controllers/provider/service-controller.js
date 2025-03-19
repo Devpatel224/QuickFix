@@ -122,5 +122,25 @@ const getAllServices = async (req,res,next)=>{
     }
 }
 
+const getSpecificService = async(req,res,next)=>{
+    try{
+        let { id } = req.params;
+        
+        console.log(id)
 
-module.exports ={createService,getServices , deleteService , getAllServices}
+        const service = await serviceModel.findById(id).populate({
+            path: "provider",
+            select: "_id name email address phone company"
+        });
+
+        return res.status(201).json({
+            success: true,
+            data : service
+        })
+    }catch(e){
+        return next(e);
+    }
+}
+
+
+module.exports ={createService,getServices , deleteService , getAllServices , getSpecificService}
