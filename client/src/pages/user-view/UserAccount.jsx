@@ -18,19 +18,21 @@ function UserAccount() {
   }, [dispatch, user]);
 
   const getStatusBadge = (status) => {
+    console.log(status)
     switch (status) {
       case "pending":
         return <Badge className="bg-yellow-500 text-white">Pending</Badge>;
       case "accepted":
         return <Badge className="bg-green-500 text-white">Accepted</Badge>;
-      case "rejected":
-        return <Badge className="bg-red-500 text-white">Rejected</Badge>;
+        case "declined":
+            return <Badge className="bg-red-600 text-white">Declined</Badge>
       default:
         return <Badge className="bg-gray-500 text-white">Unknown</Badge>;
     }
   };
 
   const getWorkStatusBadge = (workStatus) => {
+    // console.log(workStatus)
     switch (workStatus) {
       case "pending":
         return <Badge className="bg-orange-500 text-white">Work Pending</Badge>;
