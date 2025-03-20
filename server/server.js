@@ -43,6 +43,7 @@ app.use(cors(
               "Pragma"
         ],
         optionsSuccessStatus: 200,
+        sameSite: "None"
     }
 ))
 
