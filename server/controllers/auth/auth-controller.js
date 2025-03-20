@@ -73,7 +73,7 @@ const loginUser = async (req,res,next)=>{
         
         let token = jwt.sign({id:exitedUser._id , email:exitedUser.email , role:exitedUser.role , name:exitedUser.name},process.env.JWT_SECRET,{expiresIn: '1h'});
 
-        res.cookie("token",token,{httpsOnly:true,secure:false}).status(200).json({success:true,
+        res.cookie("token",token,{httpsOnly:true,secure:false ,sameSite: "None"}).status(200).json({success:true,
             user:{
                 email:exitedUser.email,
                 role:exitedUser.role,
