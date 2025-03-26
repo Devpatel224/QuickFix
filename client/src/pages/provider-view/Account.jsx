@@ -1,4 +1,4 @@
-import React, { useEffect} from "react";
+import React , { useEffect} from "react";
 import { motion } from "framer-motion";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent } from "@/components/ui/card";
@@ -38,27 +38,7 @@ function Account() {
    useEffect(()=>{
     dispatch(getServices(user.id))
    },[dispatch,user.id])
-
-
    
-//     {
-//       id: 1,
-//       title: "Plumbing Service",
-//       description: "Pipe repairs, leak fixes, and installations.",
-//       category: "Plumber",
-//       price: 300,
-//       icon: "🚰",
-//     },
-//     {
-//       id: 2,
-//       title: "Electrician Service",
-//       description: "Wiring, lighting, and appliance repairs.",
-//       category: "Electrician",
-//       price: 500,
-//       icon: "⚡",
-//     },
-//   ];
-
 
   return (
     <motion.div
@@ -104,7 +84,7 @@ function Account() {
                     <img
                       src={service.image || demoimage}
                       alt="Service"
-                      className="w-full h-full object-cover rounded-xl hover:scale-105 transition-all duration-300"
+                      className="w-full h-full object-cover rounded-xl hover:scale-105 transition-all duration-300"                  
                     />
                   </div>
 

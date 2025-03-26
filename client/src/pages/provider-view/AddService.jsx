@@ -4,6 +4,7 @@ import { createService } from "@/store/provider-slice";
 import { motion } from "framer-motion";
 import addServiceImage from "@/assets/addservice.jpg"
 import { useToast } from "@/hooks/use-toast";
+import { Button } from "@/components/ui/button";
 
 const AddService = () => {
   const dispatch = useDispatch();
@@ -74,6 +75,11 @@ const AddService = () => {
     });
 
   };
+
+  let isDisable = ()=>{
+    return Object.keys(formData).map((key) =>  key == "image" ? formData[key] !== null : formData[key] !== "").every(value => value)
+  }
+ 
   
 
   return (
@@ -166,13 +172,13 @@ const AddService = () => {
 
            
           
-            <button
+            <Button
+              disabled={!isDisable() || isLoading}
               type="submit"
               className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
-              disabled={isLoading}
             >
               {isLoading ? "Submitting..." : "Add Service"}
-            </button>
+            </Button>
           </form>
         </motion.div>
       </div>

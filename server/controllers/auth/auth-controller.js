@@ -75,7 +75,7 @@ const loginUser = async (req,res,next)=>{
 
         res.cookie("token",token,{ httpOnly: true,
             secure: true, 
-            sameSite: "None" , sameSite: "None"}).status(200).json({success:true,
+            sameSite: "None" }).status(200).json({success:true,
             user:{
                 email:exitedUser.email,
                 role:exitedUser.role,
@@ -103,8 +103,9 @@ const logoutUser = async (req,res,next)=>{
 
 const authMiddleWare = (req,res,next)=>{
     
-    console.log(req.cookies)
-    const token = req?.cookies?.token    
+    
+    const token = req?.cookies?.token
+    
     console.log(token)
 
     if(!token){

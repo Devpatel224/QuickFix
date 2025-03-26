@@ -23,7 +23,7 @@ function CheckAuth({isAuthenticated,user,children}) {
         return <Navigate to='/user'></Navigate>
      } 
      else{
-        return <Navigate to='/service-provider'></Navigate>
+        return <Navigate to='/service-provider/dashboard'></Navigate>
      }
     }
     
@@ -33,7 +33,7 @@ function CheckAuth({isAuthenticated,user,children}) {
     }
 
    if(isAuthenticated && user?.role == "provider" && (location.pathname.includes('/admin') || location.pathname.includes('/user'))){
-      return <Navigate to='/service-provider'></Navigate>
+      return <Navigate to='/service-provider/dashboard'></Navigate>
     }
 
     if(isAuthenticated && user?.role == 'user' && (location.pathname.includes("/admin") || location.pathname.includes("/service-provider"))){

@@ -7,6 +7,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 
+
 const ProviderDashboard = () => {
   const dispatch = useDispatch();
   const {toast} = useToast()
@@ -17,10 +18,10 @@ const ProviderDashboard = () => {
 
   const { bookings , isLoading } = useSelector((state) => state.service);
 
-  console.log("Bookings data:", bookings);
-
+  let notCompletedBookings = bookings.filter((booking) => booking.requestStatus != "declined" && booking.workStatus != "completed"
+)
+  
   const handleStatusChange = async (bookingId, statusType , statusValue) => {
-    console.log(bookingId , 'agal')
     dispatch(statusChange({bookingId,statusType,statusValue})).then((data)=>{
         
        if(data.payload.success){
@@ -75,7 +76,7 @@ const ProviderDashboard = () => {
                     </TableCell>
                   </TableRow>
                 ) : (
-                  bookings?.map((booking) => (
+                  notCompletedBookings?.map((booking) => (
                     <motion.tr 
                       key={booking?._id}
                       className="border-b"
