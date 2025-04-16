@@ -4,6 +4,7 @@ import { Menu, X } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllServices } from "@/store/user-slice";
+import { useNavigate } from "react-router-dom";
 
 // const services = [
 //   { name: "Plumber" },
@@ -12,18 +13,24 @@ import { getAllServices } from "@/store/user-slice";
 //   { name: "Painter" },
 // ];
 
-function ServiceSidebar({ isOpen, setIsOpen ,  setSearchParams}) {
+function ServiceSidebar({ isOpen , setIsOpen ,  setSearchParams , searchParams}) {
   const {services} = useSelector((state)=>state.userView)
-  const dispatch = useDispatch()
-
-  
+  const dispatch = useDispatch();
 
 
-  const categories = [...new Set(services.map((service) => service.servicename))];
-  
+  let categories = [...new Set(services.map((service) => service.servicename))];
+  let currCategory = searchParams.get("category");
+  if(searchParams){
+     categories = ["All services", ...categories]    
+  }
 
   const handleSelectCategory = (category)=>{
-    setSearchParams({category})
+    console.log("cateogyr checked",category)
+    if(category === "All services"){
+      setSearchParams({});
+    }else{
+      setSearchParams({category})
+    }
   }
   
   useEffect(()=>{
@@ -38,7 +45,7 @@ function ServiceSidebar({ isOpen, setIsOpen ,  setSearchParams}) {
           {categories.map((category, index) => (
             <motion.h3
               key={index}
-              className="px-4 py-2 rounded-md cursor-pointer text-lg font-semibold bg-blue-100 hover:bg-blue-300 transition-all"
+              className={`px-4 py-2 rounded-md cursor-pointer text-lg font-semibold transition-all  ${ currCategory === category || (category === "All services" && !currCategory)  ? "bg-blue-400 text-white" : "bg-blue-100 hover:bg-blue-300" }`}          
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={()=>handleSelectCategory(category)}

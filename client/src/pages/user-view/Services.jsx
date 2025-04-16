@@ -5,9 +5,10 @@ import ServicesPanel from '@/components/user-view/Services-page/ServicesPanel'
 import { useSearchParams } from 'react-router-dom'
 
 
-function Services() {
+function Services(){
     const [isOpen, setIsOpen] = useState(false)
-    const [ searchParams , setSearchParams ]    = useSearchParams()
+    const [ searchParams , setSearchParams ] = useSearchParams()
+    console.log(searchParams.get("category"))
     const selectedCategory = searchParams.get("category")
 
     const handleOpen = ()=>{
