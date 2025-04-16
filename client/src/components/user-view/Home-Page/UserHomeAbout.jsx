@@ -1,12 +1,15 @@
-import React, { useRef } from "react";
+import  { useRef } from "react";
 import { motion , useInView } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { CheckCircle } from "lucide-react";
 import aboutImage from "../../../assets/about.jpg";
+import { useNavigate } from "react-router-dom";
 
 const UserHomeAbout = () => {
   const ref = useRef(null)
   const inView =  useInView(ref,{triggerOnce:false,margin:"-100px"})
+  const navigate  = useNavigate();
+
   return (
     <div className="bg-gray-100 overflow-hidden my-12 px-4 md:px-0">
       <div className="container mx-auto flex flex-col md:flex-row items-center">
@@ -49,7 +52,7 @@ const UserHomeAbout = () => {
               <CheckCircle className="text-blue-600 mr-2" /> Customer-centric approach with guaranteed satisfaction
             </li>
           </ul>
-          <Button className="mt-6 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-md shadow-md">
+          <Button onClick={()=>navigate("services")} className="mt-6 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-md shadow-md">
             Explore More
           </Button>
         </motion.div>

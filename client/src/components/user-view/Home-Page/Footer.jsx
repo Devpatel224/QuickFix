@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { FaMapMarkerAlt, FaPhoneAlt, FaEnvelope, FaTwitter, FaFacebookF, FaYoutube, FaLinkedinIn } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 export default function Footer() {
   return (
@@ -31,11 +32,9 @@ export default function Footer() {
           <div>
             <h5 className="text-white mb-4 text-lg">Quick Links</h5>
             <ul className="space-y-2">
-              <li><a href="#" className="hover:text-white">About Us</a></li>
-              <li><a href="#" className="hover:text-white">Contact Us</a></li>
-              <li><a href="#" className="hover:text-white">Our Services</a></li>
-              <li><a href="#" className="hover:text-white">Terms & Condition</a></li>
-              <li><a href="#" className="hover:text-white">Support</a></li>
+              <li><Link to='/user/about' className="hover:text-white">About Us</Link></li>
+              <li><Link to="/user/contact" className="hover:text-white">Contact Us</Link></li>
+              <li><Link to="/user/services" className="hover:text-white">Our Services</Link></li>
             </ul>
           </div>
           
