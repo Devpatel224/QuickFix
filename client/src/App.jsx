@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
 import AuthLayout from "./components/auth/AuthLayout";
@@ -21,6 +21,7 @@ import Services from "./pages/user-view/Services";
 import ServiceDetail from "./components/user-view/Services-page/ServiceDetail";
 import ProviderDashboard from "./pages/provider-view/PorviderDashboard";
 import UserAccount from "./pages/user-view/UserAccount";
+import AdminProvider from "./pages/admin-view/AdminProvider";
 
 function App(){
   let { user, isAuthenticated, isLoading } = useSelector((state) => state.auth);
@@ -58,7 +59,8 @@ function App(){
               </CheckAuth>
             }
           >
-            <Route path="dashboard" element={<Dashboard />} />
+            <Route path="dashboard" element={<Dashboard/>} />
+            <Route path="providers" element={<AdminProvider/>}/>
           </Route>
 
           <Route
@@ -85,7 +87,6 @@ function App(){
               </CheckAuth>
             }
           >
-            {/* <Route path="dashboard" element={<Dashboard />} /> */}
             <Route path="add-service" element={<AddService/>} />
             <Route path="/service-provider/account/:id" element={<Account/>} />
             <Route path="dashboard" element={<ProviderDashboard/>}/>
