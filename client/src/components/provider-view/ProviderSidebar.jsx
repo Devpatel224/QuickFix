@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import  { Fragment } from 'react';
 import { motion } from 'framer-motion';
 import { LayoutDashboard, ShoppingCart, BadgeCheck, Menu } from 'lucide-react';
 import { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetTitle } from '../ui/sheet';
@@ -18,12 +18,6 @@ const providersidebarMenuItems = [
     path: '/service-provider/add-service',
     icon: <FaRegAddressCard size={22} />,
   },
-//   {
-//     id: 'orders',
-//     label: 'Orders',
-//     path: '/admin/orders',
-//     icon: <BadgeCheck size={22} />,
-//   },
 ];
 
 const sidebarVariants = {
@@ -37,8 +31,7 @@ const MenuItemsShow = () => {
     <motion.div initial="hidden" animate="visible" variants={sidebarVariants}>
       {providersidebarMenuItems.map((menuItem) => (
         <motion.div
-          onClick={() => navigate(menuItem.path)}
-            
+          onClick={() => navigate(menuItem.path)}            
           key={menuItem.id}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}

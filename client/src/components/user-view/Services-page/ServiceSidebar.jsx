@@ -4,7 +4,7 @@ import { Menu, X } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllServices } from "@/store/user-slice";
-import { useNavigate } from "react-router-dom";
+
 
 // const services = [
 //   { name: "Plumber" },

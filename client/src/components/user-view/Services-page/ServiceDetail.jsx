@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { getSpecificService, sentBookRequest } from '@/store/user-slice'
-import React, { useEffect } from 'react'
+import  { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useLoaderData, useLocation, useParams } from 'react-router-dom'
 import { useToast } from "@/hooks/use-toast";
@@ -25,7 +25,9 @@ export default function ServicePage({ service }) {
     let location = useLocation()
     let {serviceId} = useParams()
     let {toast} = useToast()
- 
+
+    
+  
 
     useEffect(()=>{
         dispatch(getSpecificService(serviceId))
@@ -136,6 +138,8 @@ export default function ServicePage({ service }) {
               name="date"
               value={formData.date}
               onChange={handleChange}
+              min = {new Date().toISOString().split("T")[0]}
+              max = {new Date().toISOString().split("-")[0]+"-12-12"}
               className="mt-1 block w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300"
               required
             />

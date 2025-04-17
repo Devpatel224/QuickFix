@@ -13,7 +13,7 @@ function ProviderLayout() {
   return (
    <div className='w-full min-h-screen flex'> 
     <ProviderSidebar isOpenSidebar={isOpenSidebar} setIsOpenSidebar={setIsOpenSidebar}></ProviderSidebar>
-
+         
     <div className='w-full flex flex-col'> 
     <ProviderHeader setIsOpenSidebar={setIsOpenSidebar}/>
     <Outlet />

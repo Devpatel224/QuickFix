@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 import { deleteService, getServices } from "@/store/provider-slice";
 import { AiOutlineUserDelete } from "react-icons/ai";
 import { useToast } from "@/hooks/use-toast";
+import ProviderDate from "@/components/provider-view/ProviderDate";
 
 function Account() {
   const user = useSelector((state) => state.auth.user);
@@ -48,7 +49,8 @@ function Account() {
       transition={{ duration: 0.5 }}
     >
 
-      <div className="flex flex-col items-center bg-white p-6 rounded-2xl shadow-lg w-full max-w-lg">
+
+      <div className="flex flex-col items-center bg-white p-6 rounded-2xl shadow-lg w-full  max-w-lg">
         <Avatar className="w-24 h-24 shadow-md">
           <AvatarImage src={user.avatar} alt="User Avatar" />
           <AvatarFallback className="font-bold text-3xl">
@@ -59,7 +61,7 @@ function Account() {
         <p className="text-gray-500 text-lg">{user.email}</p>
       </div>
 
-
+     
       <div className="flex flex-col items-center w-full mt-8">
         <motion.div
           initial={{ opacity: 0, y: -10 }}
