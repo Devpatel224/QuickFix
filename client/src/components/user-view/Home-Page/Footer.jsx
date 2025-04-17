@@ -42,13 +42,13 @@ export default function Footer() {
           <div>
             <h5 className="text-white mb-4 text-lg">Newsletter</h5>
             <p>Subscribe to our newsletter for the latest updates.</p>
-            <div className="relative mt-4">
+            <div className="relative mt-4 flex  items-center gap-1">
               <Input 
                 type="email" 
                 placeholder="Your email" 
                 className="w-full rounded-md py-2 pl-4 pr-20 border-0" 
               />
-              <Button className="absolute top-1 right-1 bg-blue-600 hover:bg-blue-700 py-2 px-4">Sign Up</Button>
+              <Button className="  bg-blue-600 hover:bg-blue-700 py-2 px-4">Subscribe</Button>
             </div>
           </div>
         </div>
@@ -56,7 +56,7 @@ export default function Footer() {
       
      
       <div className="bg-gray-800 py-4 text-center text-sm">
-        <p>&copy; 2024 Your Site Name, All Rights Reserved.</p>
+        <p>&copy; 2024 QuickFix, All Rights Reserved.</p>
       </div>
     </motion.footer>
   );
