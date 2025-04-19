@@ -39,10 +39,10 @@ const Register = () => {
   let { password } = watch();
 
   const onSubmit = async (data) => {
-     let { confirmPassword,...newData} = data;
-      console.log(newData)
+     let { confirmPassword ,...newData} = data;
+      
 
-    let sendData = { ...data, role: userType };
+    let sendData = { ...newData, role: userType };
     dispatch(registerUser(sendData)).then((data) => {
       if (data?.payload?.success) {
         navigate("/auth/login");
