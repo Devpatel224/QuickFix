@@ -39,8 +39,7 @@ const Register = () => {
   let { password } = watch();
 
   const onSubmit = async (data) => {
-     let { confirmPassword ,...newData} = data;
-      
+    let { confirmPassword, ...newData } = data;
 
     let sendData = { ...newData, role: userType };
     dispatch(registerUser(sendData)).then((data) => {
@@ -96,77 +95,88 @@ const Register = () => {
                   className="space-y-4 relative"
                 >
                   <div>
-                  <Input
-                    {...register("name")}
-                    name="name"
-                    placeholder="Full Name"
-                    required
-                  />
-                  {errors.name && (
-                    <span className="text-red-600 pl-2">{errors.name.message}</span>
-                  )}
-                  </div>
-
-                  <div>
-                  <Input
-                    {...register("email")}
-                    type="email"
-                    name="email"
-                    placeholder="Email"
-                    required
-                  />
-                  {errors.email && (
-                    <span className="text-red-600 pl-2">{errors.email.message}</span>
-                  )}
-                  </div>
-
-                  <div>
-                  <div className="relative">
                     <Input
-                      {...register("password")}
-                      type={visiblePassword ? "text" : "password"}
-                      name="password"
-                      placeholder="Password"
+                      {...register("name")}
+                      name="name"
+                      placeholder="Full Name"
                       required
-                      className="pr-10" 
                     />
-                    <motion.span
-                      onClick={() => setVisiblePassword((prev) => !prev)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer text-xl text-gray-600"
-                      whileHover={{ scale: 1.2 }}
-                      whileTap={{ scale: 0.8 }}
-                    >
-                      {visiblePassword ? <IoMdEyeOff /> : <IoMdEye />}
-                    </motion.span>
+                    {errors.name && (
+                      <span className="text-red-600 pl-2">
+                        {errors.name.message}
+                      </span>
+                    )}
                   </div>
+
+                  <div>
+                    <Input
+                      {...register("email")}
+                      type="email"
+                      name="email"
+                      placeholder="Email"
+                      required
+                    />
+                    {errors.email && (
+                      <span className="text-red-600 pl-2">
+                        {errors.email.message}
+                      </span>
+                    )}
+                  </div>
+
+                  <div>
+                    <div className="relative">
+                      <Input
+                        {...register("password")}
+                        type={visiblePassword ? "text" : "password"}
+                        name="password"
+                        placeholder="Password"
+                        required
+                        className="pr-10"
+                        onCopy={(e) => e.preventDefault()}
+                        onCut={(e) => e.preventDefault()}
+                        onPaste={(e) => e.preventDefault()}
+                      />
+                      <motion.span
+                        onClick={() => setVisiblePassword((prev) => !prev)}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer text-xl text-gray-600"
+                        whileHover={{ scale: 1.2 }}
+                        whileTap={{ scale: 0.8 }}
+                      >
+                        {visiblePassword ? <IoMdEyeOff /> : <IoMdEye />}
+                      </motion.span>
+                    </div>
                     {password && <ShowStrength password={password} />}
                     {errors.password && (
                       <span className="text-red-600 pl-2">
                         {errors.password.message}
                       </span>
                     )}
-                  </div>  
-
-                    <div>
-                  <div className="relative mt-4">
-                    <Input
-                      {...register("confirmPassword")}
-                      type={visibleConfirmPassword ? "text" : "password"}
-                      name="confirmPassword"
-                      placeholder="Confirm Password"
-                      required
-                      className="pr-10"
-                    />
-                    <motion.span
-                      onClick={() => setVisibleConfirmPassword((prev) => !prev)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer text-xl text-gray-600"
-                      whileHover={{ scale: 1.2 }}
-                      whileTap={{ scale: 0.8 }}
-                    >
-                      {visibleConfirmPassword ? <IoMdEyeOff /> : <IoMdEye />}
-                    </motion.span>
-
                   </div>
+
+                  <div>
+                    <div className="relative mt-4">
+                      <Input
+                        {...register("confirmPassword")}
+                        type={visibleConfirmPassword ? "text" : "password"}
+                        name="confirmPassword"
+                        placeholder="Confirm Password"
+                        required
+                        className="pr-10"
+                        onCopy={(e) => e.preventDefault()}
+                        onCut={(e) => e.preventDefault()}
+                        onPaste={(e) => e.preventDefault()}
+                      />
+                      <motion.span
+                        onClick={() =>
+                          setVisibleConfirmPassword((prev) => !prev)
+                        }
+                        className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer text-xl text-gray-600"
+                        whileHover={{ scale: 1.2 }}
+                        whileTap={{ scale: 0.8 }}
+                      >
+                        {visibleConfirmPassword ? <IoMdEyeOff /> : <IoMdEye />}
+                      </motion.span>
+                    </div>
                     {errors.confirmPassword && (
                       <span className="text-red-600 pl-2">
                         {errors.confirmPassword.message}
@@ -198,102 +208,112 @@ const Register = () => {
               </CardHeader>
               <CardContent>
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                <div>
-                  <Input
-                    {...register("name")}
-                    name="name"
-                    placeholder="Full Name"
-                    required
-                  />
-                  {errors.name && (
-                    <span className="text-red-600 pl-2">{errors.name.message}</span>
-                  )}
-                  </div>
-<div>
-                  <Input
-                    {...register("email")}
-                    type="email"
-                    name="email"
-                    placeholder="Email"
-                    required
-                  />
-                  {errors.email && (
-                    <span className="text-red-600 pl-2">{errors.email.message}</span>
-                  )}
-</div>
                   <div>
-                  <Input
-                    {...register("company")}
-                    type="text"
-                    name="company"
-                    placeholder="Company Name"
-                    required
-                  />
-                  {errors.company && (
-                    <span className="text-red-600 pl-2">
-                      {errors.company.message}
-                    </span>
-                  )}
-</div>
-                  <div>
-                  <div className="relative">
                     <Input
-                      {...register("password")}
-                      type={visibleProviderPassword ? "text" : "password"}
-                      name="password"
-                      placeholder="Password"
+                      {...register("name")}
+                      name="name"
+                      placeholder="Full Name"
                       required
                     />
-                    <motion.span
-                      onClick={() =>
-                        setVisibleProviderPassword((prev) => !prev)
-                      }
-                      className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer text-xl text-gray-600"
-                      whileHover={{ scale: 1.2 }}
-                      whileTap={{ scale: 0.8 }}
-                    >
-                      {visibleProviderPassword ? <IoMdEyeOff /> : <IoMdEye />}
-                    </motion.span>
+                    {errors.name && (
+                      <span className="text-red-600 pl-2">
+                        {errors.name.message}
+                      </span>
+                    )}
                   </div>
-                  {password && <ShowStrength password={password} />}
-                  {errors.password && (
-                    <span className="text-red-600 pl-2">
-                      {errors.password.message}
-                    </span>
-                  )}
+                  <div>
+                    <Input
+                      {...register("email")}
+                      type="email"
+                      name="email"
+                      placeholder="Email"
+                      required
+                    />
+                    {errors.email && (
+                      <span className="text-red-600 pl-2">
+                        {errors.email.message}
+                      </span>
+                    )}
+                  </div>
+                  <div>
+                    <Input
+                      {...register("company")}
+                      type="text"
+                      name="company"
+                      placeholder="Company Name"
+                      required
+                    />
+                    {errors.company && (
+                      <span className="text-red-600 pl-2">
+                        {errors.company.message}
+                      </span>
+                    )}
+                  </div>
+                  <div>
+                    <div className="relative">
+                      <Input
+                        {...register("password")}
+                        type={visibleProviderPassword ? "text" : "password"}
+                        name="password"
+                        placeholder="Password"
+                        onCopy={(e) => e.preventDefault()}
+                        onCut={(e) => e.preventDefault()}
+                        onPaste={(e) => e.preventDefault()}
+                        required
+                      />
+                      <motion.span
+                        onClick={() =>
+                          setVisibleProviderPassword((prev) => !prev)
+                        }
+                        className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer text-xl text-gray-600"
+                        whileHover={{ scale: 1.2 }}
+                        whileTap={{ scale: 0.8 }}
+                      >
+                        {visibleProviderPassword ? <IoMdEyeOff /> : <IoMdEye />}
+                      </motion.span>
+                    </div>
+                    {password && <ShowStrength password={password} />}
+                    {errors.password && (
+                      <span className="text-red-600 pl-2">
+                        {errors.password.message}
+                      </span>
+                    )}
                   </div>
 
                   <div>
-                  <div className="relative">
-                    <Input
-                      {...register("confirmPassword")}
-                      type={
-                        visibleProviderConfirmPassword ? "text" : "password"
-                      }
-                      name="confirmPassword"
-                      placeholder="Confirm Password"
-                      required
-                    />
-                    <motion.span
-                      onClick={() =>
-                        setVisibleProviderConfirmPassword((prev) => !prev)
-                      }
-                      className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer text-xl text-gray-600"
-                      whileHover={{ scale: 1.2 }}
-                      whileTap={{ scale: 0.8 }}
-                    >
-                      {visibleProviderConfirmPassword ? (
-                        <IoMdEyeOff />
-                      ) : (
-                        <IoMdEye />
-                      )}
-                    </motion.span>
-                  </div>
-                  {errors.confirmPassword && (
-                    <span className="text-red-600 pl-2">
-                      {errors.confirmPassword.message}
-                    </span>
-                  )}
+                    <div className="relative">
+                      <Input
+                        {...register("confirmPassword")}
+                        type={
+                          visibleProviderConfirmPassword ? "text" : "password"
+                        }
+                        name="confirmPassword"
+                        placeholder="Confirm Password"
+                        onCopy={(e) => e.preventDefault()}
+                        onCut={(e) => e.preventDefault()}
+                        onPaste={(e) => e.preventDefault()}
+                        required
+                      />
+                      <motion.span
+                        onClick={() =>
+                          setVisibleProviderConfirmPassword((prev) => !prev)
+                        }
+                        className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer text-xl text-gray-600"
+                        whileHover={{ scale: 1.2 }}
+                        whileTap={{ scale: 0.8 }}
+                      >
+                        {visibleProviderConfirmPassword ? (
+                          <IoMdEyeOff />
+                        ) : (
+                          <IoMdEye />
+                        )}
+                      </motion.span>
+                    </div>
+                    {errors.confirmPassword && (
+                      <span className="text-red-600 pl-2">
+                        {errors.confirmPassword.message}
+                      </span>
+                    )}
                   </div>
 
                   <Button
