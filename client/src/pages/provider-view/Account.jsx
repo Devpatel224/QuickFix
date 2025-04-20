@@ -5,7 +5,7 @@ import { AiOutlineUserDelete } from "react-icons/ai";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent } from "@/components/ui/card";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteService, getServices } from "@/store/provider-slice";
+import { deleteService, getDates, getServices } from "@/store/provider-slice";
 import { useToast } from "@/hooks/use-toast";
 import ProviderDate from "@/components/provider-view/ProviderDate";
 
@@ -14,6 +14,7 @@ function Account() {
   const providerServices = useSelector((state) => state.service.providerServices);
   const dispatch = useDispatch();
   const { toast } = useToast();
+  const { unavailableDates} = useSelector((state) => state.service);
 
   const [showDatePicker, setShowDatePicker] = useState(false);
 
@@ -35,10 +36,18 @@ function Account() {
     });
   };
 
+
+
+  useEffect(()=>{
+    dispatch(getDates(user.id));
+  },[dispatch,user.id])
+
+
   useEffect(() => {
     dispatch(getServices(user.id));
   }, [dispatch, user.id]);
 
+    
   return (
     <motion.div
       className="w-full h-full flex flex-col items-center p-6 bg-gray-100 min-h-screen"
@@ -87,7 +96,7 @@ function Account() {
               >
                 ×
               </button>
-              <ProviderDate />
+              <ProviderDate  unavailableDates={unavailableDates}/>
             </motion.div>
           </motion.div>
         )}

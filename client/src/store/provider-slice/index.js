@@ -79,6 +79,17 @@ export const setDates = createAsyncThunk(
         }
     }
 );
+export const getDates = createAsyncThunk(
+    "dashboard/getDates",
+    async (id, { rejectWithValue }) => {
+        try {            
+            const response = await axios.get(`${API_URL}/service-provider/account/${id}`);
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.response?.data || "Service creation failed");
+        }
+    }
+);
 
 
 const serviceSlice = createSlice({
@@ -87,6 +98,7 @@ const serviceSlice = createSlice({
         isLoading: false,
         providerServices: [],
         bookings:[],
+        unavailableDates:[],
     },
     reducers: {},
     extraReducers: (builder) => {
@@ -116,7 +128,7 @@ const serviceSlice = createSlice({
             .addCase(deleteService.pending, (state) => {
                 state.isLoading = true;
             })
-            .addCase(deleteService.fulfilled, (state, action) => {
+            .addCase(deleteService.fulfilled, (state) => {
                 state.isLoading = false;                
             })
             .addCase(deleteService.rejected, (state) => {
@@ -143,9 +155,6 @@ const serviceSlice = createSlice({
                 state.bookings = state.bookings.map((booking) =>
                     booking._id === updatedBooking._id ? updatedBooking : booking
                 );
-                 
-                
-                console.log(state.bookings,updatedBooking , "chekoing")
             })
             .addCase(statusChange.rejected, (state) => {
                 state.isLoading = false;
@@ -154,10 +163,23 @@ const serviceSlice = createSlice({
             .addCase(setDates.pending, (state) => {
                 state.isLoading = true;
             })
-            .addCase(setDates.fulfilled,(state)=>{
+            .addCase(setDates.fulfilled,(state,action)=>{
                 state.isLoading = false; 
+                state.unavailableDates = action.payload.data || [];
             })
             .addCase(setDates.rejected, (state) => {
+                state.isLoading = false;
+            })
+
+
+            .addCase(getDates.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(getDates.fulfilled,(state,action)=>{
+                state.isLoading = false; 
+                state.unavailableDates = action.payload.data || [];
+            })
+            .addCase(getDates.rejected, (state) => {
                 state.isLoading = false;
             })
     },

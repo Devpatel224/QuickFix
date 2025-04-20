@@ -7,7 +7,7 @@ import { setDates } from '@/store/provider-slice';
 import { useToast } from '@/hooks/use-toast';
 
 
-function ProviderDate() {
+function ProviderDate({unavailableDates}) {
     const [selectionRange, setSelectionRange] = useState({
         startDate: new Date(),
         endDate: new Date(),
@@ -16,6 +16,7 @@ function ProviderDate() {
     const dispatch = useDispatch();
     let { user } = useSelector((state)=>state.auth)
     let { toast} = useToast()
+    let { isLoading} = useSelector((state)=>state.service)
     
     const generateAllDates = (startDate, endDate) => {
         let currentDate = new Date(startDate);
@@ -29,9 +30,30 @@ function ProviderDate() {
         return dates;
     };
 
-    function handleSelect(date) {
+    
+    const disabledDates = unavailableDates?.map(date => new Date(date));
+
+    function handleSelect(date){
+           let allSelectedDates = generateAllDates(date.selection.startDate, date.selection.endDate);
+
+          const hasDisabled = allSelectedDates.some((selectedDate)=>
+            disabledDates.some((disabled)=> disabled.toDateString() === selectedDate.toDateString())
+          )
+
+          if(hasDisabled){
+            toast({
+              title: "Unavailable date selected",
+              description: "Please avoid unavailable dates in your selection.",
+              variant: "destructive",
+            });
+            return;
+          }
+
         setSelectionRange(date.selection);
     }
+
+    
+   
 
     async function saveChanges(e) {
         e.preventDefault();        
@@ -63,7 +85,7 @@ function ProviderDate() {
     return (
       <div className="p-2 w-full">
       <h2 className="text-2xl font-semibold text-center mb-6 text-gray-800">Mark Unavailable Dates</h2>
-      <div className='flex flex-col items-center justify-center'>
+      <div className="flex flex-col items-center justify-center">
         <div className="shadow-lg rounded-xl overflow-hidden border border-gray-200">
           <DateRange
             editableDateInputs={true}
@@ -72,13 +94,28 @@ function ProviderDate() {
             minDate={new Date()}
             maxDate={new Date(new Date().getFullYear(), new Date().getMonth() + 1, new Date().getDate())}
             rangeColors={['#ef4444']}
+            dayContentRenderer={(date) => {
+              const isDisabled = disabledDates.some(
+                (disabled) => date.toDateString() === disabled.toDateString()
+              );
+              return (
+                <div
+                  className={`flex items-center justify-center w-full h-full rounded-full ${
+                    isDisabled ? 'bg-red-400 text-white cursor-not-allowed pointer-events-none' : ''
+                  }`}
+                >
+                  {date.getDate()}
+                </div>
+              );
+            }}
           />
         </div>
         <button
           onClick={saveChanges}
           className="mt-6 bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-6 rounded-xl shadow transition duration-300"
+          disabled={isLoading}
         >
-          Save as Unavailable
+          {isLoading ? 'Saving...' : 'Save as Unavailable'}
         </button>
       </div>
     </div>

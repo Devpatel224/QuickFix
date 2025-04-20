@@ -169,4 +169,23 @@ const setUnavailableDates = async(req,res,next)=>{
     }
 }
 
-module.exports ={createService,getServices , deleteService , getAllServices , getSpecificService , setUnavailableDates}
+const getUnavilableDates = async(req,res,next)=>{    
+    try{
+        const {id} = req.params;
+        const provider = await userModel.findById(id);
+        if(!provider){
+            return next(customeError(400,"Provider not found"))
+        }       
+
+        return res.status(200).json({
+            success:true,
+            data:provider.unavailableDates
+        })
+    }catch(e){
+        return next(e);
+    }
+}
+
+
+
+module.exports ={createService,getServices , deleteService , getAllServices , getSpecificService , setUnavailableDates , getUnavilableDates}
