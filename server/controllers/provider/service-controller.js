@@ -142,5 +142,31 @@ const getSpecificService = async(req,res,next)=>{
     }
 }
 
+const setUnavailableDates = async(req,res,next)=>{
+    try{
+        const {id} = req.params;
+        const { unavailableDates } = req.body;
 
-module.exports ={createService,getServices , deleteService , getAllServices , getSpecificService}
+        
+        if(!unavailableDates || unavailableDates.length === 0){
+            return next(customeError(400,"Please Provide not Available Dates"))
+        }
+
+        const provider = await userModel.findById(id);
+        if(!provider){
+            return next(customeError(400,"Provider not found"))
+        }
+
+        provider.unavailableDates = [...provider.unavailableDates,...unavailableDates];
+        await provider.save();
+
+        return res.status(200).json({
+            success:true,
+            data:provider.unavailableDates
+        })
+    }catch(e){
+        return next(e);
+    }
+}
+
+module.exports ={createService,getServices , deleteService , getAllServices , getSpecificService , setUnavailableDates}

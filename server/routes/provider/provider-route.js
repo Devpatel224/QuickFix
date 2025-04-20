@@ -1,6 +1,6 @@
 const { authMiddleWare } = require("../../controllers/auth/auth-controller");
 const { getProviderDashboard, statusChange } = require("../../controllers/booking/booking-controller");
-const { createService, getServices, deleteService } = require("../../controllers/provider/service-controller");
+const { createService, getServices, deleteService, setUnavailableDates } = require("../../controllers/provider/service-controller");
 const {upload,cloudinary} = require("../../helpers/cloudinary");
 const express = require("express");
 const router  = express.Router()
@@ -10,5 +10,6 @@ router.get('/get-services/:id',getServices)
 router.delete('/delete-service/:id',deleteService)
 router.get('/dashboard', authMiddleWare ,getProviderDashboard)
 router.post('/dashboard/booking/:id',statusChange)
+router.post('/add-service/setDates/:id', setUnavailableDates);
 
 module.exports = router

@@ -35,7 +35,6 @@ export const sentBookRequest = createAsyncThunk(
   "book/:id",
   async ({serviceId,formData}, { rejectWithValue }) => {
     try {
-      console.log("It's working")
       const response = await axios.post(`${API_URL}/user/book/${serviceId}`,formData,{
         withCredentials:true
       });      
@@ -52,8 +51,7 @@ export const getAllRequests = createAsyncThunk(
   "user/account",
   async (id, { rejectWithValue }) => {
     try {
-      console.log(id)
-      const response = await axios.post(`${API_URL}/user/account`,{id},{
+       const response = await axios.post(`${API_URL}/user/account`,{id},{
       });      
      
       return response.data;
@@ -117,7 +115,6 @@ const serviceSlice = createSlice({
       .addCase(getAllRequests.fulfilled, (state, action) => {
         state.isLoading = false;
         state.requests = action.payload.data || [];
-        console.log(state.requests,"from asynchthunk")
       })
       .addCase(getAllRequests.rejected, (state) => {
         state.isLoading = false;

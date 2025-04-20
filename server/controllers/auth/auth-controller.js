@@ -21,7 +21,7 @@ const registerUser =async (req,res,next)=>{
             return next(customeError(401,"Please provide company name"))
         }
 
-        let exitedUser = await userModel.findOne({$or:[{email},{name}]});
+        let exitedUser = await userModel.findOne({$or:[{email}]});
 
         if(exitedUser){
             return next(customeError(401,"User already exists"))
@@ -106,8 +106,6 @@ const authMiddleWare = (req,res,next)=>{
     
     const token = req?.cookies?.token
     
-    console.log(token)
-
     if(!token){
         return next(customeError(401,"Unauthorised user!"))
     }

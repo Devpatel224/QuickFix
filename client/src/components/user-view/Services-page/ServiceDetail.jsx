@@ -74,7 +74,8 @@ export default function ServicePage({ service }) {
     return <div className="text-center text-lg font-semibold mt-10">Loading...</div>;
   }
 
-   
+
+
   return (
     <div className="min-h-screen bg-gray-100 flex justify-center items-center p-6">
       <motion.div
@@ -139,7 +140,7 @@ export default function ServicePage({ service }) {
               value={formData.date}
               onChange={handleChange}
               min = {new Date().toISOString().split("T")[0]}
-              max = {new Date().toISOString().split("-")[0]+"-12-12"}
+              max = {new Date(new Date().getFullYear(),new Date().getMonth()+1,new Date().getDate()).toISOString().split("T")[0]}
               className="mt-1 block w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300"
               required
             />

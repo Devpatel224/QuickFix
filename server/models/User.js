@@ -8,7 +8,7 @@ const UserSchema = new mongoose.Schema({
   phone: String, 
   role: { type: String, enum: ['user', 'provider' , 'admin'], default: 'customer' }, 
   company : String,
-  availableDates: [{ type: Date }],
+  unavailableDates: [String],
   services: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Service' }]
 },{tiemstamps: true});
 

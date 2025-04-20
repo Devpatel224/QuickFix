@@ -9,10 +9,11 @@ import { useDispatch } from "react-redux";
 import { registerUser } from "../../store/auth-slice/index";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import registerSchema from "@/zodValidation/validation";
+
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import { motion } from "framer-motion";
 import ShowStrength from "@/components/auth/ShowStrength";
+import { registerSchema } from "@/zodValidation/validation";
 
 const Register = () => {
   const [userType, setUserType] = useState("user");
@@ -20,18 +21,17 @@ const Register = () => {
   const [visiblePassword, setVisiblePassword] = useState(false);
   const [visibleConfirmPassword, setVisibleConfirmPassword] = useState(false);
   const [visibleProviderPassword, setVisibleProviderPassword] = useState(false);
-  const [visibleProviderConfirmPassword, setVisibleProviderConfirmPassword] =
-    useState(false);
+  const [visibleProviderConfirmPassword, setVisibleProviderConfirmPassword] = useState(false);
 
   const navigate = useNavigate();
-  const { toast } = useToast();
+  const { toast  } = useToast();
   const dispatch = useDispatch();
 
   const {
     register,
     handleSubmit,
     watch,
-    formState: { errors },
+    formState: { errors , isSubmitting },
   } = useForm({
     resolver: zodResolver(registerSchema),
   });
@@ -40,10 +40,11 @@ const Register = () => {
 
   const onSubmit = async (data) => {
     let { confirmPassword, ...newData } = data;
+    console.log(newData)
 
     let sendData = { ...newData, role: userType };
     dispatch(registerUser(sendData)).then((data) => {
-      if (data?.payload?.success) {
+      if (data?.payload?.success){
         navigate("/auth/login");
         toast({ variant: "success", title: "Register Successful" });
       } else {
@@ -54,6 +55,8 @@ const Register = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
+
+      
       <Card className="w-full h-screen flex flex-col lg:flex-row bg-white shadow-xl rounded-lg overflow-hidden">
         <div className="w-full lg:w-1/2 bg-blue-400 text-white flex flex-col justify-center p-6">
           <h1 className="text-3xl font-bold">QuickFix</h1>
@@ -98,7 +101,7 @@ const Register = () => {
                     <Input
                       {...register("name")}
                       name="name"
-                      placeholder="Full Name"
+                      placeholder="Enter Full Name *"
                       required
                     />
                     {errors.name && (
@@ -113,7 +116,7 @@ const Register = () => {
                       {...register("email")}
                       type="email"
                       name="email"
-                      placeholder="Email"
+                      placeholder="Enter Email *"
                       required
                     />
                     {errors.email && (
@@ -129,7 +132,7 @@ const Register = () => {
                         {...register("password")}
                         type={visiblePassword ? "text" : "password"}
                         name="password"
-                        placeholder="Password"
+                        placeholder="Enter Password *"
                         required
                         className="pr-10"
                         onCopy={(e) => e.preventDefault()}
@@ -159,7 +162,7 @@ const Register = () => {
                         {...register("confirmPassword")}
                         type={visibleConfirmPassword ? "text" : "password"}
                         name="confirmPassword"
-                        placeholder="Confirm Password"
+                        placeholder="Enter Confirm Password *"
                         required
                         className="pr-10"
                         onCopy={(e) => e.preventDefault()}
@@ -187,8 +190,9 @@ const Register = () => {
                   <Button
                     type="submit"
                     className="w-full bg-blue-100 hover:bg-blue-500 border-blue-800 border-[1px] text-black"
+                    disabled={isSubmitting}
                   >
-                    Register
+                    {isSubmitting ? "Registering...":"Register"}
                   </Button>
                 </form>
               </CardContent>
@@ -212,7 +216,7 @@ const Register = () => {
                     <Input
                       {...register("name")}
                       name="name"
-                      placeholder="Full Name"
+                      placeholder="Enter Full Name *"
                       required
                     />
                     {errors.name && (
@@ -226,7 +230,7 @@ const Register = () => {
                       {...register("email")}
                       type="email"
                       name="email"
-                      placeholder="Email"
+                      placeholder="Enter Email *"
                       required
                     />
                     {errors.email && (
@@ -240,7 +244,7 @@ const Register = () => {
                       {...register("company")}
                       type="text"
                       name="company"
-                      placeholder="Company Name"
+                      placeholder="Enter Company Name *"
                       required
                     />
                     {errors.company && (
@@ -255,7 +259,7 @@ const Register = () => {
                         {...register("password")}
                         type={visibleProviderPassword ? "text" : "password"}
                         name="password"
-                        placeholder="Password"
+                        placeholder="Enter Password *"
                         onCopy={(e) => e.preventDefault()}
                         onCut={(e) => e.preventDefault()}
                         onPaste={(e) => e.preventDefault()}
@@ -288,7 +292,7 @@ const Register = () => {
                           visibleProviderConfirmPassword ? "text" : "password"
                         }
                         name="confirmPassword"
-                        placeholder="Confirm Password"
+                        placeholder="Enter Confirm Password *"
                         onCopy={(e) => e.preventDefault()}
                         onCut={(e) => e.preventDefault()}
                         onPaste={(e) => e.preventDefault()}

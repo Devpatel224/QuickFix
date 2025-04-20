@@ -2,7 +2,7 @@ import { z } from "zod";
 
 const emailRegex = /^[a-zA-Z]+[a-zA-Z0-9._]*@[a-zA-Z]+\.(com|net|org|in)$/;
 
-const registerSchema = z
+export const registerSchema = z
   .object({
     name: z.string().min(2, "Name must be at least 2 characters long"),
     email: z
@@ -24,4 +24,31 @@ const registerSchema = z
     path: ["confirmPassword"],
   });
 
-export default registerSchema;
+
+export const loginSchema = z.object({
+    email: z.string().min(1, "Email is required").email("Invalid email"),
+    password: z.string().min(2, "Password must be at least two characters"),
+    company: z.string().optional(), 
+  }); 
+
+
+export const serviceSchema = z.object({
+  servicename: z.string().min(2, "Service name is required"),
+  description: z.string().min(5, "Description is required"),
+  visitprice: z
+    .string()
+    .min(1, "Visit price is required")
+    .refine(val => !isNaN(Number(val)), "Visit price must be a number"),
+  category: z.string().min(2, "Category is required"),
+  address: z.string().min(3, "Address is required"),
+  adharnumber: z
+    .string()
+    .length(12, "Aadhar number must be 12 digits")
+    .refine(val => /^\d{12}$/.test(val), "Invalid Aadhar number"),
+  image: z
+    .any()
+    .refine((file) => file instanceof File, "Image is required")
+});
+
+
+

@@ -91,9 +91,9 @@ const statusChange = async(req,res,next)=>{
 
 const getUserRequestes = async(req,res,next)=>{
     try {
-        console.log(req.body)
+        
         let {id} = req.body;
-        console.log("it's coming heree dafj;")
+        
             
         if(!id) return next(customeError(401,"some error occured"));
 
@@ -101,10 +101,10 @@ const getUserRequestes = async(req,res,next)=>{
         .populate("provider","name email phone company")
         .populate("service","servicename description").exec()
     
-
+        
         if(!bookings) return next(customeError(501,"Bookings doesn't Exits"))
          
-            console.log(bookings)
+        console.log(bookings , "bookings from api hahahahaha")
          return res.status(200).json({
             success:true,
             data:bookings

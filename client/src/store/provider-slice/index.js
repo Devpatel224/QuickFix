@@ -68,13 +68,26 @@ export const statusChange = createAsyncThunk(
     }
 );
 
+export const setDates = createAsyncThunk(
+    "dashboard/setDates",
+    async ({id,unavailableDates}, { rejectWithValue }) => {
+        try {
+            
+            const response = await axios.post(`${API_URL}/service-provider/add-service/setDates/${id}`, {unavailableDates});
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.response?.data || "Service creation failed");
+        }
+    }
+);
+
 
 const serviceSlice = createSlice({
     name: "service",
     initialState: {
         isLoading: false,
         providerServices: [],
-        bookings:[]
+        bookings:[],
     },
     reducers: {},
     extraReducers: (builder) => {
@@ -139,7 +152,15 @@ const serviceSlice = createSlice({
                 state.isLoading = false;
             })
 
-
+            .addCase(setDates.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(setDates.fulfilled,(state)=>{
+                state.isLoading = false; 
+            })
+            .addCase(setDates.rejected, (state) => {
+                state.isLoading = false;
+            })
     },
 });
 

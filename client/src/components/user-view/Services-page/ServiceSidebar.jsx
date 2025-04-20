@@ -6,19 +6,27 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAllServices } from "@/store/user-slice";
 
 
-// const services = [
-//   { name: "Plumber" },
-//   { name: "Electrician" },
-//   { name: "Carpenter" },
-//   { name: "Painter" },
-// ];
+
 
 function ServiceSidebar({ isOpen , setIsOpen ,  setSearchParams , searchParams}) {
   const {services} = useSelector((state)=>state.userView)
   const dispatch = useDispatch();
 
+  
+  console.log(services)
+  // let categories = [...new Set(services.map((service) => service.servicename))];
+  let seen = new Set();
+  let categories = [];
 
-  let categories = [...new Set(services.map((service) => service.servicename))];
+for (let service of services) {
+  let name = service.servicename?.trim();
+  if (name && !seen.has(name.toLowerCase())) {
+    seen.add(name.toLowerCase());
+    categories.push(name); 
+  }
+}
+
+  console.log(categories)
   let currCategory = searchParams.get("category");
   if(searchParams){
      categories = ["All services", ...categories]    

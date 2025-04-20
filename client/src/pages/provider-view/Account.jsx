@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent } from "@/components/ui/card";
 import { useSelector } from "react-redux";
-import demoimage from "@/assets/demo.jpg";
+
 import { useDispatch } from "react-redux";
 import { deleteService, getServices } from "@/store/provider-slice";
 import { AiOutlineUserDelete } from "react-icons/ai";
@@ -84,7 +84,7 @@ function Account() {
                 
                   <div className="w-1/2 h-40 overflow-hidden rounded-xl shadow-md">
                     <img
-                      src={service.image || demoimage}
+                      src={service.image}
                       alt="Service"
                       className="w-full h-full object-cover rounded-xl hover:scale-105 transition-all duration-300"                  
                     />
