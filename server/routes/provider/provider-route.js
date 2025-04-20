@@ -10,6 +10,6 @@ router.get('/get-services/:id',getServices)
 router.delete('/delete-service/:id',deleteService)
 router.get('/dashboard', authMiddleWare ,getProviderDashboard)
 router.post('/dashboard/booking/:id',statusChange)
-router.post('/add-service/setDates/:id', setUnavailableDates);
+router.post('/account/setDates/:id', setUnavailableDates);
 
 module.exports = router

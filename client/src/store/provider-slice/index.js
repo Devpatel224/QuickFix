@@ -71,9 +71,8 @@ export const statusChange = createAsyncThunk(
 export const setDates = createAsyncThunk(
     "dashboard/setDates",
     async ({id,unavailableDates}, { rejectWithValue }) => {
-        try {
-            
-            const response = await axios.post(`${API_URL}/service-provider/add-service/setDates/${id}`, {unavailableDates});
+        try {            
+            const response = await axios.post(`${API_URL}/service-provider/account/setDates/${id}`, {unavailableDates});
             return response.data;
         } catch (error) {
             return rejectWithValue(error.response?.data || "Service creation failed");

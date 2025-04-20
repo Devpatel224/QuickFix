@@ -155,7 +155,7 @@ const setUnavailableDates = async(req,res,next)=>{
         const provider = await userModel.findById(id);
         if(!provider){
             return next(customeError(400,"Provider not found"))
-        }
+        }       
 
         provider.unavailableDates = [...provider.unavailableDates,...unavailableDates];
         await provider.save();
