@@ -95,7 +95,7 @@ const AddService = () => {
           <div>
             <input
               type="text"
-              placeholder="Service Name"
+              placeholder="Service Name *"
               {...register("servicename")}
               className="w-full p-2 border rounded"
             />
@@ -106,7 +106,7 @@ const AddService = () => {
 
           <div>
             <textarea
-              placeholder="Description"
+              placeholder="Description *"
               {...register("description")}
               className="w-full p-2 border rounded resize-none"
             />
@@ -118,7 +118,7 @@ const AddService = () => {
           <div>
             <input
               type="number"
-              placeholder="Visit Price"
+              placeholder="Visit Price *"
               {...register("visitprice")}
               className="w-full p-2 border rounded"
             />
@@ -130,7 +130,7 @@ const AddService = () => {
           <div>
             <input
               type="text"
-              placeholder="Category"
+              placeholder="Category *"
               {...register("category")}
               className="w-full p-2 border rounded"
             />
@@ -142,7 +142,7 @@ const AddService = () => {
           <div>
             <input
               type="text"
-              placeholder="Address"
+              placeholder="Address *"
               {...register("address")}
               className="w-full p-2 border rounded"
             />
@@ -153,8 +153,8 @@ const AddService = () => {
 
           <div>
             <input
-              type="text"
-              placeholder="Aadhar Number"
+              type="number"
+              placeholder="Aadhar Number *"
               {...register("adharnumber")}
               maxLength={12}
               onInput={(e) => {
@@ -171,7 +171,7 @@ const AddService = () => {
 
           <div>
             <input
-              type="file"
+              type="file *" 
               ref={imageRef}
               className="w-full p-2 border rounded"
               accept="image/*"
