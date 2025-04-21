@@ -6,6 +6,7 @@ const bookingSchema = new mongoose.Schema(
     provider: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
     date: { type: Date, required: true },
+     
      requestStatus: { 
         type: String, 
         enum: ["pending", "accepted", "declined"], 

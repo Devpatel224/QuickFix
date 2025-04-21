@@ -130,10 +130,10 @@ const getSpecificService = async(req,res,next)=>{
 
         const service = await serviceModel.findById(id).populate({
             path: "provider",
-            select: "_id name email address phone company"
+            select: "_id name email address company unavailableDates"
         });
 
-        return res.status(201).json({
+            return res.status(201).json({
             success: true,
             data : service
         })

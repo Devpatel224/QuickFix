@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router()
-const { getAllServices, getSpecificService } = require("../../controllers/provider/service-controller");
-const { userRequestBooking, getUserRequestes } = require("../../controllers/booking/booking-controller");
+const { getAllServices, getSpecificService, getUnavilableDates } = require("../../controllers/provider/service-controller");
+const { userRequestBooking, getUserRequestes, getUnavilableDatesForUser } = require("../../controllers/booking/booking-controller");
 const { authMiddleWare } = require("../../controllers/auth/auth-controller");
 
 

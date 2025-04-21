@@ -43,7 +43,7 @@ import { getAllServices } from "@/store/user-slice";
 
 
 
-function ServicesPanel({selectedCategory}) {
+function ServicesPanel({selectedCategory}){
     
     const dispatch = useDispatch()
     const {services} = useSelector((state)=>state.userView)

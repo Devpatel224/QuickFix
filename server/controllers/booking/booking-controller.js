@@ -6,11 +6,12 @@ const customeError = require("../../utils/customeError");
 
 const userRequestBooking = async (req,res,next)=>{
     try{
-        let {address,date} = req.body;
+        let {address,date , contact} = req.body;
         let {serviceId} = req.params;
         let userId = req.user.id;
-
-        if (!date) {
+         
+        console.log(address,date,contact)
+        if (!date || !address || !contact){
             return next(customeError(400, "Date is required for booking"));
         }       
         
@@ -23,6 +24,7 @@ const userRequestBooking = async (req,res,next)=>{
       
         const user = await userModel.findById(userId);
         user.address = address;
+        user.contact = contact;
         await user.save();
 
         const newBooking = new bookingModel({
@@ -43,13 +45,12 @@ const userRequestBooking = async (req,res,next)=>{
 }
 
 
-
 const getProviderDashboard = async(req,res,next)=>{
     try {
         let providerId = req.user.id;
 
         const bookings = await bookingModel.find({provider:providerId})
-        .populate("user", "name email address")
+        .populate("user", "name email address contact")
         .populate("service","servicename description").exec()
 
         res.status(200).json({
@@ -98,7 +99,7 @@ const getUserRequestes = async(req,res,next)=>{
         if(!id) return next(customeError(401,"some error occured"));
 
         let bookings = await bookingModel.find({user:id})
-        .populate("provider","name email phone company")
+        .populate("provider","name email contact company")
         .populate("service","servicename description").exec()
     
         
@@ -115,4 +116,6 @@ const getUserRequestes = async(req,res,next)=>{
 }
 
 
-module.exports = {userRequestBooking , getProviderDashboard , statusChange , getUserRequestes}
+
+
+module.exports = {userRequestBooking , getProviderDashboard , statusChange , getUserRequestes }
