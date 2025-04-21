@@ -5,7 +5,7 @@ const UserSchema = new mongoose.Schema({
   email: { type: String, unique: true },
   password: String,
   address:String,
-  phone: String, 
+  contact : Number, 
   role: { type: String, enum: ['user', 'provider' , 'admin'], default: 'customer' }, 
   company : String,
   unavailableDates: [String],

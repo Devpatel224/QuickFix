@@ -13,11 +13,13 @@ import UserHomeAbout from '@/components/user-view/Home-Page/UserHomeAbout';
 import UserStatics from '@/components/user-view/Home-Page/UserStatics';
 import WhyChooseUs from '@/components/user-view/Home-Page/WhyChooseUs';
 import Footer from '@/components/user-view/Home-Page/Footer';
+import { useNavigate } from 'react-router-dom';
 
 
 function Home() {
    const slides = [bannerOne,bannerTwo,bannerThree];
-   const [slideNumber, setSlideNumber] = useState(0)
+   const [slideNumber, setSlideNumber] = useState(0);
+   const navigate = useNavigate();
 
 
    useEffect(() => {
@@ -74,7 +76,7 @@ function Home() {
           <p className="mt-4 text-lg text-white drop-shadow-md">
             Get professional services at your doorstep with verified experts.
           </p>
-          <Button className="mt-6 px-6 py-3 text-lg bg-blue-400 hover:bg-blue-500 text-white font-semibold rounded-md shadow-md">
+          <Button onClick={()=>navigate("services")} className="mt-6 px-6 py-3 text-lg bg-blue-400 hover:bg-blue-500 text-white font-semibold rounded-md shadow-md">
             Get Started
           </Button>
         </div>

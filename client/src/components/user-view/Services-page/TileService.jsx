@@ -17,7 +17,7 @@ const cardVariants = {
     const dispatch = useDispatch()
 
     const handleOpenServiceDetail = (service)=>{
-        console.log(service)
+
         dispatch(getSpecificService(service._id))
         navigate(`/user/serviceDetail/${service._id}`)
     } 

@@ -1,80 +1,64 @@
-import { useState } from "react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
-import { getSpecificService, sentBookRequest } from '@/store/user-slice'
-import  { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { useLoaderData, useLocation, useParams } from 'react-router-dom'
+import { useForm } from "react-hook-form";
+import { serviceRequestSchema } from "@/zodValidation/validation";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+import { getSpecificService, sentBookRequest } from "@/store/user-slice";
 import { useToast } from "@/hooks/use-toast";
 
 
-
-//     servicename: "Electrician",
-//     description: "I am an Electrician",
-//     image: "https://res.cloudinary.com/dhgqymdqa/image/upload/v1742215749/uploads/image-1742215749411.png",
-//     address: "Visnagar, Gujarat",
-//     visitprice: 197,
-//     provider: {
-//       name: "xyz",
-//       email: "xyz@gmail.com",
-//       company: "xyz"
-//     }
-//   };
-
-export default function ServicePage({ service }) {
-    const dispatch = useDispatch()
-    let location = useLocation()
-    let {serviceId} = useParams()
-    let {toast} = useToast()
-
-    
-  
-
-    useEffect(()=>{
-        dispatch(getSpecificService(serviceId))
-    },[dispatch , serviceId])
-
-    let {specificService , isLoading} = useSelector((state)=>state.userView)
-
-   
-
-    const [formData, setFormData] = useState({ address: "", date: "" });
+const today = new Date();
+const maxDate = new Date(today.getFullYear(), today.getMonth() + 1, today.getDate());
 
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+
+export default function ServicePage() {
+  const dispatch = useDispatch();
+  const { serviceId } = useParams();
+  const { toast } = useToast();
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(serviceRequestSchema),
+  });
+
+  useEffect(() => {
+    dispatch(getSpecificService(serviceId));
+  }, [dispatch, serviceId]);
+
+  const { specificService, isLoading } = useSelector((state) => state.userView);
+
+  const submit = (data) => {
+     console.log(data)
+
+    dispatch(sentBookRequest({ serviceId, formData: data })).then((res) => {
+      if (res.payload?.success) {
+        toast({
+          variant: "success",
+          title: "Service Request Sent",
+          description: "Your Service Request was sent to the provider.",
+        });
+        reset();
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Failed to send Service Request",
+          description: res.payload?.message || "Something went wrong.",
+        });
+      }
+    });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    console.log("Booking Request:", formData);
-    console.log(serviceId)
-    dispatch(sentBookRequest({serviceId,formData})).then((data)=>{
-
-        if (data.payload?.success){
-            toast({
-              variant: "success",
-              title : "Service Request Sent",
-              description: "Your Service Request sent to provider.",
-            });
-          } else {
-            toast({
-              variant: "destructive",
-              title : "Failed to sent Service",
-              description: data.payload?.message || "Something went wrong.",
-            });
-          }
-
-          setFormData({address: "", date: ""})
-
-    })
-  };
-
-  if(isLoading || !specificService) {
+  if (isLoading || !specificService) {
     return <div className="text-center text-lg font-semibold mt-10">Loading...</div>;
   }
-
-
 
   return (
     <div className="min-h-screen bg-gray-100 flex justify-center items-center p-6">
@@ -84,7 +68,6 @@ export default function ServicePage({ service }) {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        
         <motion.img
           src={specificService.image}
           alt={specificService.servicename}
@@ -98,52 +81,72 @@ export default function ServicePage({ service }) {
           <h2 className="text-2xl font-bold text-gray-800">{specificService.servicename}</h2>
           <p className="text-gray-600 mt-2">{specificService.description}</p>
 
-        
           <div className="mt-4 p-4 bg-gray-50 rounded-lg">
             <h3 className="text-lg font-semibold">Provider Details:</h3>
-            <p><span className="font-medium">Name:</span> {specificService?.provider?.name}</p> 
-            <p><span className="font-medium">Email:</span> {specificService?.provider?.email}</p>
-            <p><span className="font-medium">Company:</span> {specificService?.provider?.company}</p>
-            <p><span className="font-medium">Location:</span> {specificService.address}</p>
-            <p><span className="font-medium">Visit Price:</span> ₹{specificService.visitprice}</p>
+            <p>
+              <span className="font-medium">Name:</span> {specificService?.provider?.name}
+            </p>
+            <p>
+              <span className="font-medium">Email:</span> {specificService?.provider?.email}
+            </p>
+            <p>
+              <span className="font-medium">Company:</span> {specificService?.provider?.company}
+            </p>
+            <p>
+              <span className="font-medium">Location:</span> {specificService.address}
+            </p>
+            <p>
+              <span className="font-medium">Visit Price:</span> ₹{specificService.visitprice}
+            </p>
           </div>
         </motion.div>
 
-       
         <motion.form
-          onSubmit={handleSubmit}
+          onSubmit={handleSubmit(submit)}
           className="mt-6 p-4 bg-blue-50 rounded-lg"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
         >
           <h3 className="text-lg font-bold text-gray-800">Request Service</h3>
-          
+
           <div className="mt-4">
-            <label className="block text-sm font-medium text-gray-700">Your Address</label>
+            <label className="block text-sm font-medium pl-2 text-gray-700">Your Address *</label>
             <input
               type="text"
-              name="address"
-              value={formData.address}
-              onChange={handleChange}
+              {...register("address")}
               placeholder="Enter your address"
               className="mt-1 block w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300"
-              required
             />
+            {errors.address && <p className="text-red-500 pl-2 text-sm mt-1">{errors.address.message}</p>}
           </div>
 
           <div className="mt-4">
-            <label className="block text-sm font-medium text-gray-700">Select Date</label>
+            <label className="block text-sm font-medium pl-2 text-gray-700">Your Contact Number *</label>
+            <input
+              type="number"
+              {...register("contact")}
+              onInput={(e) => {
+                if (e.target.value.length > 10) {
+                  e.target.value = e.target.value.slice(0, 10);
+                }
+              }}
+              placeholder="Enter your Contact Number"
+              className="mt-1 block w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300"
+            />
+            {errors.contact && <p className="text-red-500 pl-2 text-sm mt-1">{errors.contact.message}</p>}
+          </div>
+
+          <div className="mt-4">
+            <label className="block text-sm font-medium pl-2 text-gray-700">Select Date *</label>
             <input
               type="date"
-              name="date"
-              value={formData.date}
-              onChange={handleChange}
-              min = {new Date().toISOString().split("T")[0]}
-              max = {new Date(new Date().getFullYear(),new Date().getMonth()+1,new Date().getDate()).toISOString().split("T")[0]}
+              {...register("date")}
+              min={today.toISOString().split("T")[0]}
+              max={maxDate.toISOString().split("T")[0]}
               className="mt-1 block w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300"
-              required
             />
+            {errors.date && <p className="text-red-500 pl-2 text-sm mt-1">{errors.date.message}</p>}
           </div>
 
           <button

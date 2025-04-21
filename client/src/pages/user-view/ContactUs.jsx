@@ -22,11 +22,11 @@ const ContactUs = () => {
           </p>
           <form className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <input type="text" placeholder="Your Name" className="w-full p-3 border rounded-md" />
-              <input type="email" placeholder="Your Email" className="w-full p-3 border rounded-md" />
+              <input type="text" placeholder="Your Name" className="w-full p-3 border rounded-md bg-white" />
+              <input type="email" placeholder="Your Email" className="w-full p-3 border rounded-md bg-white" />
             </div>
-            <input type="text" placeholder="Subject" className="w-full p-3 border rounded-md" />
-            <textarea placeholder="Your Message" className="w-full p-3 border rounded-md h-28"></textarea>
+            <input type="text" placeholder="Subject" className="w-full p-3 border rounded-md bg-white" />
+            <textarea placeholder="Your Message" className="w-full p-3 border rounded-md h-28 bg-white resize-none" ></textarea>
             <Button className="bg-primary text-white py-3 px-6 rounded-md">Send Message</Button>
           </form>
         </motion.div>

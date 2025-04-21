@@ -50,5 +50,15 @@ export const serviceSchema = z.object({
     .refine((file) => file instanceof File, "Image is required")
 });
 
+export const serviceRequestSchema = z.object({
+  address: z.string().min(3, "Address is required"),
+  contact: z
+    .string()
+    .length(10, "Contact number must be exactly 10 digits")
+    .regex(/^\d{10}$/, "Contact must contain only digits"),
+  date: z
+    .string()
+});
+
 
 
