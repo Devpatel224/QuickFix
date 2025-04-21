@@ -7,7 +7,7 @@ import { setDates } from '@/store/provider-slice';
 import { useToast } from '@/hooks/use-toast';
 
 
-function ProviderDate({unavailableDates}) {
+function ProviderDate({unavailableDates}){
     const [selectionRange, setSelectionRange] = useState({
         startDate: new Date(),
         endDate: new Date(),
@@ -60,7 +60,7 @@ function ProviderDate({unavailableDates}) {
         const allUnavailableDates = generateAllDates(selectionRange.startDate, selectionRange.endDate);
         
         const unavailableDates = allUnavailableDates.map((date) => date.toISOString());
-        console.log(unavailableDates,"unavailableDates")
+        
 
         dispatch(setDates({id:user.id,unavailableDates})).then((data)=>{
             
