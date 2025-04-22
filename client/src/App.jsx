@@ -23,6 +23,7 @@ import ProviderDashboard from "./pages/provider-view/PorviderDashboard";
 import UserAccount from "./pages/user-view/UserAccount";
 import AdminProvider from "./pages/admin-view/AdminProvider";
 import ScrollToTop from "./ScrollToTop";
+import NotFound from "./NotFound";
 
 function App(){
   let { user, isAuthenticated, isLoading } = useSelector((state) => state.auth);
@@ -32,7 +33,8 @@ function App(){
     dispatch(checkAuth());
   }, [dispatch]);
 
- 
+  console.log(isAuthenticated , 'from app jsx')
+  
   if(isLoading) return <div>Loading....</div>;
 
   return (
@@ -93,6 +95,8 @@ function App(){
             <Route path="/service-provider/account/:id" element={<Account/>} />
             <Route path="dashboard" element={<ProviderDashboard/>}/>
           </Route>
+          
+          <Route path="*"    element={<CheckAuth user={user} isAuthenticated={isAuthenticated}><NotFound/></CheckAuth>}></Route>
         </Routes>
       </Router>
     </div>

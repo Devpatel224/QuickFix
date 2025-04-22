@@ -4,8 +4,9 @@ import { Navigate , useLocation } from 'react-router-dom'
 function CheckAuth({isAuthenticated,user,children}) {
   const location = useLocation()
 
+  console.log(isAuthenticated , 'klsdfjsalfjlas')
   if (!isAuthenticated && location.pathname === "/") {
-   return <Navigate to="/auth/login" />;
+   return <Navigate to="/auth/register" />;
  }
  
   if(!isAuthenticated && !( location.pathname.includes('/auth/login') || location.pathname.includes('/auth/register'))){
@@ -39,8 +40,7 @@ function CheckAuth({isAuthenticated,user,children}) {
     if(isAuthenticated && user?.role == 'user' && (location.pathname.includes("/admin") || location.pathname.includes("/service-provider"))){
       return <Navigate to='/user'></Navigate>
     }    
-
-
+   
   return (
      <>
     {children}

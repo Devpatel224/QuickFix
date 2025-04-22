@@ -8,9 +8,9 @@ const router  = express.Router()
 router.post('/create-service',upload.single("image"),createService)
 router.get('/get-services/:id',getServices)
 router.delete('/delete-service/:id',deleteService)
-router.get('/dashboard', authMiddleWare ,getProviderDashboard)
-router.post('/dashboard/booking/:id',statusChange)
+router.get('/dashboard', authMiddleWare ,getProviderDashboard)   
+router.post('/dashboard/booking/:id',statusChange)   
 router.post('/account/setDates/:id', setUnavailableDates);
-router.get("/account/:id",getUnavilableDates)
+router.get("/account/:id",getUnavilableDates)        
 
 module.exports = router

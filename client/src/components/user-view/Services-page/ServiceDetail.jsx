@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import {  useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { serviceRequestSchema } from "@/zodValidation/validation";
@@ -12,28 +12,12 @@ import ReactDatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { parseISO } from "date-fns";
 import { useState } from "react";
-import React, { forwardRef } from "react";
+
 
 const today = new Date();
-const maxDate = new Date(
-  today.getFullYear(),
-  today.getMonth() + 1,
-  today.getDate()
-);
+const maxDate = new Date(today.getFullYear(), today.getMonth() + 1, today.getDate());
 
 
-
-const CustomDateInput = forwardRef(({ value, onClick, placeholder }, ref) => (
-  <input
-    type="text"
-    onClick={onClick}
-    ref={ref}
-    value={value}
-    placeholder={placeholder}
-    readOnly
-    className="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300 outline-none cursor-pointer bg-white"
-  />
-));
 
 export default function ServicePage() {
   const dispatch = useDispatch();
@@ -51,19 +35,26 @@ export default function ServicePage() {
 
   const [selectedDate, setSelectedDate] = useState(null);
 
+
+  
+  
   useEffect(() => {
     dispatch(getSpecificService(serviceId));
   }, [dispatch, serviceId]);
-
+  
+  
   const { specificService, isLoading } = useSelector((state) => state.userView);
+  
+  console.log(specificService.provider?.unavailableDates)
 
-  console.log(specificService.provider?.unavailableDates);
-  const unavailableDates = (
-    specificService.provider?.unavailableDates || []
-  ).map((date) => parseISO(date));
+  const unavailableDates = (specificService.provider?.unavailableDates || []).map(date =>
+    parseISO(date)
+  );
+
+
 
   const submit = (data) => {
-    console.log(data);
+     console.log(data)
 
     dispatch(sentBookRequest({ serviceId, formData: data })).then((res) => {
       if (res.payload?.success) {
@@ -84,9 +75,7 @@ export default function ServicePage() {
   };
 
   if (isLoading || !specificService) {
-    return (
-      <div className="text-center text-lg font-semibold mt-10">Loading...</div>
-    );
+    return <div className="text-center text-lg font-semibold mt-10">Loading...</div>;
   }
 
   return (
@@ -106,128 +95,94 @@ export default function ServicePage() {
           transition={{ duration: 0.5 }}
         />
 
-        <motion.div
-          className="mt-4"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.3 }}
-        >
-          <h2 className="text-2xl font-bold text-gray-800">
-            {specificService.servicename}
-          </h2>
+        <motion.div className="mt-4" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }}>
+          <h2 className="text-2xl font-bold text-gray-800">{specificService.servicename}</h2>
           <p className="text-gray-600 mt-2">{specificService.description}</p>
 
           <div className="mt-4 p-4 bg-gray-50 rounded-lg">
             <h3 className="text-lg font-semibold">Provider Details:</h3>
             <p>
-              <span className="font-medium">Name:</span>{" "}
-              {specificService?.provider?.name}
+              <span className="font-medium">Name:</span> {specificService?.provider?.name}
             </p>
             <p>
-              <span className="font-medium">Email:</span>{" "}
-              {specificService?.provider?.email}
+              <span className="font-medium">Email:</span> {specificService?.provider?.email}
             </p>
             <p>
-              <span className="font-medium">Company:</span>{" "}
-              {specificService?.provider?.company}
+              <span className="font-medium">Company:</span> {specificService?.provider?.company}
             </p>
             <p>
-              <span className="font-medium">Location:</span>{" "}
-              {specificService.address}
+              <span className="font-medium">Location:</span> {specificService.address}
             </p>
             <p>
-              <span className="font-medium">Visit Price:</span> ₹
-              {specificService.visitprice}
+              <span className="font-medium">Visit Price:</span> ₹{specificService.visitprice}
             </p>
           </div>
         </motion.div>
 
         <motion.form
-  onSubmit={handleSubmit(submit)}
-  className="mt-6 p-4 bg-blue-50 rounded-lg"
-  initial={{ opacity: 0 }}
-  animate={{ opacity: 1 }}
-  transition={{ delay: 0.5 }}
->
-  <h3 className="text-lg font-bold text-gray-800">Request Service</h3>
+          onSubmit={handleSubmit(submit)}
+          className="mt-6 p-4 bg-blue-50 rounded-lg"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5 }}
+        >
+          <h3 className="text-lg font-bold text-gray-800">Request Service</h3>
+
+          <div className="mt-4">
+            <label className="block text-sm font-medium pl-2 text-gray-700">Your Address *</label>
+            <input
+              type="text"
+              {...register("address")}
+              placeholder="Enter your address"
+              className="mt-1 block w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300"
+            />
+            {errors.address && <p className="text-red-500 pl-2 text-sm mt-1">{errors.address.message}</p>}
+          </div>
+
+          <div className="mt-4">
+            <label className="block text-sm font-medium pl-2 text-gray-700">Your Contact Number *</label>
+            <input
+              type="number"
+              {...register("contact")}
+              onInput={(e) => {
+                if (e.target.value.length > 10) {
+                  e.target.value = e.target.value.slice(0, 10);
+                }
+              }}
+              placeholder="Enter your Contact Number"
+              className="mt-1 block w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300"
+            />
+            {errors.contact && <p className="text-red-500 pl-2 text-sm mt-1">{errors.contact.message}</p>}
+          </div>
+
+          <div className="mt-4">
+  <label className="block text-sm font-medium pl-2 text-gray-700">Select Date *</label>
+  <ReactDatePicker
+    selected={selectedDate}
+    onChange={(date) => {
+      setSelectedDate(date);
+      
+      setValue("date", date?.toISOString().split("T")[0]);
+    }}
+    excludeDates={unavailableDates}
+    minDate={today}
+    maxDate={maxDate}
+    placeholderText="Select a date"
+    className="mt-1 block w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300"
+    dateFormat="yyyy-MM-dd"
+  />
+  {errors.date && <p className="text-red-500 pl-2 text-sm mt-1">{errors.date.message}</p>}
+</div>
 
 
-  <div className="mt-4">
-    <label className="block text-sm font-medium pl-2 text-gray-700">
-      Your Address *
-    </label>
-    <input
-      type="text"
-      {...register("address")}
-      placeholder="Enter your address"
-      className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 hover:border-blue-400 hover:shadow-md transition"
-    />
-    {errors.address && (
-      <p className="text-red-500 pl-2 text-sm mt-1">
-        {errors.address.message}
-      </p>
-    )}
-  </div>
 
-
-  <div className="mt-4">
-    <label className="block text-sm font-medium pl-2 text-gray-700">
-      Your Contact Number *
-    </label>
-    <input
-      type="number"
-      {...register("contact")}
-      onInput={(e) => {
-        if (e.target.value.length > 10) {
-          e.target.value = e.target.value.slice(0, 10);
-        }
-      }}
-      placeholder="Enter your Contact Number"
-      className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 hover:border-blue-400 hover:shadow-md transition"
-    />
-    {errors.contact && (
-      <p className="text-red-500 pl-2 text-sm mt-1">
-        {errors.contact.message}
-      </p>
-    )}
-  </div>
-
-
-  <div className="mt-4">
-    <label className="block text-sm font-medium pl-2 text-gray-700">
-      Select Date *
-    </label>
-    <div className="mt-1">
-      <ReactDatePicker
-        selected={selectedDate}
-        onChange={(date) => {
-          setSelectedDate(date);
-          setValue("date", date?.toISOString().split("T")[0]);
-        }}
-        excludeDates={unavailableDates}
-        minDate={today}
-        maxDate={maxDate}
-        placeholderText="Select a date"
-        dateFormat="yyyy-MM-dd"
-        className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 hover:border-blue-400 hover:shadow-md transition"
-      />
-    </div>
-    {errors.date && (
-      <p className="text-red-500 pl-2 text-sm mt-1">
-        {errors.date.message}
-      </p>
-    )}
-  </div>
-
-
-  <button
-    type="submit"
-    className="mt-4 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition"
-  >
-    Submit Request
-  </button>
-</motion.form>
-
+          <button
+            type="submit"
+            className="mt-4 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition"
+          >
+            Submit Request
+          </button>
+        </motion.form>
       </motion.div>
     </div>
   );
