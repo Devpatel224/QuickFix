@@ -7,7 +7,7 @@ import { setDates } from '@/store/provider-slice';
 import { useToast } from '@/hooks/use-toast';
 
 
-function ProviderDate({unavailableDates}){
+function ProviderDate({unavailableDates , setShowDatePicker}){
     const [selectionRange, setSelectionRange] = useState({
         startDate: new Date(),
         endDate: new Date(),
@@ -65,6 +65,7 @@ function ProviderDate({unavailableDates}){
         dispatch(setDates({id:user.id,unavailableDates})).then((data)=>{
             
             if(data.payload.success){
+              setShowDatePicker(false)
                 toast({
                   title:"Success",
                   description:"Dates marked as unavailable",
