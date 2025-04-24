@@ -96,7 +96,7 @@ function Account() {
               >
                 ×
               </button>
-              <ProviderDate  unavailableDates={unavailableDates}/>
+              <ProviderDate  unavailableDates={unavailableDates} setShowDatePicker={setShowDatePicker}/>
             </motion.div>
           </motion.div>
         )}

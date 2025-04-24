@@ -1,13 +1,9 @@
-import { useEffect , useState } from "react";
+import { useEffect  } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getBookings, statusChange } from "@/store/provider-slice";
+import { getBookings } from "@/store/provider-slice";
 import { motion } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useToast } from "@/hooks/use-toast";
 import ProviderHistoryOfRequests from "@/components/provider-view/ProviderHistoryOfRequests";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
 import ProviderBookingCard from "@/components/provider-view/ProviderBookingCard";
 
 
@@ -15,8 +11,6 @@ import ProviderBookingCard from "@/components/provider-view/ProviderBookingCard"
 
 const ProviderDashboard = () => {
   const dispatch = useDispatch();
-  const { toast } = useToast(); 
-
   
   useEffect(() => {
     dispatch(getBookings());

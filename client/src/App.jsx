@@ -12,9 +12,9 @@ import CheckAuth from "./components/common/CheckAuth";
 import AdminLayout from "./components/admin-view/AdminLayout";
 import { useDispatch, useSelector } from "react-redux";
 import { checkAuth } from "./store/auth-slice";
-import Home from "./pages/user-view/Home"
+import Home from "./pages/user-view/Home";
 import ContactUs from "./pages/user-view/ContactUs";
-import About from "@/pages/user-view/About"
+import About from "@/pages/user-view/About";
 import AddService from "./pages/provider-view/AddService";
 import Account from "./pages/provider-view/Account";
 import Services from "./pages/user-view/Services";
@@ -32,7 +32,7 @@ function App(){
   useEffect(() => {
     dispatch(checkAuth());
   }, [dispatch]);
-  
+
   
   if(isLoading) return <div>Loading....</div>;
 
