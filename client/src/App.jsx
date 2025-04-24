@@ -32,8 +32,7 @@ function App(){
   useEffect(() => {
     dispatch(checkAuth());
   }, [dispatch]);
-
-  console.log(isAuthenticated , 'from app jsx')
+  
   
   if(isLoading) return <div>Loading....</div>;
 

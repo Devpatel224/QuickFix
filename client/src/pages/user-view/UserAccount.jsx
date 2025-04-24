@@ -19,12 +19,14 @@ function UserAccount() {
   }, [dispatch, user]);
 
   
-  console.log(requests.filter((req)=> req.requestStatus !== "declined"  )  ,'declined filters')
+  
 
   let filterredRequests = requests?.filter((req)=>  req.requestStatus !== "declined" && (req.requestStatus === "pending"  || req.workStatus === "pending" || req.workStatus === "in progress") )
   let completedRequests =  requests?.filter((req)=> req.workStatus==="completed" || req.requestStatus === "declined")
+  completedRequests.sort((a,b) =>  new Date(b.date) - new Date(a.date))
+  filterredRequests.sort((a,b) =>  new Date(b.date) - new Date(a.date))
 
-  const getStatusBadge = (status) => {
+  const getStatusBadge = (status) => {  
     switch (status) {
       case "pending":
         return <Badge className="bg-yellow-500 text-white">Pending</Badge>;

@@ -57,10 +57,9 @@ export const getBookings = createAsyncThunk(
 
 export const statusChange = createAsyncThunk(
     "dashboard/booking",
-    async ({bookingId,statusType , statusValue}, { rejectWithValue }) => {
+    async ({bookingId,statusType , statusValue , providerNote}, { rejectWithValue }) => {
         try {
-            console.log(bookingId)
-            const response = await axios.post(`${API_URL}/service-provider/dashboard/booking/${bookingId}`, {[statusType]:statusValue,});
+            const response = await axios.post(`${API_URL}/service-provider/dashboard/booking/${bookingId}`, {[statusType]:statusValue,providerNote});
             return response.data;
         } catch (error) {
             return rejectWithValue(error.response?.data || "Service creation failed");

@@ -1,14 +1,39 @@
-import { useEffect } from "react";
+import { useEffect , useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getBookings, statusChange } from "@/store/provider-slice";
 import { motion } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import ProviderHistoryOfRequests from "@/components/provider-view/ProviderHistoryOfRequests";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+
+const noteSchema = z.object({
+  providerNote: z
+    .string()
+    .min(5, "Note must be at least 5 characters")
+    .max(200, "Note must be under 200 characters"),
+});
+
 
 const ProviderDashboard = () => {
   const dispatch = useDispatch();
   const { toast } = useToast();
+  
+
+  const {
+    register,    
+    formState: { errors,  },
+    reset,
+    watch,
+  } = useForm({
+    resolver: zodResolver(noteSchema),
+  });
+
+
+   let note = watch("providerNote");
 
   useEffect(() => {
     dispatch(getBookings());
@@ -23,8 +48,12 @@ const ProviderDashboard = () => {
 
    let completedAndDeclinedBookings = bookings.filter((booking)=> booking.requestStatus === "declined" || booking.workStatus === "completed")
 
+   
   const handleStatusChange = async (bookingId, statusType, statusValue) => {
-    dispatch(statusChange({ bookingId, statusType, statusValue })).then((data) => {
+
+    // console.log(bookingId,statusType,statusValue , note)
+
+    dispatch(statusChange({ bookingId, statusType, statusValue , providerNote : note})).then((data) => {
       if (data.payload.success) {
         toast({
           variant: "success",
@@ -39,6 +68,7 @@ const ProviderDashboard = () => {
         });
       }
     });
+    reset();
   };
 
   if (isLoading || !bookings) {
@@ -59,6 +89,7 @@ const ProviderDashboard = () => {
           </CardTitle>
         </CardHeader>
         <CardContent>
+
           {notCompletedBookings.length === 0 ? (
             <p className="text-center text-gray-500">No bookings available</p>
           ) : (
@@ -80,7 +111,7 @@ const ProviderDashboard = () => {
                     )}
                   </p>
                   <p className="text-sm text-gray-600 mt-1">
-                    Service: <span className="font-medium">{booking?.service?.servicename}</span>
+                    Service: <span className="font-medium">{booking?.service?.servicename ? booking?.service?.servicename : "N/A"}</span>
                   </p>
                   <p className="text-sm text-gray-600 mt-1">
                     Date: {new Date(booking?.date).toLocaleDateString()}
@@ -105,6 +136,40 @@ const ProviderDashboard = () => {
                     </p>
                   </div>
 
+                  {booking?.requestStatus === "pending" && <> 
+      <form className="space-y-4 mt-3">
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.2 }}
+        >
+          <label className="block text-gray-700 font-medium mb-1" htmlFor="providerNote">
+            Note *
+          </label>
+          <textarea
+            id="providerNote"
+            {...register("providerNote")}
+            rows="4"
+            className={`w-full p-3 border ${
+              errors.providerNote ? "border-red-500" : "border-gray-300"
+            } rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition  resize-none`}
+            placeholder="Give Message to the user and If you want to Declined the request, please mention the reason here"
+          />
+          {errors.providerNote && (
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+               className="text-red-500 text-sm mt-1"
+            >
+              {errors.providerNote.message}
+            </motion.p>
+          )}
+        </motion.div>
+      </form>
+      </>}
+   
+
+
                   <div className="flex flex-wrap gap-2 mt-4">
                     {booking?.requestStatus === "pending" && (
                       <>                      
@@ -112,7 +177,7 @@ const ProviderDashboard = () => {
                           whileHover={{scale:0.95}}
                           variant="success"
                           className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md cursor-pointer"
-                          onClick={() => handleStatusChange(booking?._id, "requestStatus", "accepted")}
+                          onClick={() => handleStatusChange(booking?._id, "requestStatus", "accepted")}                          
                         >
                           Accept
                         </motion.button>
@@ -127,6 +192,9 @@ const ProviderDashboard = () => {
                         </motion.button>
                       </>
                     )}
+
+                  
+                    
 
                     {booking?.requestStatus === "accepted" &&
                       booking?.workStatus === "pending" && (
@@ -155,6 +223,8 @@ const ProviderDashboard = () => {
                       </motion.button>
                     )}
                   </div>
+
+
                 </motion.div>
               ))}
             </div>

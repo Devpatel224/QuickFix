@@ -6,11 +6,11 @@ const customeError = require("../../utils/customeError");
 
 const userRequestBooking = async (req,res,next)=>{
     try{
-        let {address,date , contact} = req.body;
+        let {address,date, contact} = req.body;
         let {serviceId} = req.params;
         let userId = req.user.id;
          
-        console.log(address,date,contact)
+        
         if (!date || !address || !contact){
             return next(customeError(400, "Date is required for booking"));
         }       
@@ -66,13 +66,13 @@ const getProviderDashboard = async(req,res,next)=>{
 
 const statusChange = async(req,res,next)=>{
     try{
-        console.log(req.params)
         let{ id }= req.params;
-        let {requestStatus,workStatus} = req.body;
+        let {requestStatus,workStatus,providerNote} = req.body;
 
-        const updateFields = {};
+    const updateFields = {};
     if (requestStatus) updateFields.requestStatus = requestStatus;
     if (workStatus) updateFields.workStatus = workStatus;
+    if (providerNote) updateFields.providerNote = providerNote;
 
     const booking = await bookingModel.findByIdAndUpdate(id,updateFields,{new:true})
     .populate("user", "name email address")

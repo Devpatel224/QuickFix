@@ -7,6 +7,9 @@ import { useToast } from "@/hooks/use-toast";
 
 
 function ProviderHistoryOfRequests({completedAndDeclinedBookings}) {
+
+  
+
   return (
     <motion.div
       className="p-4 space-y-6 w-full"
@@ -42,7 +45,7 @@ function ProviderHistoryOfRequests({completedAndDeclinedBookings}) {
                     )}
                   </p>
                   <p className="text-sm text-gray-600 mt-1">
-                    Service: <span className="font-medium">{booking?.service?.servicename}</span>
+                    Service: <span className="font-medium">{booking?.service?.servicename ? booking?.service?.servicename : "N/A"}</span>
                   </p>
                   <p className="text-sm text-gray-600 mt-1">
                     Date: {new Date(booking?.date).toLocaleDateString()}
