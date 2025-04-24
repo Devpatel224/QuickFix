@@ -7,6 +7,77 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAllRequests } from "@/store/user-slice";
 import { Separator } from "@/components/ui/separator";
 
+
+
+
+
+
+
+
+
+const getRequestMessage = (req) => {
+  const { requestStatus, workStatus, provider, providerNote } = req;
+
+  if (requestStatus === "pending") {
+    return (
+      <p className="text-yellow-600 font-medium mt-2">
+        Your request is <span className="underline">pending</span>. The provider hasn't responded yet.
+      </p>
+    );
+  }
+
+  if (requestStatus === "declined") {
+    return (
+      <div className="text-red-600 font-medium mt-2">
+        <p>Your request was <span className="underline">declined</span> by {provider?.name}.</p>
+        {providerNote && (
+          <div className="mt-2 bg-red-100 p-3 rounded-md border-l-4 border-red-500">
+            <p className="text-gray-800">
+              <span className="font-bold text-red-600">Reason:</span> {providerNote}
+            </p>
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  if (requestStatus === "accepted") {
+    let message;
+
+    if (workStatus === "pending") {
+      message = "Your request has been accepted. The provider will deliver the service on the requested date.";
+    } else if (workStatus === "in progress") {
+      message = "The provider is currently working on your request.";
+    } else if (workStatus === "completed") {
+      message = "The service has been completed successfully.";
+    }
+
+    return (
+      <div className="text-green-700 mt-2">
+        <p className="font-semibold">{message}</p>
+        {providerNote && (
+          <div className="mt-2 bg-green-100 p-3 rounded-md border-l-4 border-green-500">
+            <p className="text-gray-800">
+              <span className="font-bold text-green-600">Provider's Note:</span> {providerNote}
+            </p>
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  return null;
+};
+
+
+
+
+
+
+
+
+
+
 function UserAccount() {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
@@ -25,6 +96,8 @@ function UserAccount() {
   let completedRequests =  requests?.filter((req)=> req.workStatus==="completed" || req.requestStatus === "declined")
   completedRequests.sort((a,b) =>  new Date(b.date) - new Date(a.date))
   filterredRequests.sort((a,b) =>  new Date(b.date) - new Date(a.date))
+
+  console.log(filterredRequests)
 
   const getStatusBadge = (status) => {  
     switch (status) {
@@ -105,6 +178,8 @@ function UserAccount() {
                     <span className="text-blue-600">RequestStatus</span>: {getStatusBadge(req.requestStatus)}
                     <span className="text-blue-600">WorkStatus</span>: {getWorkStatusBadge(req.workStatus)}
                   </div>
+
+                  {getRequestMessage(req)}
                 </CardContent>
               </Card>
             ))}
@@ -142,7 +217,9 @@ function UserAccount() {
                     <span className="text-blue-600">RequestStatus</span>: {getStatusBadge(req.requestStatus)}
 
                     { req.requestStatus !== "declined" ? (  <><span className="text-blue-600">WorkStatus</span>{getWorkStatusBadge(req.workStatus)} </> ) : null }
+                  
                   </div>
+                  {getRequestMessage(req)}  
                 </CardContent>
               </Card>
             ))}

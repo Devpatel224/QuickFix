@@ -51,7 +51,7 @@ const ProviderDashboard = () => {
    
   const handleStatusChange = async (bookingId, statusType, statusValue) => {
 
-    // console.log(bookingId,statusType,statusValue , note)
+    
 
     dispatch(statusChange({ bookingId, statusType, statusValue , providerNote : note})).then((data) => {
       if (data.payload.success) {
