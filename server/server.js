@@ -8,6 +8,7 @@ const cookieParser = require("cookie-parser")
 const authRouter = require("./routes/auth/auth-route")
 const serviceRouter = require("./routes/provider/provider-route")
 const userRouter = require("./routes/user/user-route")
+const adminRouter = require("./routes/admin/admin-route")
 
 dotenv.config();
 
@@ -57,7 +58,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/auth",authRouter)
 app.use("/service-provider",serviceRouter)
 app.use("/user",userRouter)
-
+app.use("/admin",adminRouter)
 
 app.use((err,req,res,next)=>{
    let statuscode = 500 || err.statuscode;

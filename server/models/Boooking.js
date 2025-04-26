@@ -9,13 +9,13 @@ const bookingSchema = new mongoose.Schema(
     providerNote: { type: String },
      requestStatus: { 
         type: String, 
-        enum: ["pending", "accepted", "declined"], 
+        enum: ["pending", "accepted", "declined"],    
         default: "pending" 
       },
       workStatus: { 
         type: String, 
         enum: ["pending", "in progress", "completed"], 
-        default: "pending" 
+        default: "pending"   
       },
   },
   { timestamps: true }

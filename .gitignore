@@ -1,2 +1,6 @@
-/client/.env
+# Ignore .env files
+client/.env
+server/.env
+
+# Ignore plans.md in root directory
 /plans.md
