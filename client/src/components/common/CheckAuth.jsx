@@ -30,7 +30,7 @@ function CheckAuth({isAuthenticated,user,children}) {
     
 
    if(isAuthenticated &&  user?.role == "admin" && (location.pathname.includes('/user') || location.pathname.includes('/service-provider'))){
-      return <Navigate to='/admin'></Navigate>
+      return <Navigate to='/admin/dashboard'></Navigate>
     }
 
    if(isAuthenticated && user?.role == "provider" && (location.pathname.includes('/admin') || location.pathname.includes('/user'))){

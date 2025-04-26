@@ -4,3 +4,4 @@ server/.env
 
 # Ignore plans.md in root directory
 /plans.md
+plans.md

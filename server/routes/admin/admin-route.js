@@ -5,3 +5,4 @@ const router = express.Router();
 
 router.get("/dashboard-stats",getDashboardData)
 
+module.exports = router

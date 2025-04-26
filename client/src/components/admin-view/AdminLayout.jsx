@@ -8,9 +8,9 @@ function AdminLayout() {
    let location = useLocation();
    let navigate = useNavigate();
 
-   console.log(location.pathname)
 
-   if(location.pathname === "/admin"){
+
+   if(location.pathname === "/admin" || location.pathname === "/dashboard"){
       navigate("/admin/dashboard");
    }
    
