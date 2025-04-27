@@ -2,6 +2,7 @@ const bookingModel = require("../../models/Boooking")
 const serviceModel = require("../../models/Service");
 const userModel = require("../../models/User");
 const moment = require("moment");
+const customeError = require("../../utils/customeError");
 
 
 const getDashboardData = async (req, res) => {
@@ -66,6 +67,28 @@ const getAllProvider = async(req,res)=>{
   }
 }  
 
+const deleteProvider = async(req,res)=>{
+  try{
+     let {id }= req.params
+
+    
+      let provider = await userModel.findById(id)
+      if(!provider || provider.role !== 'provider'){
+        customeError(501,'Provider Not Found')
+      }
+    
+
+      await serviceModel.deleteMany({provider:provider._id})
+
+      await userModel.findByIdAndDelete(id)
 
 
-module.exports = {getDashboardData , getAllProvider}  
+      res.status(201).json({"message" : "Provider Deleted Successfully",success:true})
+  }catch(error){
+    res.status(501).json("Failed to Delete Provider")
+  }
+}
+
+
+
+module.exports = {getDashboardData , getAllProvider ,deleteProvider}  

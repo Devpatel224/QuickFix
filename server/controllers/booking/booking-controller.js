@@ -93,9 +93,7 @@ const statusChange = async(req,res,next)=>{
 const getUserRequestes = async(req,res,next)=>{
     try {
         
-        let {id} = req.body;
-        
-            
+        let {id} = req.body;       
         if(!id) return next(customeError(401,"some error occured"));
 
         let bookings = await bookingModel.find({user:id})

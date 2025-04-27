@@ -35,6 +35,21 @@ export const getProviders = createAsyncThunk("/providers",
     }
 )
 
+export const deleteProvider = createAsyncThunk("/provider/:id", 
+    async({id},{rejectWithValue})=>{
+        try{
+             console.log(id,"from async thunk")
+              const res = await axios.delete(`${API_URL}/admin/provider/${id}`);
+
+              return res.data;
+        }catch(error){
+            return rejectWithValue(
+                error.response?.data?.message || "Some Error Occurs"
+              );
+        }
+    }
+)
+
 const adminSlice = createSlice({
     name:"admin",
     initialState,
@@ -62,6 +77,16 @@ const adminSlice = createSlice({
             state.providers = action.payload
          })
          .addCase(getProviders.rejected,(state)=>{
+            state.isLoading = false;
+         })
+
+         .addCase(deleteProvider.pending,(state)=>{
+            state.isLoading = true;
+         })
+         .addCase(deleteProvider.fulfilled,(state)=>{
+            state.isLoading = false;
+         })
+         .addCase(deleteProvider.rejected,(state)=>{
             state.isLoading = false;
          })
 
