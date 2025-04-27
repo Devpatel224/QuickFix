@@ -6,9 +6,7 @@ const customeError = require("../../utils/customeError");
 const createService = async(req,res,next)=>{
     try{  
         
-        console.log("Body Data:", req.body);
-        console.log("File Data:", req.file);
-
+        
         let {servicename,description,visitprice,address,category,id,adharnumber} = req.body;
 
        

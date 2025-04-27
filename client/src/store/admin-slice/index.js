@@ -4,14 +4,28 @@ import API_URL from "../../../config";
 
 const initialState = {
     isLoading : false,
-    dashboardStates : null
+    dashboardStates : null,
+    providers : null,
 }
 
 export const getDashboardStats = createAsyncThunk("/dashboard-stats", 
     async(_,{rejectWithValue})=>{
         try{
               const res = await axios.get(`${API_URL}/admin/dashboard-stats`);
-                console.log(res,"from asyncthunk");
+                
+              return res.data;
+        }catch(error){
+            return rejectWithValue(
+                error.response?.data?.message || "Some Error Occurs"
+              );
+        }
+    }
+)
+export const getProviders = createAsyncThunk("/providers", 
+    async(_,{rejectWithValue})=>{
+        try{
+              const res = await axios.get(`${API_URL}/admin/providers`);
+               
               return res.data;
         }catch(error){
             return rejectWithValue(
@@ -32,10 +46,22 @@ const adminSlice = createSlice({
          })
          .addCase(getDashboardStats.fulfilled,(state,action)=>{
             state.isLoading = false;
-            console.log(action.payload , "from extrareducer")
+            
             state.dashboardStates = action.payload
          })
          .addCase(getDashboardStats.rejected,(state)=>{
+            state.isLoading = false;
+         })
+
+         .addCase(getProviders.pending,(state)=>{
+            state.isLoading = true;
+         })
+         .addCase(getProviders.fulfilled,(state,action)=>{
+            state.isLoading = false;
+           
+            state.providers = action.payload
+         })
+         .addCase(getProviders.rejected,(state)=>{
             state.isLoading = false;
          })
 

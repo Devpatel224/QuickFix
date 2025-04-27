@@ -1,18 +1,19 @@
 import { Outlet, useLocation, useNavigate } from "react-router-dom"
 import AdminHeader from "./AdminHeader"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import AdminSidebar from "./AdminSidebar"
 
 function AdminLayout() {
    const [isOpenSidebar, setIsOpenSidebar] = useState(false)
    let location = useLocation();
    let navigate = useNavigate();
+   
+   useEffect(()=>{
 
-
-
-   if(location.pathname === "/admin" || location.pathname === "/dashboard"){
-      navigate("/admin/dashboard");
-   }
+     if(location.pathname === "/admin" || location.pathname === "/dashboard"){
+        navigate("/admin/dashboard");
+     }
+   },[location.pathname, navigate])
    
   return (
     <div className="w-full min-h-screen flex">

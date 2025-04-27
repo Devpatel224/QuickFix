@@ -57,5 +57,15 @@ const getDashboardData = async (req, res) => {
     }
   }
 
+const getAllProvider = async(req,res)=>{
+  try{  
+      const providers = await userModel.find({role:"provider"}).populate("services");
+      res.status(201).json(providers)
+  }catch(error){
+    res.status(500).json({ message: "Failed to fetch Providers" }); 
+  }
+}  
 
-module.exports = {getDashboardData}  
+
+
+module.exports = {getDashboardData , getAllProvider}  
