@@ -4,7 +4,7 @@ const router = express.Router();
 
 
 router.get("/dashboard-stats",getDashboardData)
-router.get("/providers", getAllProvider)
+router.get("/providers", getAllProvider)  
 router.delete("/provider/:id",deleteProvider)
 
 module.exports = router

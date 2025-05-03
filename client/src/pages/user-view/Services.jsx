@@ -8,7 +8,6 @@ import { useSearchParams } from 'react-router-dom'
 function Services(){
     const [isOpen, setIsOpen] = useState(false)
     const [ searchParams , setSearchParams ] = useSearchParams()
-    console.log(searchParams.get("category"))
     const selectedCategory = searchParams.get("category")
 
     const handleOpen = ()=>{

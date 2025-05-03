@@ -1,5 +1,5 @@
-import React, { useRef } from "react";
-import { motion, useInView } from "framer-motion";
+import React, { useRef, useState } from "react";
+import { AnimatePresence, motion, useInView } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import ElectricianService from "../../../assets/ElectricianService.jpg";
@@ -8,6 +8,7 @@ import CarpenterService from "../../../assets/CarpenterService.jpg";
 import AcService from "../../../assets/AcService.jpg";
 import PestControlService from "../../../assets/PestControlService.png";
 import HousePaintService from "../../../assets/HousePaintService.png";
+import { Link } from "react-router-dom";
 
 const services = [
   { id: 1, title: "Electrician Service", image: ElectricianService },
@@ -21,6 +22,7 @@ const services = [
 const UserHomeServices = () => {
   const sectionRef = useRef(null);
   const isSectionInView = useInView(sectionRef, { triggerOnce: false, margin: "-100px" });
+  const [isHoverInd,setIsHoverInd] = useState(null)
 
   return (
     <div className="container mx-auto py-12 px-4">
@@ -59,9 +61,23 @@ const UserHomeServices = () => {
                   <p className="text-gray-600 mb-4">
                     QuickFix offers top-quality {service.title.toLowerCase()} with skilled professionals ensuring reliability and excellence.
                   </p>
-                  <Button variant="link" className="text-blue-600 hover:underline">
+                  <div className="flex flex-col relative  max-w-[8vw]" onMouseEnter={()=>setIsHoverInd(index)} onMouseLeave={()=>setIsHoverInd(null)} >
+                  <Link variant="link" to='services' className="text-blue-600 cursor-pointer">
                     Read More →
-                  </Button>
+                  </Link>
+                  <AnimatePresence>
+                    {isHoverInd == index &&  
+                  <motion.div 
+                   className="h-[2px] bg-blue-600 absolute bottom-0 left-0"
+                   initial={{width:0,opacity:0,left:0}}
+                   animate={{width:"6vw",opacity:1,left:0}}
+                   exit={{width:0,opacity:0,left:"6vw"}}
+                   transition={{duration:0.4}} 
+                  />
+                    }
+
+</AnimatePresence>
+                  </div>
                 </CardContent>
               </Card>
             </motion.div>

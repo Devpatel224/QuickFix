@@ -13,7 +13,7 @@ function ServiceSidebar({ isOpen , setIsOpen ,  setSearchParams , searchParams})
   const dispatch = useDispatch();
 
   
-  console.log(services)
+
   // let categories = [...new Set(services.map((service) => service.servicename))];
   let seen = new Set();
   let categories = [];
@@ -26,14 +26,12 @@ for (let service of services) {
   }
 }
 
-  console.log(categories)
   let currCategory = searchParams.get("category");
   if(searchParams){
      categories = ["All services", ...categories]    
   }
 
   const handleSelectCategory = (category)=>{
-    console.log("cateogyr checked",category)
     if(category === "All services"){
       setSearchParams({});
     }else{

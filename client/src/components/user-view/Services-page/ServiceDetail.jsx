@@ -17,8 +17,6 @@ import { useState } from "react";
 const today = new Date();
 const maxDate = new Date(today.getFullYear(), today.getMonth() + 1, today.getDate());
 
-
-
 export default function ServicePage() {
   const dispatch = useDispatch();
   const { serviceId } = useParams();
@@ -35,17 +33,15 @@ export default function ServicePage() {
 
   const [selectedDate, setSelectedDate] = useState(null);
 
+ 
+  
 
-  
-  
   useEffect(() => {
     dispatch(getSpecificService(serviceId));
   }, [dispatch, serviceId]);
   
-  
   const { specificService, isLoading } = useSelector((state) => state.userView);
-  
-  console.log(specificService.provider?.unavailableDates)
+ 
 
   const unavailableDates = (specificService.provider?.unavailableDates || []).map(date =>
     parseISO(date)
@@ -54,7 +50,7 @@ export default function ServicePage() {
 
 
   const submit = (data) => {
-     console.log(data)
+   
 
     dispatch(sentBookRequest({ serviceId, formData: data })).then((res) => {
       if (res.payload?.success) {

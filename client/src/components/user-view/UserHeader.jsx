@@ -16,13 +16,23 @@ import { useToast } from "@/hooks/use-toast";
 import { Link, useNavigate } from "react-router-dom";
 
 
+
+const NavMenus = [
+  {label:"Home" , path:"/user" ,},
+  {label:"Services" , path:"services"},
+  {label:"About" , path:"about"},
+  {label:"Contact" , path:"contact"},
+]
+
 function UserHeader() {
   const { user } = useSelector((state) => state.auth);
   const [isOpen, setIsOpen] = useState(false);
   const dispatch = useDispatch()
   const {toast} = useToast()
   const navigate = useNavigate()
+  const [isHoveredIndex,setIsHoveredIndex] = useState(null)
 
+ 
   const handleLogOut = ()=>{
     dispatch(logoutUser()).then((data)=>{
         if(data?.payload?.success){
@@ -47,10 +57,27 @@ function UserHeader() {
         <div className="container mx-auto flex justify-between items-center">
           <h1 className="text-2xl font-bold text-blue-500">QuickFix</h1>
           <ul className="flex space-x-6">
-            <Link className="hover:underline cursor-pointer" to='/user'>Home</Link>
-            <Link className="hover:underline cursor-pointer" to='/user/services'>Services</Link>
-            <Link className="hover:underline cursor-pointer"  to='/user/about'>About</Link>
-            <Link className="hover:underline cursor-pointer" to='/user/contact'>Contact</Link>
+
+            {
+              NavMenus.map((menu,ind)=>(
+                <div key={ind} className="flex flex-col relative overflow-hidden" onMouseEnter={()=>setIsHoveredIndex(ind)} onMouseLeave={()=>setIsHoveredIndex(null)}>
+                <Link className=" cursor-pointer" to={menu.path}>{menu.label}</Link>
+                <AnimatePresence>
+                 {isHoveredIndex === ind &&
+                 <motion.div
+                    className="w-full h-[2px] bg-blue-500 absolute bottom-0 left-0"
+                    initial={{width:0,opacity:0 , left:0 }}
+                    animate={{width:"100%",opacity:1,left:0}}
+                    exit={{width:0,opacity:0 , left:"100%"}}
+                    transition={{duration:0.5}}
+                  >
+                  </motion.div>
+                    }
+                  </AnimatePresence>
+    
+                </div>
+              ))
+            }
           </ul>
           <div>
             <DropdownMenu onOpenChange={setIsOpen}>

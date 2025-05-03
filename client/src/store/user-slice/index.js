@@ -7,8 +7,7 @@ export const getAllServices = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await axios.get(`${API_URL}/user/services`, {
-      });
-      
+      });      
      
       return response.data;
     } catch (error) {
@@ -20,6 +19,7 @@ export const getSpecificService = createAsyncThunk(
   "user/:id",
   async (id , { rejectWithValue }) => {
     try {
+      console.log(id,"fron async thunk")
       const response = await axios.get(`${API_URL}/user/serviceDetail/${id}`, {
       });
       
