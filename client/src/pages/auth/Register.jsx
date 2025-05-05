@@ -57,76 +57,58 @@ const Register = () => {
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
 
       
-      <Card className="w-full h-screen flex flex-col lg:flex-row bg-white shadow-xl rounded-lg overflow-hidden">
-        <div className="w-full lg:w-1/2 bg-blue-400 text-white flex flex-col justify-center p-6">
-          <h1 className="text-3xl font-bold">QuickFix</h1>
-          <p className="mt-4 text-lg">
-            Join QuickFix today! Whether you're a service provider or a user, we
-            have the best platform to connect you with reliable services.
-          </p>
+      <Card className="w-full h-screen flex flex-col lg:flex-row items-center justify-center bg-white shadow-xl rounded-lg overflow-hidden">
+         <div className="hidden lg:h-full lg:flex lg:w-1/2 bg-blue-500 text-white p-8 flex-col justify-center">
+          <motion.div
+            initial={{ opacity: 0, x: -40 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <h1 className="text-4xl font-bold mb-4">QuickFix</h1>
+            <p className="text-lg">
+              Join QuickFix today! Whether you're a service provider or a user,
+              we connect you with trusted services.
+            </p>
+          </motion.div>
         </div>
 
-        <div className="w-full lg:w-1/2 p-6 flex items-center justify-center">
-          <Tabs
-            defaultValue="user"
-            className="w-[80%]"
-            onValueChange={setUserType}
+        <div className="w-full lg:w-1/2 p-8 flex items-center justify-center">
+          <motion.div
+            className="w-full max-w-md"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
           >
-            <TabsList className="flex mx-auto mb-4 w-[35%]">
-              <TabsTrigger value="user">User</TabsTrigger>
-              <TabsTrigger value="provider">Service Provider</TabsTrigger>
-            </TabsList>
+            <Tabs defaultValue="user" onValueChange={setUserType}>
+              <TabsList className="flex justify-center mb-6 space-x-2">
+                <TabsTrigger value="user" className="w-1/2">User</TabsTrigger>
+                <TabsTrigger value="provider" className="w-1/2">Service Provider</TabsTrigger>
+              </TabsList>
 
-            <TabsContent value="user">
-              <CardHeader>
-                <CardTitle className="text-2xl font-bold tracking-tight text-foreground">
-                  User Registration
-                </CardTitle>
-                <p>
-                  Already Have Account?
-                  <Link
-                    to="/auth/login"
-                    className="font-medium ml-2 text-primary hover:underline cursor-pointer"
-                  >
-                    Sign In
-                  </Link>
-                </p>
-              </CardHeader>
-              <CardContent>
-                <form
-                  onSubmit={handleSubmit(onSubmit)}
-                  className="space-y-4 relative"
-                >
-                  <div>
-                    <Input
-                      {...register("name")}
-                      name="name"
-                      placeholder="Enter Full Name *"
-                      required
-                    />
-                    {errors.name && (
-                      <span className="text-red-600 pl-2">
-                        {errors.name.message}
-                      </span>
-                    )}
-                  </div>
+              {/** --- USER FORM --- */}
+              <TabsContent value="user">
+                <CardHeader className="text-center">
+                  <CardTitle className="text-2xl font-bold text-blue-600">
+                    User Registration
+                  </CardTitle>
+                  <p className="mt-1 text-sm">
+                    Already have an account?
+                    <Link to="/auth/login" className="ml-2 text-blue-500 hover:underline">
+                      Sign In
+                    </Link>
+                  </p>
+                </CardHeader>
 
-                  <div>
-                    <Input
-                      {...register("email")}
-                      type="email"
-                      name="email"
-                      placeholder="Enter Email *"
-                      required
-                    />
-                    {errors.email && (
-                      <span className="text-red-600 pl-2">
-                        {errors.email.message}
-                      </span>
-                    )}
-                  </div>
+                <CardContent>
+                  <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+                    <Input {...register("name")} placeholder="Full Name *" />
+                    {errors.name && <p className="text-red-600 text-sm">{errors.name.message}</p>}
 
-                  <div>
+                    <Input {...register("email")} type="email" placeholder="Email *" />
+                    {errors.email && <p className="text-red-600 text-sm">{errors.email.message}</p>}
+
+                    {/* Password */}
+                     <div>
                     <div className="relative">
                       <Input
                         {...register("password")}
@@ -187,73 +169,43 @@ const Register = () => {
                     )}
                   </div>
 
-                  <Button
-                    type="submit"
-                    className="w-full bg-blue-100 hover:bg-blue-500 border-blue-800 border-[1px] text-black"
-                    disabled={isSubmitting}
-                  >
-                    {isSubmitting ? "Registering...":"Register"}
-                  </Button>
-                </form>
-              </CardContent>
-            </TabsContent>
+                    <Button
+                      type="submit"
+                      className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+                      disabled={isSubmitting}
+                    >
+                      {isSubmitting ? "Registering..." : "Register"}
+                    </Button>
+                  </form>
+                </CardContent>
+              </TabsContent>
 
-            <TabsContent value="provider">
-              <CardHeader>
-                <CardTitle className="text-2xl font-bold tracking-tight text-foreground">
-                  Service Provider Registration
-                </CardTitle>
-                <Link to="/auth/login">
-                  Already Have Account?
-                  <span className="font-medium ml-2 text-primary hover:underline cursor-pointer">
-                    Sign In
-                  </span>
-                </Link>
-              </CardHeader>
-              <CardContent>
-                <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                  <div>
-                    <Input
-                      {...register("name")}
-                      name="name"
-                      placeholder="Enter Full Name *"
-                      required
-                    />
-                    {errors.name && (
-                      <span className="text-red-600 pl-2">
-                        {errors.name.message}
-                      </span>
-                    )}
-                  </div>
-                  <div>
-                    <Input
-                      {...register("email")}
-                      type="email"
-                      name="email"
-                      placeholder="Enter Email *"
-                      required
-                    />
-                    {errors.email && (
-                      <span className="text-red-600 pl-2">
-                        {errors.email.message}
-                      </span>
-                    )}
-                  </div>
-                  <div>
-                    <Input
-                      {...register("company")}
-                      type="text"
-                      name="company"
-                      placeholder="Enter Company Name *"
-                      required
-                    />
-                    {errors.company && (
-                      <span className="text-red-600 pl-2">
-                        {errors.company.message}
-                      </span>
-                    )}
-                  </div>
-                  <div>
+              {/** --- PROVIDER FORM --- */}
+              <TabsContent value="provider">
+                <CardHeader className="text-center">
+                  <CardTitle className="text-2xl font-bold text-blue-600">
+                    Service Provider Registration
+                  </CardTitle>
+                  <p className="mt-1 text-sm">
+                    Already have an account?
+                    <Link to="/auth/login" className="ml-2 text-blue-500 hover:underline">
+                      Sign In
+                    </Link>
+                  </p>
+                </CardHeader>
+
+                <CardContent>
+                  <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+                    <Input {...register("name")} placeholder="Full Name *" />
+                    {errors.name && <p className="text-red-600 text-sm">{errors.name.message}</p>}
+
+                    <Input {...register("email")} type="email" placeholder="Email *" />
+                    {errors.email && <p className="text-red-600 text-sm">{errors.email.message}</p>}
+
+                    <Input {...register("company")} placeholder="Company Name *" />
+                    {errors.company && <p className="text-red-600 text-sm">{errors.company.message}</p>}
+
+                     <div>
                     <div className="relative">
                       <Input
                         {...register("password")}
@@ -320,17 +272,21 @@ const Register = () => {
                     )}
                   </div>
 
-                  <Button
-                    type="submit"
-                    className="w-full bg-blue-100 hover:bg-blue-500 border-blue-800 border-[1px] text-black"
-                  >
-                    Register
-                  </Button>
-                </form>
-              </CardContent>
-            </TabsContent>
-          </Tabs>
+                    <Button
+                      type="submit"
+                      className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+                      disabled={isSubmitting}
+                    >
+                      {isSubmitting ? "Registering..." : "Register"}
+                    </Button>
+                  </form>
+                </CardContent>
+              </TabsContent>
+            </Tabs>
+          </motion.div>
         </div>
+        
+         
       </Card>
     </div>
   );

@@ -43,7 +43,6 @@ export const loginUser = createAsyncThunk("/auth/login",
 export const checkAuth = createAsyncThunk("/auth/check-auth",
   async (_, { rejectWithValue }) => {
     try {
-        console.log(`${API_URL}/auth/check-auth`);
       const res = await axios.get(`${API_URL}/auth/check-auth`, {
         withCredentials: true,
         headers: {

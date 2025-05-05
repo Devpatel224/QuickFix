@@ -7,7 +7,6 @@ import { getAllServices } from "@/store/user-slice";
 
 
 
-
 function ServiceSidebar({ isOpen , setIsOpen ,  setSearchParams , searchParams}) {
   const {services} = useSelector((state)=>state.userView)
   const dispatch = useDispatch();

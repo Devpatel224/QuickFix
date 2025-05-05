@@ -12,8 +12,8 @@ export default function Footer() {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
-      <div className="container mx-auto px-6 py-10">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div className="container px-6 py-10 flex justify-center items-center mx-auto">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-8">
          
           <div>
             <h5 className="text-white mb-4 text-lg">Address</h5>
@@ -39,7 +39,7 @@ export default function Footer() {
           </div>
           
          
-          <div>
+          <div className="col-span-2 md:col-span-1">
             <h5 className="text-white mb-4 text-lg">Newsletter</h5>
             <p>Subscribe to our newsletter for the latest updates.</p>
             <div className="relative mt-4 flex  items-center gap-1">
@@ -51,6 +51,8 @@ export default function Footer() {
               <Button className="  bg-blue-600 hover:bg-blue-700 py-2 px-4">Subscribe</Button>
             </div>
           </div>
+
+
         </div>
       </div>
       

@@ -36,12 +36,12 @@ const WhyChooseUs = () => {
                 transition={{ duration: 0.4, delay: index * 0.2 }}
                 className="flex items-center space-x-4"
               >
-                <div className="bg-primary p-3 rounded-full text-white flex items-center justify-center w-12 h-12">
+                <div className="bg-primary p-3 rounded-full text-white flex items-center justify-center  w-10 h-10 lg:w-12 lg:h-12">
                   {feature.icon}
                 </div>
                 <div>
                   <p className="text-gray-700 text-sm mb-1">{feature.title}</p>
-                  <h5 className="text-lg font-semibold">{feature.subtitle}</h5>
+                  <h5 className="text-sm md:text-lg font-semibold ">{feature.subtitle}</h5>
                 </div>
               </motion.div>
             ))}

@@ -31,7 +31,6 @@ function TileService({ service, index }) {
   })
 
   function handleMouseMoveInBtn(event){
-    console.log(event,event.clientX,event.clientY)
     let rect = btnRef.current.getBoundingClientRect();
     let x = event.clientX - rect.left;
     let y = event.clientY - rect.top;
@@ -41,7 +40,7 @@ function TileService({ service, index }) {
       y,
       scale:12,
       duration:1,
-      ease: "elastic.out(1,0.3)",
+      ease: "power4.out",
       autoAlpha: 1
     })
     gsap.to(btnRef.current,{

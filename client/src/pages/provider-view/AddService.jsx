@@ -171,7 +171,7 @@ const AddService = () => {
 
           <div>
             <input
-              type="file *" 
+              type="file" 
               ref={imageRef}
               className="w-full p-2 border rounded"
               accept="image/*"
