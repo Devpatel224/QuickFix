@@ -24,11 +24,6 @@ function TileService({ service, index }) {
     navigate(`/user/serviceDetail/${service._id}`);
   };
 
-  useGSAP(()=>{
-    gsap.to(".btn-container",{
-        
-    })
-  })
 
   function handleMouseMoveInBtn(event){
     let rect = btnRef.current.getBoundingClientRect();

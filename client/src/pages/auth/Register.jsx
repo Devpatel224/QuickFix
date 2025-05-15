@@ -93,7 +93,7 @@ const Register = () => {
                   </CardTitle>
                   <p className="mt-1 text-sm">
                     Already have an account?
-                    <Link to="/auth/login" className="ml-2 text-blue-500 hover:underline">
+                    <Link to="/auth/login" className="ml-2 text-blue-500 font-semibold hover:underline">
                       Sign In
                     </Link>
                   </p>
