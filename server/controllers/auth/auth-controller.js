@@ -32,8 +32,6 @@ const registerUser =async (req,res,next)=>{
         let user = await userModel.create({email,password : hashedPassword,role,name,company});
       
 
-        console.log(user)        
-
         res.status(201).json({success:true,data:user,message:"User Created Successfully"})
     }catch(err){
         if(err.code === 11000) {
@@ -59,8 +57,6 @@ const loginUser = async (req,res,next)=>{
 
         let exitedUser = await userModel.findOne({email});
 
-        console.log(exitedUser)
-
         if(!exitedUser){
             return next(customeError(401,"Invalid credentials"))
         }
@@ -75,7 +71,9 @@ const loginUser = async (req,res,next)=>{
 
         res.cookie("token",token,{ httpOnly: true,
             secure: true, 
-            sameSite: "None" }).status(200).json({success:true,
+            sameSite: "None",
+            maxAge: 60 * 60 * 1000 
+        }).status(200).json({success:true,
             user:{
                 email:exitedUser.email,
                 role:exitedUser.role,
@@ -92,7 +90,11 @@ const loginUser = async (req,res,next)=>{
 
 const logoutUser = async (req,res,next)=>{
     try{
-        res.clearCookie("token").json({
+        res.clearCookie("token",{
+            httpOnly: true,
+            secure: true,
+            sameSite: "None"
+        }).json({
             message:"Logout Successfully",
             success:"true"
         }) 
@@ -101,8 +103,7 @@ const logoutUser = async (req,res,next)=>{
     }
 }
 
-const authMiddleWare = (req,res,next)=>{
-    
+const authMiddleWare = (req,res,next)=>{   
     
     const token = req?.cookies?.token
     
