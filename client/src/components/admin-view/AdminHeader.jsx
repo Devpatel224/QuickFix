@@ -102,10 +102,6 @@ function AdminHeader({ setIsOpenSidebar }) {
                                             Logged in as {user?.name}
                                         </DropdownMenuLabel>
                                         <DropdownMenuSeparator />
-                                        <DropdownMenuItem asChild className="flex items-center mb-1 cursor-pointer hover:bg-gray-100 p-2 rounded-md">
-                                           <NavLink> Account</NavLink>
-                                        </DropdownMenuItem>
-                                        <DropdownMenuSeparator />
                                         <DropdownMenuItem
                                             onClick={() => handleLogOut()}
                                             className="flex items-center cursor-pointer text-red-600 hover:bg-red-100 p-2 rounded-md"
