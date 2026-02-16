@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 
 
 
-const registerUser =async (req,res,next)=>{
+const registerUser = async (req,res,next)=>{
     try{
         const {email,password , role , name , company } = req.body;
 
@@ -49,7 +49,7 @@ const registerUser =async (req,res,next)=>{
 
 const loginUser = async (req,res,next)=>{
     try{
-        const {email,password} = req.body;
+        const {email, password } = req.body;
 
         if(!email || !password){
             return next(customeError(400,"Please provide email and password"))
@@ -69,7 +69,8 @@ const loginUser = async (req,res,next)=>{
         
         let token = jwt.sign({id:exitedUser._id , email:exitedUser.email , role:exitedUser.role , name:exitedUser.name},process.env.JWT_SECRET,{expiresIn: '1h'});
 
-        res.cookie("token",token,{ httpOnly: true,
+        res.cookie("token",token,{
+             httpOnly: true,
             secure: true, 
             sameSite: "None",
             maxAge: 60 * 60 * 1000 
@@ -111,8 +112,7 @@ const authMiddleWare = (req,res,next)=>{
         return next(customeError(401,"Unauthorised user!"))
     }
         
-    try{
-        
+    try{        
         const decodedData = jwt.verify(token,process.env.JWT_SECRET)
 
         req.user = decodedData;

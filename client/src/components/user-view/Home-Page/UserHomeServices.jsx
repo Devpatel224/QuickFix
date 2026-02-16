@@ -1,44 +1,50 @@
-
-import React from "react";
 import { motion } from "framer-motion";
 import ServiceCard from "./ServiceCard";
 
-import ElectricianService from "../../../assets/ElectricianService.jpg";
-import PlumberService from "../../../assets/PlumberService.jpg";
-import CarpenterService from "../../../assets/CarpenterService.jpg";
-import AcService from "../../../assets/AcService.jpg";
+
 import PestControlService from "../../../assets/PestControlService.png";
-import HousePaintService from "../../../assets/HousePaintService.png";
+import EleService from '../../../assets/ElecService.jpg'
+import PlumberSer from '../../../assets/PlumberSer.jpg'
+import carpenterSer from '../../../assets/carpenterSer.jpg'
+import AcSer from '../../../assets/AcSer.jpg'
+import HousePaint from '../../../assets/HousePaint.jpg'
+
 
 const services = [
-  { id: 1, title: "Electrician Service", image: ElectricianService },
-  { id: 2, title: "Plumber Service", image: PlumberService },
-  { id: 3, title: "Carpenter Service", image: CarpenterService },
-  { id: 4, title: "AC Service", image: AcService },
+  { id: 1, title: "Electrician Service", image: EleService },
+  { id: 2, title: "Plumber Service", image: PlumberSer },
+  { id: 3, title: "Carpenter Service", image: carpenterSer },
+  { id: 4, title: "AC Service", image: AcSer },
   { id: 5, title: "Pest Control Service", image: PestControlService },
-  { id: 6, title: "House Paint Service", image: HousePaintService },
+  { id: 6, title: "House Paint Service", image: HousePaint },
 ];
 
 const UserHomeServices = () => {
   return (
-    <div className="container mx-auto py-12 px-4">
-      <div className="text-center mb-8">
-        <motion.h1
-          initial={{ opacity: 0, y: -20 }}
+    <section className="relative py-20 ">
+      <div className="container mx-auto px-4">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="text-3xl font-bold"
+          transition={{ duration: 0.6 }}
+          className="text-center mb-14"
         >
-          Our Services
-        </motion.h1>
-      </div>
+          <h1 className="text-4xl md:text-5xl font-bold text-blue-600">
+            Our <span className="text-primary">Services</span>
+          </h1>
+          <p className="text-zinc-400 mt-4 max-w-xl mx-auto">
+            Professional home services delivered with quality, care, and trust.
+          </p>
+        </motion.div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {services.map((service, index) => (
-          <ServiceCard key={service.id} service={service} index={index} />
-        ))}
+     
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          {services.map((service, index) => (
+            <ServiceCard key={service.id} service={service} index={index} />
+          ))}
+        </div>
       </div>
-    </div>
+    </section>
   );
 };
 

@@ -12,23 +12,23 @@ const UserHomeAbout = () => {
 
   return (
     <div className="bg-gray-100 overflow-hidden my-12 px-4 md:px-0">
-      <div className="container mx-auto flex flex-col md:flex-row items-center">
+      <div className="container mx-auto flex flex-col md:flex-row items-center pl-3">
         
         <motion.div
           ref={ref}
           initial={{ opacity: 0, x: -50 }}
           animate={inView ? { opacity: 1, x: 0 } : {opacity:0,x:-50}}
           transition={{ duration: 0.6, ease: "easeInOut" }}
-          className="w-full md:w-1/2 h-[400px] relative"
+          className="w-full  md:w-[50%] h-[400px] relative rounded-lg overflow-hidden  shadow-lg"
         >
           <img
             src={aboutImage}
             alt="About Us"
-            className="w-full h-full object-cover rounded-lg shadow-lg"
+            className="w-full h-full object-cover"
           />
         </motion.div>
 
-        
+          
         <motion.div
           ref={ref}
           initial={{ opacity: 0, x: 50 }}

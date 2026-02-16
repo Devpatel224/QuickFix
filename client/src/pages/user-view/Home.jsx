@@ -1,124 +1,87 @@
-import React, { useState ,useEffect } from 'react'
+import React from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { motion } from "framer-motion";
-import bannerOne from "../../assets/Ac5.webp"
-import bannerTwo from "../../assets/plumber11.webp"
-import bannerThree from "../../assets/plumber22.webp"
-import { BabyIcon, ChevronLeftIcon, ChevronRightIcon, CloudLightning, Shirt, Umbrella, WatchIcon } from 'lucide-react'
-import { AnimatePresence } from 'framer-motion';
-import UserHomeServices from '@/components/user-view/Home-Page/UserHomeServices';
-import UserHomeAbout from '@/components/user-view/Home-Page/UserHomeAbout';
-import UserStatics from '@/components/user-view/Home-Page/UserStatics';
-import WhyChooseUs from '@/components/user-view/Home-Page/WhyChooseUs';
-import Footer from '@/components/user-view/Home-Page/Footer';
-import { useNavigate } from 'react-router-dom';
-
+import heroImage from "../../assets/plumber11.webp";
+import UserHomeServices from "@/components/user-view/Home-Page/UserHomeServices";
+import UserHomeAbout from "@/components/user-view/Home-Page/UserHomeAbout";
+import UserStatics from "@/components/user-view/Home-Page/UserStatics";
+import WhyChooseUs from "@/components/user-view/Home-Page/WhyChooseUs";
+import Footer from "@/components/user-view/Home-Page/Footer";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
-   const slides = [bannerOne,bannerTwo,bannerThree];
-   const [slideNumber, setSlideNumber] = useState(0);
-   const navigate = useNavigate();
-
-
-   useEffect(() => {
-    slides.forEach((image) => {
-      const img = new Image();
-      img.src = image;
-    });
-  }, []);
-
-  useEffect(()=>{
-     const interval = setInterval(() => {
-        setSlideNumber((prev)=>((prev + 1)%slides.length))
-    }, 5000);
-
-    return ()=>clearInterval(interval)
-  })
+  const navigate = useNavigate();
 
   return (
-    <div className="bg-gray-100 w-full min-h-screen">   
-    <div className="relative w-full h-[700px] mt-0 overflow-hidden">
-     
-      <AnimatePresence mode="wait">
+    <div className="bg-gray-50 w-full min-h-screen">
+
+      
+      <section className="container mx-auto px-15 py-24 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+
+        
         <motion.div
-          key={slideNumber}
-          initial={{ opacity: 0, x: 50 }}
+          initial={{ opacity: 0, x: -40 }}
           animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: -50 }}
-          transition={{ duration: 0.6, ease: "easeInOut" }}
-          className="absolute inset-0 w-full h-full"
+          transition={{ duration: 0.7, ease: "easeOut" }}
+          className="text-center md:text-start"
         >
+          <span className="inline-block mb-4 px-4 py-1 text-sm font-medium text-blue-600 bg-blue-100 rounded-full">
+            Trusted Home Services
+          </span>
+
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 leading-tight">
+            Book Skilled <br /> Professionals Near You
+          </h1>
+
+          <p className="mt-6 text-gray-600 text-base md:text-lg max-w-xl">
+            Find verified experts for plumbing, electrical, cleaning, and more.
+            Fast booking, transparent pricing, and reliable service.
+          </p>
+
+          <div className="mt-8 flex gap-4">
+            <Button
+              onClick={() => navigate("/services")}
+              className="px-6 py-3 text-lg bg-blue-500 hover:bg-blue-600 rounded-xl shadow-md"
+            >
+              Explore Services
+            </Button>
+
+            <Button
+              variant="outline"
+              onClick={() => navigate("/about")}
+              className="px-6 py-3 text-lg rounded-xl"
+            >
+              Learn More
+            </Button>
+          </div>
+        </motion.div>
+
+      
+        <motion.div
+          initial={{ opacity: 0, x: 40 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.7, ease: "easeOut", delay: 0.1 }}
+          className="relative"
+        >
+          
+          <div className="absolute -top-10 -left-10 w-64 h-64 bg-blue-200 rounded-full blur-3xl opacity-40 -z-10" />
+
           <img
-            src={slides[slideNumber]}
-            alt="Slide"
-            className="w-full h-full object-cover blur-[3px] brightness-75 transition-opacity duration-700"
+            src={heroImage}
+            alt="Professional service"
+            className="w-full max-w-lvw mx-auto rounded-3xl shadow-2xl object-cover"
           />
         </motion.div>
-      </AnimatePresence>
+      </section>
 
      
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="absolute z-20 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center"
-      >
-        <div className="bg-white/20 backdrop-blur-md p-6 rounded-lg shadow-lg">
-          <h1 className="lg:text-5xl md:text-3xl text-xl font-extrabold text-white drop-shadow-lg">
-            Provide The Best Services
-          </h1>
-          <p className="mt-4  md:text-lg text-sm  text-white drop-shadow-md">
-            Get professional services at your doorstep with verified experts.
-          </p>
-          <Button onClick={()=>navigate("services")} className="mt-6 px-6 py-3  text-sm md:text-lg bg-blue-400 hover:bg-blue-500 text-white font-semibold rounded-md shadow-md">
-            Get Started
-          </Button>
-        </div>
-      </motion.div>
-
-   
-      <Button
-        variant="outline"
-        onClick={() =>
-          setSlideNumber((prev) => (slides.length + (prev - 1)) % slides.length)
-        }
-        className="absolute outline-none top-1/2 left-4 transform -translate-y-1/2 bg-black/50 backdrop-blur-md text-white"
-      >
-        <ChevronLeftIcon className="h-12 w-12" />
-      </Button>
-
-     
-      <Button
-        variant="outline"
-        onClick={() => setSlideNumber((prev) => (prev + 1) % slides.length)}
-        className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-black/50 backdrop-blur-md text-white"
-      >
-        <ChevronRightIcon className="h-12 w-12" />
-      </Button>
+      <UserHomeServices />
+      <UserHomeAbout />
+      <UserStatics />
+      <WhyChooseUs />
+      <Footer />
     </div>
- 
-
-
-    <UserHomeServices></UserHomeServices>
-
-
-
-    <UserHomeAbout></UserHomeAbout>
-
-
-    <UserStatics></UserStatics>
-
-    
-
-      <WhyChooseUs></WhyChooseUs>
-
-     <Footer></Footer>
-
-  </div> 
-  
-
-  )
+  );
 }
 
-export default Home
+export default Home;

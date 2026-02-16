@@ -10,6 +10,6 @@ const UserSchema = new mongoose.Schema({
   company : String,
   unavailableDates: [String],
   services: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Service' }]
-},{tiemstamps: true});
+},{timestamps : true});
 
 module.exports = mongoose.model('User', UserSchema);

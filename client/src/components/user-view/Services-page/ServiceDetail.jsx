@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {  useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { serviceRequestSchema } from "@/zodValidation/validation";
@@ -12,14 +12,19 @@ import ReactDatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { parseISO } from "date-fns";
 import { useState } from "react";
-
+import Reviews from "../review/Reviews";
 
 const today = new Date();
-const maxDate = new Date(today.getFullYear(), today.getMonth() + 1, today.getDate());
+const maxDate = new Date(
+  today.getFullYear(),
+  today.getMonth() + 1,
+  today.getDate(),
+);
 
 export default function ServicePage() {
   const dispatch = useDispatch();
   const { serviceId } = useParams();
+  const {user} = useSelector((state)=>state.auth);
   const { toast } = useToast();
   const {
     register,
@@ -31,27 +36,21 @@ export default function ServicePage() {
     resolver: zodResolver(serviceRequestSchema),
   });
 
-  const [selectedDate, setSelectedDate] = useState(null);
-
- 
   
+
+  const [selectedDate, setSelectedDate] = useState(null);
 
   useEffect(() => {
     dispatch(getSpecificService(serviceId));
   }, [dispatch, serviceId]);
-  
+
   const { specificService, isLoading } = useSelector((state) => state.userView);
- 
 
-  const unavailableDates = (specificService.provider?.unavailableDates || []).map(date =>
-    parseISO(date)
-  );
-
-
+  const unavailableDates = (
+    specificService.provider?.unavailableDates || []
+  ).map((date) => parseISO(date));
 
   const submit = (data) => {
-   
-
     dispatch(sentBookRequest({ serviceId, formData: data })).then((res) => {
       if (res.payload?.success) {
         toast({
@@ -71,7 +70,9 @@ export default function ServicePage() {
   };
 
   if (isLoading || !specificService) {
-    return <div className="text-center text-lg font-semibold mt-10">Loading...</div>;
+    return (
+      <div className="text-center text-lg font-semibold mt-10">Loading...</div>
+    );
   }
 
   return (
@@ -91,26 +92,38 @@ export default function ServicePage() {
           transition={{ duration: 0.5 }}
         />
 
-        <motion.div className="mt-4" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }}>
-          <h2 className="text-2xl font-bold text-gray-800">{specificService.servicename}</h2>
+        <motion.div
+          className="mt-4"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.3 }}
+        >
+          <h2 className="text-2xl font-bold text-gray-800">
+            {specificService.servicename}
+          </h2>
           <p className="text-gray-600 mt-2">{specificService.description}</p>
 
           <div className="mt-4 p-4 bg-gray-50 rounded-lg">
             <h3 className="text-lg font-semibold">Provider Details:</h3>
             <p>
-              <span className="font-medium">Name:</span> {specificService?.provider?.name}
+              <span className="font-medium">Name:</span>{" "}
+              {specificService?.provider?.name}
             </p>
             <p>
-              <span className="font-medium">Email:</span> {specificService?.provider?.email}
+              <span className="font-medium">Email:</span>{" "}
+              {specificService?.provider?.email}
             </p>
             <p>
-              <span className="font-medium">Company:</span> {specificService?.provider?.company}
+              <span className="font-medium">Company:</span>{" "}
+              {specificService?.provider?.company}
             </p>
             <p>
-              <span className="font-medium">Location:</span> {specificService.address}
+              <span className="font-medium">Location:</span>{" "}
+              {specificService.address}
             </p>
             <p>
-              <span className="font-medium">Visit Price:</span> ₹{specificService.visitprice}
+              <span className="font-medium">Visit Price:</span> ₹
+              {specificService.visitprice}
             </p>
           </div>
         </motion.div>
@@ -125,18 +138,26 @@ export default function ServicePage() {
           <h3 className="text-lg font-bold text-gray-800">Request Service</h3>
 
           <div className="mt-4">
-            <label className="block text-sm font-medium pl-2 text-gray-700">Your Address *</label>
+            <label className="block text-sm font-medium pl-2 text-gray-700">
+              Your Address *
+            </label>
             <input
               type="text"
               {...register("address")}
               placeholder="Enter your address"
               className="mt-1 block w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300"
             />
-            {errors.address && <p className="text-red-500 pl-2 text-sm mt-1">{errors.address.message}</p>}
+            {errors.address && (
+              <p className="text-red-500 pl-2 text-sm mt-1">
+                {errors.address.message}
+              </p>
+            )}
           </div>
 
           <div className="mt-4">
-            <label className="block text-sm font-medium pl-2 text-gray-700">Your Contact Number *</label>
+            <label className="block text-sm font-medium pl-2 text-gray-700">
+              Your Contact Number *
+            </label>
             <input
               type="number"
               {...register("contact")}
@@ -148,29 +169,37 @@ export default function ServicePage() {
               placeholder="Enter your Contact Number"
               className="mt-1 block w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300"
             />
-            {errors.contact && <p className="text-red-500 pl-2 text-sm mt-1">{errors.contact.message}</p>}
+            {errors.contact && (
+              <p className="text-red-500 pl-2 text-sm mt-1">
+                {errors.contact.message}
+              </p>
+            )}
           </div>
 
           <div className="mt-4">
-  <label className="block text-sm font-medium pl-2 text-gray-700">Select Date *</label>
-  <ReactDatePicker
-    selected={selectedDate}
-    onChange={(date) => {
-      setSelectedDate(date);
-      
-      setValue("date", date?.toISOString().split("T")[0]);
-    }}
-    excludeDates={unavailableDates}
-    minDate={today}
-    maxDate={maxDate}
-    placeholderText="Select a date"
-    className="mt-1 block w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300"
-    dateFormat="yyyy-MM-dd"
-  />
-  {errors.date && <p className="text-red-500 pl-2 text-sm mt-1">{errors.date.message}</p>}
-</div>
+            <label className="block text-sm font-medium pl-2 text-gray-700">
+              Select Date *
+            </label>
+            <ReactDatePicker
+              selected={selectedDate}
+              onChange={(date) => {
+                setSelectedDate(date);
 
-
+                setValue("date", date?.toISOString().split("T")[0]);
+              }}
+              excludeDates={unavailableDates}
+              minDate={today}
+              maxDate={maxDate}
+              placeholderText="Select a date"
+              className="mt-1 block w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300"
+              dateFormat="yyyy-MM-dd"
+            />
+            {errors.date && (
+              <p className="text-red-500 pl-2 text-sm mt-1">
+                {errors.date.message}
+              </p>
+            )}
+          </div>
 
           <button
             type="submit"
@@ -179,6 +208,9 @@ export default function ServicePage() {
             Submit Request
           </button>
         </motion.form>
+
+        <Reviews serviceId={serviceId} currentUser={user} />
+
       </motion.div>
     </div>
   );

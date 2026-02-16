@@ -98,7 +98,7 @@ const getUserRequestes = async(req,res,next)=>{
 
         let bookings = await bookingModel.find({user:id})
         .populate("provider","name email contact company")
-        .populate("service","servicename description").exec()
+        .populate("service","servicename description").populate('review').exec()
     
         
         if(!bookings) return next(customeError(501,"Bookings doesn't Exits"))

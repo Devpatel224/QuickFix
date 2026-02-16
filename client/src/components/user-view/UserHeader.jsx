@@ -1,189 +1,168 @@
-import React, { useState, useEffect , useRef } from "react";
-import { Sheet, SheetTrigger } from "../ui/sheet";
-import { DropdownMenu } from "../ui/dropdown-menu";
-import {
-  DropdownMenuTrigger,
-  DropdownMenuItem,
-  DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-} from "@radix-ui/react-dropdown-menu";
-import { Avatar } from "../ui/avatar";
-import { useDispatch, useSelector } from "react-redux";
-import { motion, AnimatePresence } from "framer-motion";
-import { logoutUser } from "@/store/auth-slice";
-import { useToast } from "@/hooks/use-toast";
+import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { Menu } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 
+import { Avatar } from "../ui/avatar";
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator } from "../ui/dropdown-menu";
+import { logoutUser } from "@/store/auth-slice";
+import { useToast } from "@/hooks/use-toast";
 
 const NavMenus = [
-  {label:"Home" , path:"/user" ,},
-  {label:"Services" , path:"services"},
-  {label:"About" , path:"about"},
-  {label:"Contact" , path:"contact"},
-]
+  { label: "Home", path: "/" },
+  { label: "Services", path: "/services" },
+  { label: "About", path: "/about" },
+  { label: "Contact", path: "/contact" },
+];
 
 function UserHeader() {
-  const { user } = useSelector((state) => state.auth);
+  const { user, isAuthenticated } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { toast } = useToast();
+
+  const [isHoveredIndex, setIsHoveredIndex] = useState(null);
+  const [isMenuItemsOpen, setIsMenuItemsOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const dispatch = useDispatch()
-  const {toast} = useToast()
-  const navigate = useNavigate()
-  const [isHoveredIndex,setIsHoveredIndex] = useState(null)
-  const [isMenuItemsOpen,setIsMenuItemsOpen] = useState(false)
- 
+
   const sidebarRef = useRef();
   const tl = useRef();
-  
-  
-  
-  const handleLogOut = ()=>{
-    dispatch(logoutUser()).then((data)=>{
-      if(data?.payload?.success){
-        toast({
-          title: "Logout SuccessFully"
-        })
-        navigate("/auth/login")
-      }
-      else{
-        toast({
-          title: data?.payload?.message || "An error occurred",
-          variant: 'destructive',
-        });
-      }
-    })
-  }
-  
 
-  
-  useGSAP(()=>{
-     tl.current = gsap.timeline({paused:true}) 
-      .fromTo(sidebarRef.current,{
-        x:'-100%',
-        opacity:0
-      },
-      {
-        x:"0%",
-        opacity:1,
-        duration:0.5
-      }   
-    ).reverse();
-    
-   })
+  const handleLogout = () => {
+    dispatch(logoutUser()).then((res) => {
+      if (res?.payload?.success) {
+        toast({ title: "Logout successfully" });
+        navigate("/auth/login");
+      }
+    });
+  };
+
+  useGSAP(() => {
+    tl.current = gsap
+      .timeline({ paused: true })
+      .fromTo(
+        sidebarRef.current,
+        { x: "-100%", opacity: 0 },
+        { x: "0%", opacity: 1, duration: 0.4 }
+      )
+      .reverse();
+  });
 
   useEffect(() => {
-    if (isMenuItemsOpen) {
-      tl.current.play();
-    } else {
-      tl.current.reverse();
-    }
+    isMenuItemsOpen ? tl.current.play() : tl.current.reverse();
   }, [isMenuItemsOpen]);
- 
-
 
   return (
-    <div>
-      <nav className="bg-blue-50 py-4 px-2 text-blue-500 shadow-md flex justify-center items-center">
-        
-        <div className="container flex justify-between items-center">   
+    <nav className="bg-blue-50 py-4 px-2 shadow-md">
+      <div className="container mx-auto flex items-center justify-between">
 
-          <div ref={sidebarRef} className="fixed top-0 left-0 w-full max-w-[200px] bg-white shadow-lg rounded-br-2xl border-r border-blue-200 z-40 p-6 ">
-          <div className="flex justify-between items-center mb-6">
-          <h2 className="text-lg font-bold text-blue-600">Menu</h2>
-          <button  className="text-red-500 font-semibold" onClick={() => setIsMenuItemsOpen(false)}>
-            ✕
-          </button>
+        {/* Mobile menu */}
+        <button
+          className="bg-blue-500 p-2 rounded-xl md:hidden"
+          onClick={() => setIsMenuItemsOpen(true)}
+        >
+          <Menu size={30} className="text-white" />
+        </button>
+
+        {/* Sidebar */}
+        <div
+          ref={sidebarRef}
+          className="fixed top-0 left-0 z-40 w-[220px] bg-white h-full shadow-lg p-6"
+        >
+          <div className="flex justify-between mb-6">
+            <h2 className="font-bold text-blue-600">Menu</h2>
+            <button onClick={() => setIsMenuItemsOpen(false)}>✕</button>
+          </div>
+          <ul className="space-y-4">
+            {NavMenus.map((menu) => (
+              <li key={menu.label}>
+                <Link
+                  to={menu.path}
+                  onClick={() => setIsMenuItemsOpen(false)}
+                  className="block px-3 py-2 rounded hover:bg-blue-100"
+                >
+                  {menu.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
         </div>
-        <ul className="space-y-4">
-          {NavMenus.map((menu, idx) => (
-            <li key={idx}>
-              <Link
-                onClick={() => setIsMenuItemsOpen(false)}
-                to={menu.path}
-                className="block px-4 py-2 rounded-lg hover:bg-blue-100 text-blue-700 font-medium transition"
-              >
-                {menu.label}
-              </Link>
-            </li>
+
+        {/* Logo */}
+        <h1 className="text-2xl font-bold text-blue-600">QuickFix</h1>
+
+        {/* Desktop menu */}
+        <ul className="hidden md:flex space-x-6">
+          {NavMenus.map((menu, i) => (
+            <div
+              key={menu.label}
+              onMouseEnter={() => setIsHoveredIndex(i)}
+              onMouseLeave={() => setIsHoveredIndex(null)}
+              className="relative"
+            >
+              <Link to={menu.path}>{menu.label}</Link>
+              <AnimatePresence>
+                {isHoveredIndex === i && (
+                  <motion.div
+                    className="absolute bottom-0 left-0 h-[2px] bg-blue-500"
+                    initial={{ width: 0 }}
+                    animate={{ width: "100%" }}
+                    exit={{ width: 0 }}
+                  />
+                )}
+              </AnimatePresence>
+            </div>
           ))}
         </ul>
-      </div>
-            
 
-          <button className="bg-blue-500 p-1 rounded-xl md:hidden"  onClick={()=>setIsMenuItemsOpen(true)}>
-          <Menu  size={34} className="text-white"/>
-          </button>
-
-          <h1 className="text-2xl font-bold text-blue-500">QuickFix</h1>
-          <ul className="md:flex space-x-6 hidden md:visible">
-            {
-              NavMenus.map((menu,ind)=>(
-                <div key={ind} className="flex flex-col relative overflow-hidden" onMouseEnter={()=>setIsHoveredIndex(ind)} onMouseLeave={()=>setIsHoveredIndex(null)}>
-                <Link className=" cursor-pointer" to={menu.path}>{menu.label}</Link>
-                <AnimatePresence>
-                 {isHoveredIndex === ind &&
-                 <motion.div
-                    className="w-full h-[2px] bg-blue-500 absolute bottom-0 left-0"
-                    initial={{width:0,opacity:0 , left:0 }}
-                    animate={{width:"100%",opacity:1,left:0}}
-                    exit={{width:0,opacity:0 , left:"100%"}}
-                    transition={{duration:0.5}}
-                  >
-                  </motion.div>
-                    }
-                </AnimatePresence>
-                </div>
-              ))
-            }
-          </ul>
-          <div>
+        {/* Auth Section */}
+        <div>
+          {!isAuthenticated ? (
+            <div className="flex gap-3">
+              <Link to="/auth/login" className="text-blue-600 font-medium">
+                Login
+              </Link>
+              <Link
+                to="/auth/register"
+                className="bg-blue-500 text-white px-4 py-1 rounded-lg"
+              >
+                Sign up
+              </Link>
+            </div>
+          ) : (
             <DropdownMenu onOpenChange={setIsOpen}>
               <DropdownMenuTrigger asChild>
                 <button>
-                  <Avatar className="bg-blue-500 cursor-pointer flex items-center justify-center w-10 h-10 rounded-full">
-                    <div className="text-white font-bold">
-                      {user.name[0].toUpperCase()}
-                    </div>
+                  <Avatar className="bg-blue-500 w-10 h-10 flex items-center justify-center text-white font-bold">
+                    {user?.name?.[0]?.toUpperCase()}
                   </Avatar>
                 </button>
               </DropdownMenuTrigger>
 
-              <AnimatePresence>
-                {isOpen && (
-                  <DropdownMenuContent side="right" forceMount className="z-10">
-                    <motion.div
-                      initial={{ opacity: 0, y: -10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -10 }}
-                      transition={{ duration: 0.3, ease: "easeInOut" }}
-                      className="w-56 text-black mt-2 mr-1 bg-white border border-gray-200 shadow-md rounded-md p-2"
-                    >
-                      <DropdownMenuLabel className="text-base font-medium mb-2">
-                        Logged in as {user?.name}
-                      </DropdownMenuLabel>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuItem onClick={()=>navigate("/user/account")} className="flex items-center mb-1 cursor-pointer hover:bg-gray-100 p-2 rounded-md">
-                        Account
-                      </DropdownMenuItem>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuItem onClick={()=>handleLogOut()} className="flex items-center cursor-pointer text-red-600 hover:bg-red-100 p-2 rounded-md">
-                        Logout
-                      </DropdownMenuItem>
-                    </motion.div>
-                  </DropdownMenuContent>
-                )}
-              </AnimatePresence>
+              <DropdownMenuContent className="w-56 mt-2">
+                <DropdownMenuLabel>
+                  Logged in as {user?.name}
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={() => navigate("/user/account")}>
+                  Account
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+                  className="text-red-600"
+                  onClick={handleLogout}
+                >
+                  Logout
+                </DropdownMenuItem>
+              </DropdownMenuContent>
             </DropdownMenu>
-          </div>
-
-
-        
+          )}
+        </div>
       </div>
-      </nav>
-    </div>
+    </nav>
   );
 }
 

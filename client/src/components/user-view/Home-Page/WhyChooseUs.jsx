@@ -23,9 +23,9 @@ const WhyChooseUs = () => {
           className="py-10 px-6 lg:px-12"
         >
           <h6 className="text-primary text-lg font-semibold">Why Choose Us!</h6>
-          <h1 className="text-3xl font-bold my-4">Providing Reliable Solar Solutions</h1>
+          <h1 className="text-3xl font-bold my-4">Providing Reliable  Solutions</h1>
           <p className="text-gray-600 mb-6">
-            We are committed to delivering high-quality solar energy solutions for both commercial and residential properties. Our team of experts ensures efficient and cost-effective installations tailored to your needs.
+            We are committed to delivering high-quality solutions for both commercial and residential properties. Our team of experts ensures efficient and cost-effective installations tailored to your needs.
           </p>
           <div className="grid grid-cols-2 gap-6">
             {features.map((feature, index) => (
